@@ -1,0 +1,403 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>MainWindow</class>
+ <widget class="QMainWindow" name="MainWindow">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>1280</width>
+    <height>720</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>MainWindow</string>
+  </property>
+  <widget class="QWidget" name="centralwidget">
+   <widget class="QProgressBar" name="progressBar">
+    <property name="geometry">
+     <rect>
+      <x>230</x>
+      <y>650</y>
+      <width>711</width>
+      <height>23</height>
+     </rect>
+    </property>
+    <property name="value">
+     <number>24</number>
+    </property>
+   </widget>
+   <widget class="QGroupBox" name="reconstructionGroupBox">
+    <property name="geometry">
+     <rect>
+      <x>370</x>
+      <y>50</y>
+      <width>221</width>
+      <height>421</height>
+     </rect>
+    </property>
+    <property name="title">
+     <string>Reconstruction Parameters</string>
+    </property>
+    <widget class="QWidget" name="formLayoutWidget">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>20</y>
+       <width>201</width>
+       <height>391</height>
+      </rect>
+     </property>
+     <layout class="QFormLayout" name="reconstructionFormLayout">
+      <item row="0" column="0">
+       <widget class="QLabel" name="smoothingLabel">
+        <property name="text">
+         <string>Smoothing Length:</string>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="1">
+       <widget class="QLineEdit" name="smoothingLineEdit"/>
+      </item>
+      <item row="1" column="0">
+       <widget class="QLabel" name="isoLabel">
+        <property name="text">
+         <string>ISO-Value:</string>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="1">
+       <widget class="QLineEdit" name="isoLineEdit"/>
+      </item>
+      <item row="2" column="0">
+       <widget class="QLabel" name="radiusLabel">
+        <property name="text">
+         <string>Support Radius:</string>
+        </property>
+       </widget>
+      </item>
+      <item row="2" column="1">
+       <widget class="QLineEdit" name="radiusLineEdit"/>
+      </item>
+     </layout>
+    </widget>
+   </widget>
+   <widget class="QGroupBox" name="postProcessingGroupBox">
+    <property name="geometry">
+     <rect>
+      <x>230</x>
+      <y>480</y>
+      <width>361</width>
+      <height>151</height>
+     </rect>
+    </property>
+    <property name="title">
+     <string>Post-Processing Parameters</string>
+    </property>
+   </widget>
+   <widget class="QGroupBox" name="simulationMetricsGroupBox">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>480</y>
+      <width>201</width>
+      <height>191</height>
+     </rect>
+    </property>
+    <property name="title">
+     <string>Simulation Metrics</string>
+    </property>
+    <widget class="QWidget" name="formLayoutWidget_2">
+     <property name="geometry">
+      <rect>
+       <x>20</x>
+       <y>20</y>
+       <width>171</width>
+       <height>141</height>
+      </rect>
+     </property>
+     <layout class="QFormLayout" name="simulationFormLayout">
+      <item row="0" column="0">
+       <widget class="QLabel" name="numberParticlesLabel">
+        <property name="text">
+         <string># of Particles:</string>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="1">
+       <widget class="QLabel" name="numberParticlesLabel_2">
+        <property name="text">
+         <string>0</string>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </widget>
+   </widget>
+   <widget class="QGroupBox" name="viewportGroupBox">
+    <property name="geometry">
+     <rect>
+      <x>600</x>
+      <y>440</y>
+      <width>661</width>
+      <height>191</height>
+     </rect>
+    </property>
+    <property name="title">
+     <string>Viewport Options</string>
+    </property>
+    <widget class="QWidget" name="gridLayoutWidget">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>20</y>
+       <width>611</width>
+       <height>101</height>
+      </rect>
+     </property>
+     <layout class="QGridLayout" name="viewportGridLayout">
+      <item row="1" column="0">
+       <widget class="QCheckBox" name="verticesCheckBox">
+        <property name="text">
+         <string>Mesh Vertices</string>
+        </property>
+       </widget>
+      </item>
+      <item row="2" column="1">
+       <widget class="QSlider" name="transparencySlider">
+        <property name="orientation">
+         <enum>Qt::Horizontal</enum>
+        </property>
+       </widget>
+      </item>
+      <item row="2" column="2">
+       <widget class="QSpinBox" name="transparencySpinBox">
+        <property name="maximum">
+         <number>100</number>
+        </property>
+        <property name="singleStep">
+         <number>1</number>
+        </property>
+       </widget>
+      </item>
+      <item row="2" column="0">
+       <widget class="QCheckBox" name="surfaceCheckBox">
+        <property name="text">
+         <string>Surface</string>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="0">
+       <widget class="QCheckBox" name="particlesCheckBox">
+        <property name="text">
+         <string>Particles</string>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </widget>
+   </widget>
+   <widget class="QGraphicsView" name="graphicsView">
+    <property name="geometry">
+     <rect>
+      <x>600</x>
+      <y>40</y>
+      <width>661</width>
+      <height>391</height>
+     </rect>
+    </property>
+   </widget>
+   <widget class="QWidget" name="horizontalLayoutWidget">
+    <property name="geometry">
+     <rect>
+      <x>370</x>
+      <y>0</y>
+      <width>891</width>
+      <height>41</height>
+     </rect>
+    </property>
+    <layout class="QHBoxLayout" name="topHorizontalLayout">
+     <item>
+      <widget class="QLabel" name="exportFormatLabel">
+       <property name="text">
+        <string>Export Format</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QComboBox" name="exportFormatComboBox">
+       <item>
+        <property name="text">
+         <string>Option 1</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>Option 2</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>Option 3</string>
+        </property>
+       </item>
+      </widget>
+     </item>
+     <item>
+      <widget class="QLabel" name="sphLabel">
+       <property name="text">
+        <string>SPH Interpolation kernel:</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QComboBox" name="sphComboBox">
+       <item>
+        <property name="text">
+         <string>Option 1</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>Option 2</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>Option 3</string>
+        </property>
+       </item>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="batchJobPushButton">
+       <property name="text">
+        <string>Generate Batch Job...</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="reconstructPushButton">
+       <property name="text">
+        <string>Reconstruct...</string>
+       </property>
+       <property name="icon">
+        <iconset>
+         <normaloff>../../../../Henrik Müller/Pictures/Play-Icon.png</normaloff>../../../../Henrik Müller/Pictures/Play-Icon.png</iconset>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </widget>
+   <widget class="QTreeView" name="fileSelectTreeView">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>40</y>
+      <width>351</width>
+      <height>431</height>
+     </rect>
+    </property>
+   </widget>
+   <widget class="QWidget" name="horizontalLayoutWidget_2">
+    <property name="geometry">
+     <rect>
+      <x>950</x>
+      <y>640</y>
+      <width>321</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <layout class="QHBoxLayout" name="bottomHorizontalLayout">
+     <item>
+      <widget class="QLabel" name="timeLabel">
+       <property name="text">
+        <string>elapsed Time:</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QLabel" name="timeLabel_2">
+       <property name="text">
+        <string/>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QLabel" name="ramLabel">
+       <property name="text">
+        <string>RAM Usage:</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QLabel" name="ramLabel_2">
+       <property name="text">
+        <string>0MB</string>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </widget>
+   <widget class="QPushButton" name="exportPushButton">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>10</y>
+      <width>143</width>
+      <height>24</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Export Directory...</string>
+    </property>
+   </widget>
+  </widget>
+  <widget class="QMenuBar" name="menubar">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>1280</width>
+     <height>21</height>
+    </rect>
+   </property>
+  </widget>
+  <widget class="QStatusBar" name="statusbar"/>
+ </widget>
+ <resources/>
+ <connections>
+  <connection>
+   <sender>transparencySlider</sender>
+   <signal>valueChanged(int)</signal>
+   <receiver>transparencySpinBox</receiver>
+   <slot>setValue(int)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>810</x>
+     <y>559</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>1207</x>
+     <y>560</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>transparencySpinBox</sender>
+   <signal>valueChanged(int)</signal>
+   <receiver>transparencySlider</receiver>
+   <slot>setValue(int)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>1198</x>
+     <y>553</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>1024</x>
+     <y>559</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
+</ui>
