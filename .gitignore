@@ -1,0 +1,8 @@
+# build directory
+*/build/*
+
+# qmake related files
+*.qmake.stash
+
+# Mac related files
+.DS_Store
