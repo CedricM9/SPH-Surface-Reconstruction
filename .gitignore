@@ -1,6 +1,9 @@
 # build directory
 */build/*
 
+# executables
+*.exe
+
 # qmake related files
 *.qmake.stash
 
