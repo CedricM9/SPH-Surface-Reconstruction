@@ -1,8 +1,6 @@
-template <typename T>
-cubicSplineKernel<T>::cubicSplineKernel() {}
+cubicSplineKernel::cubicSplineKernel() {}
 
-template <typename T>
-T cubicSplineKernel<T>::evaluate(T q) {
+double cubicSplineKernel::evaluate(double q) {
     // TODO: implement cubic spline kernel
     return q;
 }

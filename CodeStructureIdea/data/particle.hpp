@@ -1,18 +1,17 @@
 #pragma once
 
-template<typename T>
 class particle {
   public:
-    particle(T x, T y, T z);
+    particle(double x, double y, double z);
 
-    T& x();
-    T& y();
-    T& z();
+    double& x();
+    double& y();
+    double& z();
 
   private:
-    T x_;
-    T y_;
-    T z_;
+    double x_;
+    double y_;
+    double z_;
 };
 
 #include "particle.cpp"

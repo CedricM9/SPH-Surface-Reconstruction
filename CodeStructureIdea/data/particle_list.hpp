@@ -4,18 +4,17 @@
 
 #include "particle.hpp"
 
-template <typename T>
 class particleList {
   public:
     particleList();
     
-    void addParticle(T x, T y, T z);
-    void addParticle(particle<T> p);
+    void addParticle(double x, double y, double z);
+    void addParticle(particle p);
 
-    particle<T>& getParticle(int index);
+    particle& getParticle(int index);
 
   protected:
-    std::vector<particle<T>> particles_;
+    std::vector<particle> particles_;
 };
 
 #include "particle_list.cpp"

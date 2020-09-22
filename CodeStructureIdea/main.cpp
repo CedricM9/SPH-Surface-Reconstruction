@@ -19,58 +19,58 @@
 
 int main() {
     // Create particles.
-    particle<double> p1(1.0, 0.0, 0.0), p2(0.0, 1.0, 0.0);
+    particle p1(1.0, 0.0, 0.0), p2(0.0, 1.0, 0.0);
 
     // Create particle list.
-    particleList<double> particles;
+    particleList particles;
     particles.addParticle(p1);
     particles.addParticle(p2);
     particles.addParticle(0.0, 0.0, 1.0);
 
     // Index a particle.
-    particle<double> p = particles.getParticle(0);
+    particle p = particles.getParticle(0);
     std::cout << "first particle of list: x = " << p.x() << ", y = " << p.y() << ", z = " << p.z() << std::endl;
 
     // Create triangle list.
-    triangleList<double> triangles(particles);
+    triangleList triangles(particles);
     triangles.addTriangle(0, 1, 2);
 
     // Index a triangle.
-    std::array<particle<double>, 3> t = triangles.getTriangle(0);
+    std::array<particle, 3> t = triangles.getTriangle(0);
     std::cout << "third particle of first triangle: x = " << t[2].x() << ", y = " << t[2].y() << ", z = " << t[2].z() << std::endl;
 
     // Create readers.
-    partioParticleReader<double> partioParticleIn;
+    partioParticleReader partioParticleIn;
     particles = partioParticleIn.read("filename.bgeo");
-    vtkParticleReader<double> vtkParticleIn;
+    vtkParticleReader vtkParticleIn;
     particles = vtkParticleIn.read("filename.vtk");
-    vtkTriangleReader<double> vtkTriangleIn;
+    vtkTriangleReader vtkTriangleIn;
     particles = vtkTriangleIn.read("filename.vtk");
 
     // Create writers.
-    vtkTriangleWriter<double> vtkTriangleOut;
+    vtkTriangleWriter vtkTriangleOut;
     vtkTriangleOut.write("filename.vtk", particles);
-    plyTriangleWriter<double> plyTriangleOut;
+    plyTriangleWriter plyTriangleOut;
     plyTriangleOut.write("filename.ply", particles);
 
     // Find nearest neighbors.
-    spatialHashingNeighborhoodSearch<double> nSearch;
-    std::shared_ptr<spatialHashingNeighborhoodSearch<double>> nSearchPointer = std::make_shared<spatialHashingNeighborhoodSearch<double>>(nSearch);
+    spatialHashingNeighborhoodSearch nSearch;
+    std::shared_ptr<spatialHashingNeighborhoodSearch> nSearchPointer = std::make_shared<spatialHashingNeighborhoodSearch>(nSearch);
     std::vector<std::vector<int>> nearestNeighbors = nSearch.find({}, 0.5);
 
     // Evaluate cubic spline kernel.
-    cubicSplineKernel<double> kernel;
-    std::shared_ptr<cubicSplineKernel<double>> kernelPointer = std::make_shared<cubicSplineKernel<double>>(kernel);
+    cubicSplineKernel kernel;
+    std::shared_ptr<cubicSplineKernel> kernelPointer = std::make_shared<cubicSplineKernel>(kernel);
     double s = kernel.evaluate(2.0);
 
     // Evaluate dimensionless level set function.
-    dimensionlessLevelSetFunction<double> levelSet;
-    std::shared_ptr<dimensionlessLevelSetFunction<double>> levelSetPointer = std::make_shared<dimensionlessLevelSetFunction<double>>(levelSet);
+    dimensionlessLevelSetFunction levelSet;
+    std::shared_ptr<dimensionlessLevelSetFunction> levelSetPointer = std::make_shared<dimensionlessLevelSetFunction>(levelSet);
     double phi = levelSet.evaluate(particles);
 
     // Reconstruct a surface using marching cubes algorithm.
-    marchingCubesReconstructor<double> reconstructor;
-    triangleList<double> result = reconstructor.reconstruct(particles, levelSetPointer, nSearchPointer, kernelPointer);
+    marchingCubesReconstructor reconstructor;
+    triangleList result = reconstructor.reconstruct(particles, levelSetPointer, nSearchPointer, kernelPointer);
 
     return 0;
 }

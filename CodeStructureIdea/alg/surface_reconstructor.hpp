@@ -9,14 +9,13 @@
 #include "compact_neighborhood_search.hpp"
 #include "SPH_interpolation_kernel.hpp"
 
-template <typename T>
 class surfaceReconstructor {
   public:
     surfaceReconstructor() {}
 
-    virtual triangleList<T> reconstruct(const particleList<T>& particles,
-                                        std::shared_ptr<levelSetFunction<T>> levelSetPointer,
-                                        std::shared_ptr<compactNeighborhoodSearch<T>> nSearchPointer,
-                                        std::shared_ptr<SPHInterpolationKernel<T>>) = 0;
+    virtual triangleList reconstruct(const particleList& particles,
+                                     std::shared_ptr<levelSetFunction> levelSetPointer,
+                                     std::shared_ptr<compactNeighborhoodSearch> nSearchPointer,
+                                     std::shared_ptr<SPHInterpolationKernel>) = 0;
 };
 

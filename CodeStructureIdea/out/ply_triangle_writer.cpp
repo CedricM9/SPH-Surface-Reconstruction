@@ -1,8 +1,6 @@
-template<typename T>
-plyTriangleWriter<T>::plyTriangleWriter() {}
+plyTriangleWriter::plyTriangleWriter() {}
 
-template<typename T>
-void plyTriangleWriter<T>::write(const std::string& filename, const particleList<T>& list) {
+void plyTriangleWriter::write(const std::string& filename, const particleList& list) {
     // TODO: implement function writing file from triangle list.
 }
 

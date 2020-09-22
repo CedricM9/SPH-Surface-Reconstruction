@@ -1,8 +1,6 @@
-template <typename T>
-spatialHashingNeighborhoodSearch<T>::spatialHashingNeighborhoodSearch() {}
+spatialHashingNeighborhoodSearch::spatialHashingNeighborhoodSearch() {}
 
-template <typename T>
-std::vector<std::vector<int>> spatialHashingNeighborhoodSearch<T>::find(const particleList<T>& list, T radius) {
+std::vector<std::vector<int>> spatialHashingNeighborhoodSearch::find(const particleList& list, double radius) {
     // TODO: implement spatial neighborhood search using CompactNSearch library.
     return {};
 }

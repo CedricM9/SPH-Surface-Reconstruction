@@ -2,12 +2,11 @@
 
 #include "particle_reader.hpp"
 
-template<typename T>
-class vtkParticleReader : public particleReader<T> {
+class vtkParticleReader : public particleReader {
   public:
     vtkParticleReader();
 
-    particleList<T> read(std::string filename);
+    particleList read(std::string filename);
 };
 
 #include "vtk_particle_reader.cpp"

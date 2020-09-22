@@ -2,10 +2,9 @@
 
 #include "reader.hpp"
 
-template<typename T>
-class particleReader : public reader<T> {
+class particleReader : public reader {
   public:
     particleReader() {}
 
-    virtual particleList<T> read(std::string filename) = 0;
+    virtual particleList read(std::string filename) = 0;
 };

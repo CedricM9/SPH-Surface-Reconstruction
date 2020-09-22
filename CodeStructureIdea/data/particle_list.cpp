@@ -1,18 +1,14 @@
-template <typename T>
-particleList<T>::particleList() {}
+particleList::particleList() {}
     
-template <typename T>
-void particleList<T>::addParticle(T x, T y, T z) {
-    particles_.push_back(particle<T>(x,y,z));
+void particleList::addParticle(double x, double y, double z) {
+    particles_.push_back(particle(x,y,z));
 }
 
-template <typename T>
-void particleList<T>::addParticle(particle<T> p) {
+void particleList::addParticle(particle p) {
     particles_.push_back(p);
 }
 
-template <typename T>
-particle<T>& particleList<T>::getParticle(int index) {
+particle& particleList::getParticle(int index) {
     return particles_[index];
 }
 

@@ -1,8 +1,6 @@
-template <typename T>
-dimensionlessLevelSetFunction<T>::dimensionlessLevelSetFunction() {}
+dimensionlessLevelSetFunction::dimensionlessLevelSetFunction() {}
 
-template <typename T>
-T dimensionlessLevelSetFunction<T>::evaluate(const particleList<T>& list) {
+double dimensionlessLevelSetFunction::evaluate(const particleList& list) {
     // TODO: implement dimensionless level set function
     return 1.0;
 }

@@ -2,12 +2,11 @@
 
 #include "triangle_reader.hpp"
 
-template<typename T>
-class vtkTriangleReader : public triangleReader<T> {
+class vtkTriangleReader : public triangleReader {
   public:
     vtkTriangleReader();
 
-    particleList<T> read(std::string filename);
+    particleList read(std::string filename);
 };
 
 #include "vtk_triangle_reader.cpp"

@@ -2,12 +2,11 @@
 
 #include "level_set_function.hpp"
 
-template <typename T>
-class dimensionlessLevelSetFunction : public levelSetFunction<T> {
+class dimensionlessLevelSetFunction : public levelSetFunction {
   public:
     dimensionlessLevelSetFunction();
 
-    virtual T evaluate(const particleList<T>& list);
+    virtual double evaluate(const particleList& list);
 };
 
 #include "dimensionless_level_set_function.cpp"

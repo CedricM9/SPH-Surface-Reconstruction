@@ -1,18 +1,14 @@
-template<typename T>
-particle<T>::particle(T x, T y, T z) : x_(x), y_(y), z_(z) {}
+particle::particle(double x, double y, double z) : x_(x), y_(y), z_(z) {}
 
-template<typename T>
-T& particle<T>::x() {
+double& particle::x() {
     return x_;
 }
 
-template<typename T>
-T& particle<T>::y() {
+double& particle::y() {
     return y_;
 }
 
-template<typename T>
-T& particle<T>::z() {
+double& particle::z() {
     return z_;
 }
 

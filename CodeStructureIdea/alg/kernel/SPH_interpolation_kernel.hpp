@@ -1,10 +1,9 @@
 #pragma once
 
-template <typename T>
 class SPHInterpolationKernel {
   public:
     SPHInterpolationKernel() {}
 
-    virtual T evaluate(T q) = 0;
+    virtual double evaluate(double q) = 0;
 };
 

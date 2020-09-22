@@ -2,10 +2,9 @@
 
 #include "writer.hpp"
 
-template<typename T>
-class triangleWriter : public writer<T> {
+class triangleWriter : public writer {
   public:
     triangleWriter() {}
 
-    virtual void write(const std::string& filename, const particleList<T>& list) = 0;
+    virtual void write(const std::string& filename, const particleList& list) = 0;
 };

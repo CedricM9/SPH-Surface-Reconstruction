@@ -1,8 +1,6 @@
-template<typename T>
-vtkTriangleWriter<T>::vtkTriangleWriter() {}
+vtkTriangleWriter::vtkTriangleWriter() {}
 
-template<typename T>
-void vtkTriangleWriter<T>::write(const std::string& filename, const particleList<T>& list) {
+void vtkTriangleWriter::write(const std::string& filename, const particleList& list) {
     // TODO: implement function writing file from triangle list.
 }
 

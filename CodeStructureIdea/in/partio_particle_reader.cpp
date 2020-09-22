@@ -1,9 +1,7 @@
-template<typename T>
-partioParticleReader<T>::partioParticleReader() {}
+partioParticleReader::partioParticleReader() {}
 
-template<typename T>
-particleList<T> partioParticleReader<T>::read(std::string filename) {
-    particleList<T> list;
+particleList partioParticleReader::read(std::string filename) {
+    particleList list;
 
     // TODO: implement function reading file and creating particle list.
 

@@ -1,9 +1,7 @@
-template<typename T>
-vtkTriangleReader<T>::vtkTriangleReader() {}
+vtkTriangleReader::vtkTriangleReader() {}
 
-template<typename T>
-particleList<T> vtkTriangleReader<T>::read(std::string filename) {
-    triangleList<T> list;
+particleList vtkTriangleReader::read(std::string filename) {
+    triangleList list;
 
     // TODO: implement function reading file and creating triangle list.
 

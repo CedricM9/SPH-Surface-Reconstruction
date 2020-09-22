@@ -2,10 +2,9 @@
 
 #include "reader.hpp"
 
-template<typename T>
-class triangleReader : public reader<T> {
+class triangleReader : public reader {
   public:
     triangleReader() {}
 
-    virtual particleList<T> read(std::string filename) = 0;
+    virtual particleList read(std::string filename) = 0;
 };

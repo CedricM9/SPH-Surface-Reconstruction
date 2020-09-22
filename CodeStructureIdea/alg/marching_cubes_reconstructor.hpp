@@ -2,15 +2,14 @@
 
 #include "surface_reconstructor.hpp"
 
-template <typename T>
-class marchingCubesReconstructor : public surfaceReconstructor<T> {
+class marchingCubesReconstructor : public surfaceReconstructor {
   public:
     marchingCubesReconstructor() {}
 
-    triangleList<T> reconstruct(const particleList<T>& particles,
-                                std::shared_ptr<levelSetFunction<T>> levelSetPointer,
-                                std::shared_ptr<compactNeighborhoodSearch<T>> nSearchPointer,
-                                std::shared_ptr<SPHInterpolationKernel<T>> kernelPointer);
+    triangleList reconstruct(const particleList& particles,
+                             std::shared_ptr<levelSetFunction> levelSetPointer,
+                             std::shared_ptr<compactNeighborhoodSearch> nSearchPointer,
+                             std::shared_ptr<SPHInterpolationKernel> kernelPointer);
 };
 
 #include "marching_cubes_reconstructor.cpp"
