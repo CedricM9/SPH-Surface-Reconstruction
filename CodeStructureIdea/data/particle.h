@@ -1,4 +1,5 @@
-#pragma once
+#ifndef PARTICLE_H
+#define PARTICLE_H
 
 class particle {
   public:
@@ -15,3 +16,5 @@ class particle {
 };
 
 #include "particle.cpp"
+
+#endif // PARTICLE_H

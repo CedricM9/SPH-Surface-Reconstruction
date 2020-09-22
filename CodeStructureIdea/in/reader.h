@@ -1,4 +1,5 @@
-#pragma once
+#ifndef READER_H
+#define READER_H
 
 #include <string>
 
@@ -10,3 +11,5 @@ class reader {
 
     virtual particleList read(std::string filename) = 0;
 };
+
+#endif // READER_H

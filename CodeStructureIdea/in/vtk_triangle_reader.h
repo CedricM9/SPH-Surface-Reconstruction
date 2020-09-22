@@ -1,4 +1,5 @@
-#pragma once
+#ifndef VTK_TRIANGLE_READER_H
+#define VTK_TRIANGLE_READER_H
 
 #include "triangle_reader.h"
 
@@ -10,3 +11,5 @@ class vtkTriangleReader : public triangleReader {
 };
 
 #include "vtk_triangle_reader.cpp"
+
+#endif // VTK_TRIANGLE_READER_H

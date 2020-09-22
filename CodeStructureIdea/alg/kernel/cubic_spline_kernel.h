@@ -1,4 +1,5 @@
-#pragma once
+#ifndef CUBIC_SPLINE_KERNEL_H
+#define CUBIC_SPLINE_KERNEL_H
 
 #include "SPH_interpolation_kernel.h"
 
@@ -10,3 +11,5 @@ class cubicSplineKernel : public SPHInterpolationKernel {
 };
 
 #include "cubic_spline_kernel.cpp"
+
+#endif // CUBIC_SPLINE_KERNEL_H

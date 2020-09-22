@@ -1,4 +1,5 @@
-#pragma once
+#ifndef PARTICLE_LIST_H
+#define PARTICLE_LIST_H
 
 #include <vector>
 
@@ -18,3 +19,5 @@ class particleList {
 };
 
 #include "particle_list.cpp"
+
+#endif // PARTICLE_LIST_H

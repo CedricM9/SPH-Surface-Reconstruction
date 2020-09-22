@@ -1,4 +1,5 @@
-#pragma once
+#ifndef TRIANGLE_LIST_H
+#define TRIANGLE_LIST_H
 
 #include <array>
 #include <vector>
@@ -19,3 +20,5 @@ class triangleList : public particleList {
 };
 
 #include "triangle_list.cpp"
+
+#endif // TRIANGLE_LIST_H

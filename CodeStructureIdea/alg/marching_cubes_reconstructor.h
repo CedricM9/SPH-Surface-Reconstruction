@@ -1,4 +1,5 @@
-#pragma once
+#ifndef MARCHING_CUBES_RECONSTRUCTOR_H
+#define MARCHING_CUBES_RECONSTRUCTOR_H
 
 #include "surface_reconstructor.h"
 
@@ -13,3 +14,5 @@ class marchingCubesReconstructor : public surfaceReconstructor {
 };
 
 #include "marching_cubes_reconstructor.cpp"
+
+#endif // MARCHING_CUBES_RECONSTRUCTOR_H

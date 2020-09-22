@@ -1,4 +1,5 @@
-#pragma once
+#ifndef SURFACE_RECONSTRUCTOR_H
+#define SURFACE_RECONSTRUCTOR_H
 
 #include <memory>
 
@@ -19,3 +20,4 @@ class surfaceReconstructor {
                                      std::shared_ptr<SPHInterpolationKernel>) = 0;
 };
 
+#endif // SURFACE_RECONSTRUCTOR_H
