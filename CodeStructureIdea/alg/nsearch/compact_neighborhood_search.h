@@ -2,7 +2,7 @@
 
 #include <vector>
 
-#include "particle_list.hpp"
+#include "particle_list.h"
 
 class compactNeighborhoodSearch {
   public:

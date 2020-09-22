@@ -1,6 +1,6 @@
 #pragma once
 
-#include "SPH_interpolation_kernel.hpp"
+#include "SPH_interpolation_kernel.h"
 
 class cubicSplineKernel : public SPHInterpolationKernel {
   public:

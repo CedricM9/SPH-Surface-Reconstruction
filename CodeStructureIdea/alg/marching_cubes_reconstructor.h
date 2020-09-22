@@ -1,6 +1,6 @@
 #pragma once
 
-#include "surface_reconstructor.hpp"
+#include "surface_reconstructor.h"
 
 class marchingCubesReconstructor : public surfaceReconstructor {
   public:

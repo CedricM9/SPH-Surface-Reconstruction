@@ -1,10 +1,10 @@
 #pragma once
 
-#include "reader.hpp"
+#include "reader.h"
 
-class particleReader : public reader {
+class triangleReader : public reader {
   public:
-    particleReader() {}
+    triangleReader() {}
 
     virtual particleList read(std::string filename) = 0;
 };

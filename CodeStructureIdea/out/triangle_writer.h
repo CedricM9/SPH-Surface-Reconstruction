@@ -1,6 +1,6 @@
 #pragma once
 
-#include "writer.hpp"
+#include "writer.h"
 
 class triangleWriter : public writer {
   public:

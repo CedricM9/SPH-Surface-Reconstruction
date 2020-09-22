@@ -2,12 +2,12 @@
 
 #include <memory>
 
-#include "particle_list.hpp"
-#include "triangle_list.hpp"
+#include "particle_list.h"
+#include "triangle_list.h"
 
-#include "level_set_function.hpp"
-#include "compact_neighborhood_search.hpp"
-#include "SPH_interpolation_kernel.hpp"
+#include "level_set_function.h"
+#include "compact_neighborhood_search.h"
+#include "SPH_interpolation_kernel.h"
 
 class surfaceReconstructor {
   public:

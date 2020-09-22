@@ -2,7 +2,7 @@
 
 #include <vector>
 
-#include "particle.hpp"
+#include "particle.h"
 
 class particleList {
   public:

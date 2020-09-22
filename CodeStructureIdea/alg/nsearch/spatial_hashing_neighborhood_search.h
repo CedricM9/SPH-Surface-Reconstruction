@@ -1,6 +1,6 @@
 #pragma once
 
-#include "compact_neighborhood_search.hpp"
+#include "compact_neighborhood_search.h"
 
 class spatialHashingNeighborhoodSearch : public compactNeighborhoodSearch {
   public:

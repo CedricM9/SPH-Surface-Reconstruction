@@ -1,21 +1,21 @@
 #include <array>
 #include <iostream>
 
-#include "particle_list.hpp"
-#include "triangle_list.hpp"
+#include "particle_list.h"
+#include "triangle_list.h"
 
-#include "partio_particle_reader.hpp"
-#include "vtk_particle_reader.hpp"
-#include "vtk_triangle_reader.hpp"
+#include "partio_particle_reader.h"
+#include "vtk_particle_reader.h"
+#include "vtk_triangle_reader.h"
 
-#include "ply_triangle_writer.hpp"
-#include "vtk_triangle_writer.hpp"
+#include "ply_triangle_writer.h"
+#include "vtk_triangle_writer.h"
 
-#include "spatial_hashing_neighborhood_search.hpp"
-#include "cubic_spline_kernel.hpp"
-#include "dimensionless_level_set_function.hpp"
+#include "spatial_hashing_neighborhood_search.h"
+#include "cubic_spline_kernel.h"
+#include "dimensionless_level_set_function.h"
 
-#include "marching_cubes_reconstructor.hpp"
+#include "marching_cubes_reconstructor.h"
 
 int main() {
     // Create particles.

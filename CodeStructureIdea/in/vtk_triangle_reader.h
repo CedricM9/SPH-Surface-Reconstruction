@@ -1,6 +1,6 @@
 #pragma once
 
-#include "triangle_reader.hpp"
+#include "triangle_reader.h"
 
 class vtkTriangleReader : public triangleReader {
   public:

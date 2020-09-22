@@ -3,7 +3,7 @@
 #include <array>
 #include <vector>
 
-#include "particle_list.hpp"
+#include "particle_list.h"
 
 class triangleList : public particleList {
   public:

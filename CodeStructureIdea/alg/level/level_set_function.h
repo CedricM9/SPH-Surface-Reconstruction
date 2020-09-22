@@ -1,6 +1,6 @@
 #pragma once
 
-#include "particle_list.hpp"
+#include "particle_list.h"
 
 class levelSetFunction {
   public:

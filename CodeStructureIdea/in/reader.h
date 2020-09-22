@@ -2,7 +2,7 @@
 
 #include <string>
 
-#include "particle_list.hpp"
+#include "particle_list.h"
 
 class reader {
   public:

@@ -1,6 +1,6 @@
 #pragma once
 
-#include "level_set_function.hpp"
+#include "level_set_function.h"
 
 class dimensionlessLevelSetFunction : public levelSetFunction {
   public:

@@ -1,6 +1,6 @@
 #pragma once
 
-#include "particle_reader.hpp"
+#include "particle_reader.h"
 
 class partioParticleReader : public particleReader {
   public:

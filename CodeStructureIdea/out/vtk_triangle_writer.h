@@ -1,6 +1,6 @@
 #pragma once
 
-#include "triangle_writer.hpp"
+#include "triangle_writer.h"
 
 class vtkTriangleWriter : public triangleWriter {
   public:
