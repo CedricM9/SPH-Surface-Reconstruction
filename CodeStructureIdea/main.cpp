@@ -41,7 +41,7 @@ int main() {
 
     // Create readers.
     partioParticleReader partioParticleIn;
-    particles = partioParticleIn.read("filename.bgeo");
+    particles = partioParticleIn.read("/media/sf_Software_Lab/SPH-Surface-Reconstruction/SimulationOutputTestData/bgeo/ParticleData_Fluid_163.bgeo");
     vtkParticleReader vtkParticleIn;
     particles = vtkParticleIn.read("filename.vtk");
     vtkTriangleReader vtkTriangleIn;

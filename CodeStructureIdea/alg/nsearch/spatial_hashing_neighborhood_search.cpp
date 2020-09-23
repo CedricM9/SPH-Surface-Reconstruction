@@ -5,8 +5,6 @@ using namespace CompactNSearch;
 spatialHashingNeighborhoodSearch::spatialHashingNeighborhoodSearch() {}
 
 std::vector<std::vector<int>> spatialHashingNeighborhoodSearch::find(const particleList& list, double radius) {
-    // TODO: implement spatial neighborhood search using CompactNSearch library.
-
     // Create data structure to perform neighborhood search with fixed radius.
     NeighborhoodSearch nsearch(radius);
 
