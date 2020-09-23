@@ -1,14 +1,14 @@
 particle::particle(double x, double y, double z) : x_(x), y_(y), z_(z) {}
 
-double& particle::x() {
+double const& particle::x() const {
     return x_;
 }
 
-double& particle::y() {
+double const& particle::y() const {
     return y_;
 }
 
-double& particle::z() {
+double const& particle::z() const {
     return z_;
 }
 

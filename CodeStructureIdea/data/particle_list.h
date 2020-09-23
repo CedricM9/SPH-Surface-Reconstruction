@@ -12,7 +12,8 @@ class particleList {
     void addParticle(double x, double y, double z);
     void addParticle(particle p);
 
-    particle& getParticle(int index);
+    particle const& getParticle(int index) const;
+    int getNumberOfParticles() const;
 
   protected:
     std::vector<particle> particles_;

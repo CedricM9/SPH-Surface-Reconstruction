@@ -8,7 +8,11 @@ void particleList::addParticle(particle p) {
     particles_.push_back(p);
 }
 
-particle& particleList::getParticle(int index) {
+particle const& particleList::getParticle(int index) const {
     return particles_[index];
+}
+
+int particleList::getNumberOfParticles() const {
+    return particles_.size();
 }
 

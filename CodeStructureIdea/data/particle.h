@@ -5,9 +5,9 @@ class particle {
   public:
     particle(double x, double y, double z);
 
-    double& x();
-    double& y();
-    double& z();
+    double const& x() const;
+    double const& y() const;
+    double const& z() const;
 
   private:
     double x_;
