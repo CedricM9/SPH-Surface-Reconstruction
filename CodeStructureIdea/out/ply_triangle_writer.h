@@ -7,7 +7,7 @@ class plyTriangleWriter : public triangleWriter {
   public:
     plyTriangleWriter();
 
-    void write(const std::string& filename, const particleList& list);
+    void write(const std::string& filename, const triangleList& list);
 };
 
 #include "ply_triangle_writer.cpp"

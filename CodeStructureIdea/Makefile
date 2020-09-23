@@ -18,12 +18,14 @@ PARTIO_INC_DIR=$(PARTIO_DIR)/include
 PARTIO_LIB_DIR=$(PARTIO_DIR)/lib
 PARTIO_LIB=$(PARTIO_LIB_DIR)/libpartio.so
 
+HAPPLY_INC_DIR=/media/sf_Software/happly
+
 TEST=/media/sf_Software/CompactNSearch/src/CompactNSearch.cpp
 
 all : main.exe
 
 main.exe : main.cpp
-	$(CPPC) $(CPP_FLAGS) -I$(DATA_INC_DIR) -I$(KERNEL_INC_DIR) -I$(LEVEL_INC_DIR) -I$(NSEARCH_INC_DIR) -I$(ALG_INC_DIR) -I$(IN_INC_DIR) -I$(OUT_INC_DIR) -I$(CNSEARCH_INC_DIR) -I$(PARTIO_INC_DIR) -L$(PARTIO_LIB_DIR) main.cpp $(TEST) -o main.exe $(PARTIO_LIB) #-l$(CNSEARCH_LIB)
+	$(CPPC) $(CPP_FLAGS) -I$(DATA_INC_DIR) -I$(KERNEL_INC_DIR) -I$(LEVEL_INC_DIR) -I$(NSEARCH_INC_DIR) -I$(ALG_INC_DIR) -I$(IN_INC_DIR) -I$(OUT_INC_DIR) -I$(CNSEARCH_INC_DIR) -I$(PARTIO_INC_DIR) -I$(HAPPLY_INC_DIR) -L$(PARTIO_LIB_DIR) main.cpp $(TEST) -o main.exe $(PARTIO_LIB) #-l$(CNSEARCH_LIB)
     
 doc:
 	cd doc && $(MAKE)

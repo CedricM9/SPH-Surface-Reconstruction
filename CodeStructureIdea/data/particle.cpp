@@ -12,3 +12,7 @@ double const& particle::z() const {
     return z_;
 }
 
+std::array<double, 3> particle::getArray() const {
+    return {x_, y_, z_};
+}
+

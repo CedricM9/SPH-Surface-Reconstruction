@@ -15,6 +15,8 @@ class particleList {
     particle const& getParticle(int index) const;
     int getNumberOfParticles() const;
 
+    std::vector<std::array<double, 3>> getParticleVector() const;
+
   protected:
     std::vector<particle> particles_;
 };

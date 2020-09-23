@@ -15,6 +15,8 @@ class triangleList : public particleList {
     
     std::array<particle, 3> getTriangle(int index);
 
+    std::vector<std::vector<size_t>> getFaceVector() const;
+
   private:
     std::vector<std::array<int, 3>> vertices_;
 };

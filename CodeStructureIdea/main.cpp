@@ -49,9 +49,9 @@ int main() {
 
     // Create writers.
     vtkTriangleWriter vtkTriangleOut;
-    vtkTriangleOut.write("filename.vtk", particles);
+    vtkTriangleOut.write("filename.vtk", triangles);
     plyTriangleWriter plyTriangleOut;
-    plyTriangleOut.write("filename.ply", particles);
+    plyTriangleOut.write("filename.ply", triangles);
 
     // Find nearest neighbors.
     spatialHashingNeighborhoodSearch nSearch;

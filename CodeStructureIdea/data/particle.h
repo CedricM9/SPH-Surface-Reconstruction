@@ -1,6 +1,8 @@
 #ifndef PARTICLE_H
 #define PARTICLE_H
 
+#include<array>
+
 class particle {
   public:
     particle(double x, double y, double z);
@@ -8,6 +10,8 @@ class particle {
     double const& x() const;
     double const& y() const;
     double const& z() const;
+
+    std::array<double, 3> getArray() const;
 
   private:
     double x_;

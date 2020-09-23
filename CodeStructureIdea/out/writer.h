@@ -9,7 +9,8 @@ class writer {
   public:
     writer() {}
 
-    virtual void write(const std::string& filename, const particleList& list) = 0;
+    // should be particle list.
+    virtual void write(const std::string& filename, const triangleList& list) = 0;
 };
 
 #endif // WRITER_H

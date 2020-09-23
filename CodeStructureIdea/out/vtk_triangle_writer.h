@@ -7,7 +7,7 @@ class vtkTriangleWriter : public triangleWriter {
   public:
     vtkTriangleWriter();
 
-    void write(const std::string& filename, const particleList& list);
+    void write(const std::string& filename, const triangleList& list);
 };
 
 #include "vtk_triangle_writer.cpp"
