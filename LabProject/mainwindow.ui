@@ -44,7 +44,7 @@
       <rect>
        <x>10</x>
        <y>20</y>
-       <width>201</width>
+       <width>210</width>
        <height>391</height>
       </rect>
      </property>
@@ -197,16 +197,6 @@
      </layout>
     </widget>
    </widget>
-   <widget class="QGraphicsView" name="graphicsView">
-    <property name="geometry">
-     <rect>
-      <x>600</x>
-      <y>40</y>
-      <width>661</width>
-      <height>391</height>
-     </rect>
-    </property>
-   </widget>
    <widget class="QWidget" name="horizontalLayoutWidget">
     <property name="geometry">
      <rect>
@@ -351,6 +341,17 @@
     <property name="text">
      <string>Export Directory...</string>
     </property>
+   </widget>
+   <widget class="QWidget" name="verticalLayoutWidget">
+    <property name="geometry">
+     <rect>
+      <x>609</x>
+      <y>49</y>
+      <width>651</width>
+      <height>381</height>
+     </rect>
+    </property>
+    <layout class="QVBoxLayout" name="viewportLayout"/>
    </widget>
   </widget>
   <widget class="QMenuBar" name="menubar">
