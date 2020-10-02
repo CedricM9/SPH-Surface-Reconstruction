@@ -1,4 +1,12 @@
+particle::particel() : x_(0.0), y_(0.0), z_(0.0) {}
+
 particle::particle(double x, double y, double z) : x_(x), y_(y), z_(z) {}
+
+void equals(particle p) const {
+    x_ = p.x();
+    y_ = p.y();
+    z_ = p.z();
+}
 
 double const& particle::x() const {
     return x_;

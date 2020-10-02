@@ -5,7 +5,10 @@
 
 class particle {
   public:
+    particle();
     particle(double x, double y, double z);
+
+    void equals(particle p) const;
 
     double const& x() const;
     double const& y() const;
