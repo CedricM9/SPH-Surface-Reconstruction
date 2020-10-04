@@ -13,7 +13,10 @@ class triangleList : public particleList {
     
     void addTriangle(int index1, int index2, int index3);
     
-    std::array<particle, 3> getTriangle(int index);
+    std::array<particle, 3> getTriangle(int index) const;
+    std::array<int, 3> getTriangleIndices(int index) const;
+
+    int getNumberOfTriangles() const;
 
     std::vector<std::vector<size_t>> getFaceVector() const;
 
