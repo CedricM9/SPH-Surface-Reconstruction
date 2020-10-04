@@ -43,7 +43,7 @@ int main() {
     partioParticleReader partioParticleIn;
     particles = partioParticleIn.read("/media/sf_Software_Lab/SPH-Surface-Reconstruction/SimulationOutputTestData/bgeo/ParticleData_Fluid_163.bgeo");
     vtkParticleReader vtkParticleIn;
-    particles = vtkParticleIn.read("filename.vtk");
+    particles = vtkParticleIn.read("/media/sf_Software_Lab/SPH-Surface-Reconstruction/SimulationOutputTestData/vtk/ParticleData_Fluid_163.vtk");
     vtkTriangleReader vtkTriangleIn;
     particles = vtkTriangleIn.read("filename.vtk");
 
@@ -70,7 +70,8 @@ int main() {
 
     // Reconstruct a surface using marching cubes algorithm.
     marchingCubesReconstructor reconstructor;
-    triangleList result = reconstructor.reconstruct(particles, levelSetPointer, nSearchPointer, kernelPointer);
+    //triangleList result = reconstructor.reconstruct(particles, levelSetPointer, nSearchPointer, kernelPointer);
+    triangleList result = reconstructor.reconstruct(particles, {}, particles, levelSetPointer, nSearchPointer, kernelPointer);
 
     return 0;
 }

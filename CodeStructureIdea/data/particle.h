@@ -8,7 +8,8 @@ class particle {
     particle();
     particle(double x, double y, double z);
 
-    void equals(particle p) const;
+    particle(const particle& p);
+    //void equals(particle p) const;
 
     double const& x() const;
     double const& y() const;

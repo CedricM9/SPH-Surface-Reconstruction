@@ -10,7 +10,7 @@ class marchingCubesReconstructor : public surfaceReconstructor {
     marchingCubesReconstructor() {}
 
     triangleList reconstruct(const particleList& verticeCoordinates,
-                             const verticeISO[8],
+                             const double verticeISO[8],
                              particleList& particles,
                              std::shared_ptr<levelSetFunction> levelSetPointer,
                              std::shared_ptr<compactNeighborhoodSearch> nSearchPointer,

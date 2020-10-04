@@ -1,5 +1,5 @@
 CPPC = g++
-CPP_FLAGS = -std=c++11 -fopenmp
+CPP_FLAGS = -std=c++17 -fopenmp
 DATA_INC_DIR = data
 KERNEL_INC_DIR = alg/kernel
 LEVEL_INC_DIR = alg/level
@@ -13,10 +13,15 @@ CNSEARCH_INC_DIR=$(CNSEARCH_DIR)/include
 CNSEARCH_LIB_DIR=$(CNSEARCH_DIR)/lib
 CNSEARCH_LIB=CompactNSearch
 
+EIGEN_DIR=/media/sf_Software/Eigen
+
 PARTIO_DIR=/media/sf_Software/partio
 PARTIO_INC_DIR=$(PARTIO_DIR)/include
 PARTIO_LIB_DIR=$(PARTIO_DIR)/lib
 PARTIO_LIB=$(PARTIO_LIB_DIR)/libpartio.so
+
+VTKIO_DIR=/media/sf_Software/vtkio
+VTKIO_INC_DIR=$(VTKIO_DIR)
 
 HAPPLY_INC_DIR=/media/sf_Software/happly
 
@@ -25,7 +30,7 @@ TEST=/media/sf_Software/CompactNSearch/src/CompactNSearch.cpp
 all : main.exe
 
 main.exe : main.cpp
-	$(CPPC) $(CPP_FLAGS) -I$(DATA_INC_DIR) -I$(KERNEL_INC_DIR) -I$(LEVEL_INC_DIR) -I$(NSEARCH_INC_DIR) -I$(ALG_INC_DIR) -I$(IN_INC_DIR) -I$(OUT_INC_DIR) -I$(CNSEARCH_INC_DIR) -I$(PARTIO_INC_DIR) -I$(HAPPLY_INC_DIR) -L$(PARTIO_LIB_DIR) main.cpp $(TEST) -o main.exe $(PARTIO_LIB) #-l$(CNSEARCH_LIB)
+	$(CPPC) $(CPP_FLAGS) -I$(DATA_INC_DIR) -I$(KERNEL_INC_DIR) -I$(LEVEL_INC_DIR) -I$(NSEARCH_INC_DIR) -I$(ALG_INC_DIR) -I$(IN_INC_DIR) -I$(OUT_INC_DIR) -I$(CNSEARCH_INC_DIR) -I$(EIGEN_DIR) -I$(PARTIO_INC_DIR) -I$(VTKIO_DIR) -I$(HAPPLY_INC_DIR) -L$(PARTIO_LIB_DIR) main.cpp $(TEST) -o main.exe $(PARTIO_LIB) #-l$(CNSEARCH_LIB)
     
 doc:
 	cd doc && $(MAKE)
