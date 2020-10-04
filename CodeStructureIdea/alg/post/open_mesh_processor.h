@@ -11,11 +11,12 @@ class openMeshProcessor : public postProcessor {
   public:
     openMeshProcessor();
 
-    triangleList smooth(triangleList list) const;
-    triangleList simplify(triangleList list) const;
+    triangleList smooth(const triangleList& list) const;
+    triangleList simplify(const triangleList& list) const;
 
   private:
-    MyMesh getMeshFromTriangleList(triangleList list) const;
+    MyMesh getMeshFromTriangleList(const triangleList& list) const;
+    triangleList getTriangleListFromMesh(const MyMesh& mesh) const;
 };
 
 #include "open_mesh_processor.cpp"
