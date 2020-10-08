@@ -23,6 +23,8 @@ class openMeshProcessor : public postProcessor {
     triangleList smooth(const triangleList& list) const;
 
     /** \brief Function where the actual mesh decimation algorithm is implemented using Open Mesh
+     * \details An Open Mesh Decimator using a quadric module computes an error for each decimation possibility.
+     *  The boundary edges are locked from Decimater.
      * \param list triangle list to be smoothed
      */
     triangleList simplify(const triangleList& list) const;
