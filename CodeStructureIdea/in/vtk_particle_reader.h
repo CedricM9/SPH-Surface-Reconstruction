@@ -12,6 +12,8 @@ class vtkParticleReader : public particleReader {
     vtkParticleReader();
 
     /** \brief Funtion where the actual reading particles algorithm from vtk files is implemented
+     * \details This function converts a file of the format vtk to the data structure particleList
+     *  using the external library VTKStream.
      * \param filename name of the vtk file with the particles to read in
      */
     particleList read(std::string filename);

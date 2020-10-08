@@ -12,6 +12,8 @@ class vtkTriangleReader : public triangleReader {
     vtkTriangleReader();
 
     /** \brief Funtion where the actual reading triangles algorithm from vtk files is implemented
+     * \details This function converts a file of the format vtk to the data structure triangleList
+     *  using the external library VTKStream.
      * \param filename name of the vtk file with the triangles to read in
      */
     particleList read(std::string filename);
