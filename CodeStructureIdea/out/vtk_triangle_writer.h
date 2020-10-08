@@ -1,6 +1,8 @@
 #ifndef VTK_TRIANGLE_WRITER_H
 #define VTK_TRIANGLE_WRITER_H
 
+#include <string>
+
 #include "triangle_writer.h"
 
 /** \class vtkTriangleWriter

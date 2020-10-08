@@ -1,3 +1,5 @@
+#include <string>
+
 #include <Partio.h>
 
 partioParticleReader::partioParticleReader() {}
@@ -8,6 +10,7 @@ particleList partioParticleReader::read(std::string filename) {
     Partio::ParticleAttribute posAttr;
     if (!data->attributeInfo("position", posAttr)
         || (posAttr.type != Partio::FLOAT && posAttr.type != Partio::VECTOR) || posAttr.count != 3) {
+        // TODO: use assertion or exception
         std::cerr << "Failed to get proper position attribute" << std::endl;
     }   
 

@@ -1,7 +1,8 @@
-#include <Eigen/Dense>
-#include "VTKStream.h"
+#include <array>
+#include <string>
+#include <vector>
 
-using Vector3f = Eigen::Matrix<float, 3, 1, Eigen::DontAlign>;
+#include "VTKStream.h"
 
 vtkParticleReader::vtkParticleReader() {}
 

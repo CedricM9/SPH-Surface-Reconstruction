@@ -1,4 +1,7 @@
+#include <array>
 #include <cassert>
+#include <vector>
+
 #include "happly.h" 
 
 plyTriangleWriter::plyTriangleWriter() {}

@@ -1,6 +1,8 @@
 #ifndef PARTIO_PARTICLE_READER_H
 #define PARTIO_PARTICLE_READER_H
 
+#include <string>
+
 #include "particle_reader.h"
 
 /** \class partioParticleReader
@@ -11,7 +13,7 @@ class partioParticleReader : public particleReader {
   public:
     partioParticleReader();
 
-    /** \brief Funtion where the actual reading particles algorithm from partio files is implemented
+    /** \brief Function where the actual reading particles algorithm from partio files is implemented
      * \param filename name of the partio file with the particles to read in
      */
     particleList read(std::string filename);

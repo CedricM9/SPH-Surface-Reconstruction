@@ -1,3 +1,7 @@
+#include <array>
+#include <cassert>
+#include <vector>
+
 #include "VTKStream.h"
 
 vtkTriangleWriter::vtkTriangleWriter() {}

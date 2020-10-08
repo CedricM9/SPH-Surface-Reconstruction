@@ -1,6 +1,8 @@
 #ifndef VTK_TRIANGLE_READER_H
 #define VTK_TRIANGLE_READER_H
 
+#include <string>
+
 #include "triangle_reader.h"
 
 /** \class vtkTriangleReader
@@ -11,7 +13,7 @@ class vtkTriangleReader : public triangleReader {
   public:
     vtkTriangleReader();
 
-    /** \brief Funtion where the actual reading triangles algorithm from vtk files is implemented
+    /** \brief Function where the actual reading triangles algorithm from vtk files is implemented
      * \details This function converts a file of the format vtk to the data structure triangleList
      *  using the external library VTKStream.
      * \param filename name of the vtk file with the triangles to read in

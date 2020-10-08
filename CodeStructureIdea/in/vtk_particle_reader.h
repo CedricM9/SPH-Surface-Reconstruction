@@ -1,6 +1,8 @@
 #ifndef VTK_PARTICLE_READER_H
 #define VTK_PARTICLE_READER_H
 
+#include <string>
+
 #include "particle_reader.h"
 
 /** \class vtkParticleReader
@@ -11,7 +13,7 @@ class vtkParticleReader : public particleReader {
   public:
     vtkParticleReader();
 
-    /** \brief Funtion where the actual reading particles algorithm from vtk files is implemented
+    /** \brief Function where the actual reading particles algorithm from vtk files is implemented
      * \details This function converts a file of the format vtk to the data structure particleList
      *  using the external library VTKStream.
      * \param filename name of the vtk file with the particles to read in

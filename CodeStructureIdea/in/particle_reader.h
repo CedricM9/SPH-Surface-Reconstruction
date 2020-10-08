@@ -1,6 +1,8 @@
 #ifndef PARTICLE_READER_H
 #define PARTICLE_READER_H
 
+#include <string>
+
 #include "reader.h"
 
 /** \class particleReader
@@ -12,7 +14,7 @@ class particleReader : public reader {
   public:
     particleReader() {}
 
-    /** \brief Abstract funtion where the actual reading particles algorithm is implemented in the derived classes
+    /** \brief Abstract function where the actual reading particles algorithm is implemented in the derived classes
      * \param filename name of the file with the particles to read in
      */
     virtual particleList read(std::string filename) = 0;

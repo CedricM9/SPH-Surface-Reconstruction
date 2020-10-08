@@ -1,3 +1,9 @@
+#include <array>
+#include <string>
+#include <vector>
+
+#include "VTKstream.h"
+
 vtkTriangleReader::vtkTriangleReader() {}
 
 particleList vtkTriangleReader::read(std::string filename) {

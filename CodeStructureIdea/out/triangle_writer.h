@@ -1,6 +1,8 @@
 #ifndef TRIANGLE_WRITER_H
 #define TRIANGLE_WRITER_H
 
+#include <string>
+
 #include "writer.h"
 
 /** \class triangleWriter
@@ -12,7 +14,7 @@ class triangleWriter : public writer {
   public:
     triangleWriter() {}
 
-    /** \brief Abstract funtion where the actual writing triangles algorithm is implemented in the derived classes
+    /** \brief Abstract function where the actual writing triangles algorithm is implemented in the derived classes
      * \param filename name of the file to write the triangles to
      * \param list triangle list to write to the specified file
      */

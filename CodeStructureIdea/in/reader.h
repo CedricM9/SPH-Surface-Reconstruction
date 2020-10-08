@@ -14,7 +14,7 @@ class reader {
   public:
     reader() {}
 
-    /** \brief Abstract funtion where the actual reading algorithm is implemented in the derived classes
+    /** \brief Abstract function where the actual reading algorithm is implemented in the derived classes
      * \param filename name of the file with the data to read in
      */
     virtual particleList read(std::string filename) = 0;
