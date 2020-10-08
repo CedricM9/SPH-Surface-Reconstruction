@@ -8,6 +8,7 @@
 class particleList {
   public:
     particleList();
+    virtual ~particleList() = default;
     
     void addParticle(double x, double y, double z);
     void addParticle(particle p);
