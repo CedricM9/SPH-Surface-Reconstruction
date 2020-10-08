@@ -3,8 +3,8 @@
 
 #include "post_processor.h"
 
-#include <OpenMesh/Core/Mesh/PolyMesh_ArrayKernelT.hh>
-typedef OpenMesh::PolyMesh_ArrayKernelT<> MyMesh;
+#include <OpenMesh/Core/Mesh/TriMesh_ArrayKernelT.hh>
+typedef OpenMesh::TriMesh_ArrayKernelT<> MyMesh;
 
 
 /** \class openMeshProcessor

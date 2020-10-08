@@ -1,3 +1,9 @@
+#include <OpenMesh/Tools/Decimater/DecimaterT.hh>
+#include <OpenMesh/Tools/Decimater/ModQuadricT.hh>
+
+typedef OpenMesh::Decimater::DecimaterT<MyMesh> Decimater;
+typedef OpenMesh::Decimater::ModQuadricT<MyMesh>::Handle HModQuadric;
+
 openMeshProcessor::openMeshProcessor() {}
 
 triangleList openMeshProcessor::smooth(const triangleList& list) const {
@@ -39,6 +45,37 @@ triangleList openMeshProcessor::smooth(const triangleList& list) const {
 
 triangleList openMeshProcessor::simplify(const triangleList& list) const {
     // TODO: implement mesh decimation algorithm.
+
+    MyMesh mesh = getMeshFromTriangleList(list);
+    mesh.request_vertex_status();
+    
+    // Get an iterator over all halfedges
+    MyMesh::HalfedgeIter he_it, he_end=mesh.halfedges_end();
+
+    // If halfedge is boundary, lock the corresponding vertices
+    for (he_it = mesh.halfedges_begin(); he_it != he_end ; ++he_it) {
+        if (mesh.is_boundary(*he_it)) {
+            mesh.status(mesh.to_vertex_handle(*he_it)).set_locked(true);
+            mesh.status(mesh.from_vertex_handle(*he_it)).set_locked(true);
+        }
+    }
+
+    Decimater decimater(mesh);  // a decimater object, connected to a mesh
+    HModQuadric hModQuadric;    // use a quadric module
+    decimater.add(hModQuadric); // register module at the decimater
+
+    /*
+     * since we need exactly one priority module (non-binary)
+     * we have to call set_binary(false) for our priority module
+     * in the case of HModQuadric, unset_max_err() calls set_binary(false) internally
+     */
+    decimater.module(hModQuadric).unset_max_err();
+    decimater.initialize();
+    decimater.decimate();
+
+    // after decimation: remove decimated elements from the mesh
+    mesh.garbage_collection();
+
     return list;
 }
 
@@ -66,11 +103,12 @@ triangleList openMeshProcessor::getTriangleListFromMesh(const MyMesh& mesh) cons
     triangleList list;
 
     for (auto v_it = mesh.vertices_begin(); v_it != mesh.vertices_end(); ++v_it) {
-        list.addTriangle(mesh.point(*v_it)[0], mesh.point(*v_it)[1], mesh.point(*v_it)[2]);
+        list.addParticle(mesh.point(*v_it)[0], mesh.point(*v_it)[1], mesh.point(*v_it)[2]);
     }
 
     for (auto f_it = mesh.faces_begin(); f_it != mesh.faces_end(); ++f_it) {
-        //list.addParticle(mesh.face(*f_it)[0]); //[0], mesh.face(*f_it)[1], mesh.face(*f_it)[2]);
+        // TODO: get triangle indices
+        //list.addTriangle(mesh.face(*f_it)[0]); //[0], mesh.face(*f_it)[1], mesh.face(*f_it)[2]);
     }
 
     return list;

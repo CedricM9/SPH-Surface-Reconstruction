@@ -29,14 +29,15 @@ HAPPLY_INC_DIR=/media/sf_Software/happly
 OMESH_DIR=/home/corinna/openmesh
 OMESH_INC_DIR=$(OMESH_DIR)/include
 OMESH_LIB_DIR=$(OMESH_DIR)/lib
-OMESH_LIB=OpenMeshCore
+OMESH_CORE_LIB=OpenMeshCore
+OMESH_TOOLS_LIB=OpenMeshTools
 
 TEST=/media/sf_Software/CompactNSearch/src/CompactNSearch.cpp
 
 all : main.exe
 
 main.exe : main.cpp
-	$(CPPC) $(CPP_FLAGS) -I$(DATA_INC_DIR) -I$(KERNEL_INC_DIR) -I$(LEVEL_INC_DIR) -I$(NSEARCH_INC_DIR) -I$(POST_INC_DIR) -I$(ALG_INC_DIR) -I$(IN_INC_DIR) -I$(OUT_INC_DIR) -I$(CNSEARCH_INC_DIR) -I$(EIGEN_DIR) -I$(PARTIO_INC_DIR) -I$(VTKIO_DIR) -I$(HAPPLY_INC_DIR) -I$(OMESH_INC_DIR) -L$(PARTIO_LIB_DIR) -L$(OMESH_LIB_DIR) main.cpp $(TEST) -o main.exe $(PARTIO_LIB) -l$(OMESH_LIB) #-l$(CNSEARCH_LIB)
+	$(CPPC) $(CPP_FLAGS) -I$(DATA_INC_DIR) -I$(KERNEL_INC_DIR) -I$(LEVEL_INC_DIR) -I$(NSEARCH_INC_DIR) -I$(POST_INC_DIR) -I$(ALG_INC_DIR) -I$(IN_INC_DIR) -I$(OUT_INC_DIR) -I$(CNSEARCH_INC_DIR) -I$(EIGEN_DIR) -I$(PARTIO_INC_DIR) -I$(VTKIO_DIR) -I$(HAPPLY_INC_DIR) -I$(OMESH_INC_DIR) -L$(PARTIO_LIB_DIR) -L$(OMESH_LIB_DIR) main.cpp $(TEST) -o main.exe $(PARTIO_LIB) -l$(OMESH_CORE_LIB) -l$(OMESH_TOOLS_LIB) #-l$(CNSEARCH_LIB)
     
 doc:
 	cd doc && $(MAKE)
