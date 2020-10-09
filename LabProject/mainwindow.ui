@@ -285,7 +285,7 @@
       <x>10</x>
       <y>40</y>
       <width>351</width>
-      <height>431</height>
+      <height>401</height>
      </rect>
     </property>
    </widget>
@@ -352,6 +352,19 @@
      </rect>
     </property>
     <layout class="QVBoxLayout" name="viewportLayout"/>
+   </widget>
+   <widget class="QPushButton" name="loadPushButton">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>450</y>
+      <width>141</width>
+      <height>23</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Load selected Data</string>
+    </property>
    </widget>
   </widget>
   <widget class="QMenuBar" name="menubar">

@@ -1,6 +1,7 @@
 #pragma once
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
+using Vector3f = Eigen::Matrix<float, 3, 1, Eigen::DontAlign>;
 
 /*Constructor: Sets up the UI and the QTreeView on the left to show files on the local
 machine starting in C:/ */
@@ -9,7 +10,7 @@ MainWindow::MainWindow(QWidget *parent)
     , ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
-    QFileSystemModel *model = new QFileSystemModel;
+    model = new QFileSystemModel;
     model->setRootPath("C:/");
     ui->fileSelectTreeView->setModel(model);
 
@@ -33,9 +34,9 @@ MainWindow::MainWindow(QWidget *parent)
 
     //Set up camera
     cameraEntity->lens()->setPerspectiveProjection(45.0f, 16.0f/9.0f, 0.1f, 1000.0f);
-    cameraEntity->setPosition(QVector3D(-500, 0, 500.f));
+    cameraEntity->setPosition(QVector3D(-10, 0, 10));
     cameraEntity->setUpVector(QVector3D(0,0,1));
-    cameraEntity->setViewCenter(QVector3D(0, -200, 200));
+    cameraEntity->setViewCenter(QVector3D(0, 0, 0));
 
     //Set up light
     Qt3DCore::QEntity *lightEntity = new Qt3DCore::QEntity(rootEntity);
@@ -50,24 +51,23 @@ MainWindow::MainWindow(QWidget *parent)
     //Set up camera controls
     Qt3DExtras::QOrbitCameraController *camController = new Qt3DExtras::QOrbitCameraController(rootEntity);
     camController->setCamera(cameraEntity);
-    camController->setLinearSpeed(200);
-    camController->setLookSpeed(180.0f);
 
     //Loading .ply data
     QUrl data = QUrl("qrc:/resources/airplane.ply");
     qDebug() << data << data.isValid();
-    Qt3DRender::QMesh *bodyMesh = new Qt3DRender::QMesh();
-    bodyMesh->setMeshName("bodyMesh");
-    bodyMesh->setSource(data);
+    Qt3DRender::QMesh *sceneLoader = new Qt3DRender::QMesh();
+    sceneLoader->setMeshName("bodyMesh");
+    sceneLoader->setSource(data);
 
-    Qt3DCore::QTransform *bodyTransform = new Qt3DCore::QTransform;
+    Qt3DCore::QTransform *bodyTransform = new Qt3DCore::QTransform();
     bodyTransform->setScale3D(QVector3D(0.2, 0.2, 0.2));
+    bodyTransform->setTranslation(QVector3D(0, 0, 0));
 
     bodyMaterial = new Qt3DExtras::QPhongAlphaMaterial();
     bodyMaterial->setDiffuse(QColor(255, 0, 0, 127));
 
     plyEntity = new Qt3DCore::QEntity(rootEntity);
-    plyEntity->addComponent(bodyMesh);
+    plyEntity->addComponent(sceneLoader);
     plyEntity->addComponent(bodyMaterial);
     plyEntity->addComponent(bodyTransform);
 
@@ -136,3 +136,40 @@ void MainWindow::on_transparencySlider_valueChanged(int value)
 {
     bodyMaterial->setAlpha(value/100.0f);
 }
+
+void MainWindow::on_fileSelectTreeView_clicked(const QModelIndex &index)
+{
+    selectedIndex = index;
+}
+
+void MainWindow::on_loadPushButton_clicked()
+{
+    QString filePath = model->fileInfo(selectedIndex).absoluteFilePath();
+    std::string stringFilePath = filePath.toStdString();
+    std::vector<Vector3f> particleVector = io::read_particles_from_vtk(stringFilePath);
+    int numParticles = particleVector.size();
+    ui->numberParticlesLabel_2->setNum(numParticles);
+
+    QVector<Qt3DCore::QEntity*> sphereVector(numParticles);
+    QVector<Qt3DCore::QTransform*> sphereTransVector(numParticles);
+
+    sphereMaterial = new Qt3DExtras::QPhongAlphaMaterial();
+    sphereMaterial->setDiffuse(QColor(0, 255, 0, 127));
+
+    Qt3DExtras::QSphereMesh *sphereMesh = new Qt3DExtras::QSphereMesh();
+    sphereMesh->setRings(5);
+    sphereMesh->setSlices(5);
+    sphereMesh->setRadius(0.05);
+
+    for (int i=0; i<numParticles; i++) {
+        sphereTransVector[i] = new Qt3DCore::QTransform();
+        sphereTransVector[i]->setTranslation(QVector3D(particleVector[i](2), particleVector[i](0), particleVector[i](1)));
+        sphereVector[i] = new Qt3DCore::QEntity(rootEntity);
+        sphereVector[i]->addComponent(sphereMesh);
+        sphereVector[i]->addComponent(sphereMaterial);
+        sphereVector[i]->addComponent(sphereTransVector[i]);
+    }
+
+}
+
+

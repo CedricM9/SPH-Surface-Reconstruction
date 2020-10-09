@@ -15,6 +15,7 @@
 #include <Qt3DLogic>
 #include <Qt3DExtras>
 #include <Qt3DAnimation>
+#include "surfrec_io/code/io.h"
 
 
 QT_BEGIN_NAMESPACE
@@ -40,11 +41,19 @@ private slots:
 
     void on_transparencySlider_valueChanged(int value);
 
+    void on_loadPushButton_clicked();
+
+    void on_fileSelectTreeView_clicked(const QModelIndex &index);
+
 private:
     Ui::MainWindow *ui;
     int time;
     Qt3DCore::QEntity *rootEntity;
     Qt3DCore::QEntity *plyEntity;
+    Qt3DCore::QEntity *sphereEntity;
     Qt3DExtras::QPhongAlphaMaterial *bodyMaterial;
+    Qt3DExtras::QPhongAlphaMaterial *sphereMaterial;
+    QFileSystemModel *model;
+    QModelIndex selectedIndex;
 };
 #endif // MAINWINDOW_H
