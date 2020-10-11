@@ -30,12 +30,12 @@ MainWindow::MainWindow(QWidget *parent)
     //Root entity
     rootEntity = new Qt3DCore::QEntity();
 
-    Qt3DRender::QCamera *cameraEntity = view->camera();
+    cameraEntity = view->camera();
 
     //Set up camera
     cameraEntity->lens()->setPerspectiveProjection(45.0f, 16.0f/9.0f, 0.1f, 1000.0f);
-    cameraEntity->setPosition(QVector3D(-10, 0, 10));
-    cameraEntity->setUpVector(QVector3D(0,0,1));
+    cameraEntity->setPosition(QVector3D(-3.5f, 3.5f, 0));
+    cameraEntity->setUpVector(QVector3D(0,1,0));
     cameraEntity->setViewCenter(QVector3D(0, 0, 0));
 
     //Set up light
@@ -51,6 +51,8 @@ MainWindow::MainWindow(QWidget *parent)
     //Set up camera controls
     Qt3DExtras::QOrbitCameraController *camController = new Qt3DExtras::QOrbitCameraController(rootEntity);
     camController->setCamera(cameraEntity);
+    camController->setLinearSpeed(1.4f);
+    camController->setLookSpeed(75.0f);
 
     //Loading .ply data
     QUrl data = QUrl("qrc:/resources/airplane.ply");
@@ -73,6 +75,8 @@ MainWindow::MainWindow(QWidget *parent)
 
     //Set root Object of the scene
     view->setRootEntity(rootEntity);
+
+    sphereMesh = new Qt3DExtras::QSphereMesh();
 }
 
 //Destructor
@@ -156,14 +160,13 @@ void MainWindow::on_loadPushButton_clicked()
     sphereMaterial = new Qt3DExtras::QPhongAlphaMaterial();
     sphereMaterial->setDiffuse(QColor(0, 255, 0, 127));
 
-    Qt3DExtras::QSphereMesh *sphereMesh = new Qt3DExtras::QSphereMesh();
-    sphereMesh->setRings(5);
-    sphereMesh->setSlices(5);
-    sphereMesh->setRadius(0.05);
+    sphereMesh->setRings(3);
+    sphereMesh->setSlices(3);
+    sphereMesh->setRadius(0.02);
 
     for (int i=0; i<numParticles; i++) {
         sphereTransVector[i] = new Qt3DCore::QTransform();
-        sphereTransVector[i]->setTranslation(QVector3D(particleVector[i](2), particleVector[i](0), particleVector[i](1)));
+        sphereTransVector[i]->setTranslation(QVector3D(particleVector[i](2), particleVector[i](1), particleVector[i](0)));
         sphereVector[i] = new Qt3DCore::QEntity(rootEntity);
         sphereVector[i]->addComponent(sphereMesh);
         sphereVector[i]->addComponent(sphereMaterial);
@@ -173,3 +176,19 @@ void MainWindow::on_loadPushButton_clicked()
 }
 
 
+
+void MainWindow::on_resetCamPushButton_clicked()
+{
+    cameraEntity->setPosition(QVector3D(-3.5f, 3.5f, 0));
+    cameraEntity->setViewCenter(QVector3D(0, 0, 0));
+}
+
+void MainWindow::on_particlesCheckBox_stateChanged(int arg1)
+{
+    if (arg1 == 0) {
+        sphereMesh->setEnabled(false);
+    }
+    if(arg1 == 2) {
+        sphereMesh->setEnabled(true);
+    }
+}

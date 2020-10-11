@@ -45,12 +45,18 @@ private slots:
 
     void on_fileSelectTreeView_clicked(const QModelIndex &index);
 
+    void on_resetCamPushButton_clicked();
+
+    void on_particlesCheckBox_stateChanged(int arg1);
+
 private:
     Ui::MainWindow *ui;
     int time;
     Qt3DCore::QEntity *rootEntity;
     Qt3DCore::QEntity *plyEntity;
+    Qt3DRender::QCamera *cameraEntity;
     Qt3DCore::QEntity *sphereEntity;
+    Qt3DExtras::QSphereMesh *sphereMesh;
     Qt3DExtras::QPhongAlphaMaterial *bodyMaterial;
     Qt3DExtras::QPhongAlphaMaterial *sphereMaterial;
     QFileSystemModel *model;

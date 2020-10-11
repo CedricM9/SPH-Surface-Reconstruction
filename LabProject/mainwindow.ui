@@ -138,9 +138,9 @@
     <property name="geometry">
      <rect>
       <x>600</x>
-      <y>440</y>
+      <y>470</y>
       <width>661</width>
-      <height>191</height>
+      <height>161</height>
      </rect>
     </property>
     <property name="title">
@@ -161,12 +161,34 @@
         <property name="text">
          <string>Mesh Vertices</string>
         </property>
+        <property name="checked">
+         <bool>true</bool>
+        </property>
        </widget>
       </item>
-      <item row="2" column="1">
-       <widget class="QSlider" name="transparencySlider">
-        <property name="orientation">
-         <enum>Qt::Horizontal</enum>
+      <item row="2" column="0">
+       <widget class="QCheckBox" name="surfaceCheckBox">
+        <property name="text">
+         <string>Surface</string>
+        </property>
+        <property name="checked">
+         <bool>true</bool>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="0">
+       <widget class="QCheckBox" name="particlesCheckBox">
+        <property name="enabled">
+         <bool>true</bool>
+        </property>
+        <property name="text">
+         <string>Particles</string>
+        </property>
+        <property name="checked">
+         <bool>true</bool>
+        </property>
+        <property name="tristate">
+         <bool>false</bool>
         </property>
        </widget>
       </item>
@@ -180,17 +202,10 @@
         </property>
        </widget>
       </item>
-      <item row="2" column="0">
-       <widget class="QCheckBox" name="surfaceCheckBox">
-        <property name="text">
-         <string>Surface</string>
-        </property>
-       </widget>
-      </item>
-      <item row="0" column="0">
-       <widget class="QCheckBox" name="particlesCheckBox">
-        <property name="text">
-         <string>Particles</string>
+      <item row="2" column="1">
+       <widget class="QSlider" name="transparencySlider">
+        <property name="orientation">
+         <enum>Qt::Horizontal</enum>
         </property>
        </widget>
       </item>
@@ -273,7 +288,7 @@
        </property>
        <property name="icon">
         <iconset>
-         <normaloff>../../../../Henrik Müller/Pictures/Play-Icon.png</normaloff>../../../../Henrik Müller/Pictures/Play-Icon.png</iconset>
+         <normaloff>../../Henrik Müller/Pictures/Play-Icon.png</normaloff>../../Henrik Müller/Pictures/Play-Icon.png</iconset>
        </property>
       </widget>
      </item>
@@ -364,6 +379,19 @@
     </property>
     <property name="text">
      <string>Load selected Data</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="resetCamPushButton">
+    <property name="geometry">
+     <rect>
+      <x>610</x>
+      <y>440</y>
+      <width>101</width>
+      <height>23</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Reset Camera</string>
     </property>
    </widget>
   </widget>
