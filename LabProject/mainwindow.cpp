@@ -149,28 +149,63 @@ void MainWindow::on_fileSelectTreeView_clicked(const QModelIndex &index)
 void MainWindow::on_loadPushButton_clicked()
 {
     QString filePath = model->fileInfo(selectedIndex).absoluteFilePath();
-    std::string stringFilePath = filePath.toStdString();
-    std::vector<Vector3f> particleVector = io::read_particles_from_vtk(stringFilePath);
-    int numParticles = particleVector.size();
-    ui->numberParticlesLabel_2->setNum(numParticles);
+    if (filePath.back() == "k" && filePath.at(filePath.size()-2) == "t" && filePath.at(filePath.size()-3) == "v" && filePath.at(filePath.size()-4) == ".") {
+        std::string stringFilePath = filePath.toStdString();
+        std::vector<Vector3f> particleVector = io::read_particles_from_vtk(stringFilePath);
+        int numParticles = particleVector.size();
+        ui->numberParticlesLabel_2->setNum(numParticles);
 
-    QVector<Qt3DCore::QEntity*> sphereVector(numParticles);
-    QVector<Qt3DCore::QTransform*> sphereTransVector(numParticles);
+        QVector<Qt3DCore::QEntity*> sphereVector(numParticles);
+        QVector<Qt3DCore::QTransform*> sphereTransVector(numParticles);
 
-    sphereMaterial = new Qt3DExtras::QPhongAlphaMaterial();
-    sphereMaterial->setDiffuse(QColor(0, 255, 0, 127));
+        sphereMaterial = new Qt3DExtras::QDiffuseSpecularMaterial();
+        sphereMaterial->setAlphaBlendingEnabled(false);
+        sphereMaterial->setDiffuse(QColor(0, 255, 0, 255));
 
-    sphereMesh->setRings(3);
-    sphereMesh->setSlices(3);
-    sphereMesh->setRadius(0.02);
+        sphereMesh->setRings(3);
+        sphereMesh->setSlices(3);
+        sphereMesh->setRadius(0.02);
 
-    for (int i=0; i<numParticles; i++) {
-        sphereTransVector[i] = new Qt3DCore::QTransform();
-        sphereTransVector[i]->setTranslation(QVector3D(particleVector[i](2), particleVector[i](1), particleVector[i](0)));
-        sphereVector[i] = new Qt3DCore::QEntity(rootEntity);
-        sphereVector[i]->addComponent(sphereMesh);
-        sphereVector[i]->addComponent(sphereMaterial);
-        sphereVector[i]->addComponent(sphereTransVector[i]);
+        for (int i=0; i<numParticles; i++) {
+            sphereTransVector[i] = new Qt3DCore::QTransform();
+            sphereTransVector[i]->setTranslation(QVector3D(particleVector[i](2), particleVector[i](1), particleVector[i](0)));
+            sphereVector[i] = new Qt3DCore::QEntity(rootEntity);
+            sphereVector[i]->addComponent(sphereMesh);
+            sphereVector[i]->addComponent(sphereMaterial);
+            sphereVector[i]->addComponent(sphereTransVector[i]);
+        }
+    }
+    else if (filePath.back() == "o" && filePath.at(filePath.size()-2) == "e" && filePath.at(filePath.size()-3) == "g"
+            && filePath.at(filePath.size()-4) == "b" && filePath.at(filePath.size()-5) == ".") {
+        std::string stringFilePath = filePath.toStdString();
+        std::vector<Vector3f> particleVector = io::read_particles_from_bgeo(stringFilePath);
+        int numParticles = particleVector.size();
+        ui->numberParticlesLabel_2->setNum(numParticles);
+
+        QVector<Qt3DCore::QEntity*> sphereVector(numParticles);
+        QVector<Qt3DCore::QTransform*> sphereTransVector(numParticles);
+
+        sphereMaterial = new Qt3DExtras::QDiffuseSpecularMaterial();
+        sphereMaterial->setAlphaBlendingEnabled(false);
+        sphereMaterial->setDiffuse(QColor(0, 255, 0, 255));
+
+        sphereMesh->setRings(3);
+        sphereMesh->setSlices(3);
+        sphereMesh->setRadius(0.02);
+
+        for (int i=0; i<numParticles; i++) {
+            sphereTransVector[i] = new Qt3DCore::QTransform();
+            sphereTransVector[i]->setTranslation(QVector3D(particleVector[i](2), particleVector[i](1), particleVector[i](0)));
+            sphereVector[i] = new Qt3DCore::QEntity(rootEntity);
+            sphereVector[i]->addComponent(sphereMesh);
+            sphereVector[i]->addComponent(sphereMaterial);
+            sphereVector[i]->addComponent(sphereTransVector[i]);
+        }
+    }
+    else {
+        QErrorMessage errorMessage;
+        errorMessage.showMessage("Please select a .vtk, .bgeo or .ply file");
+        errorMessage.exec();
     }
 
 }
@@ -181,6 +216,7 @@ void MainWindow::on_resetCamPushButton_clicked()
 {
     cameraEntity->setPosition(QVector3D(-3.5f, 3.5f, 0));
     cameraEntity->setViewCenter(QVector3D(0, 0, 0));
+    cameraEntity->setUpVector(QVector3D(0,1,0));
 }
 
 void MainWindow::on_particlesCheckBox_stateChanged(int arg1)

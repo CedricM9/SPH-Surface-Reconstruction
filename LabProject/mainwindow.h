@@ -7,6 +7,7 @@
 #include <QFileSystemModel>
 #include <QMainWindow>
 #include <QMessageBox>
+#include <QErrorMessage>
 #include <QTimer>
 #include <QTreeView>
 #include <Qt3DCore>
@@ -58,7 +59,7 @@ private:
     Qt3DCore::QEntity *sphereEntity;
     Qt3DExtras::QSphereMesh *sphereMesh;
     Qt3DExtras::QPhongAlphaMaterial *bodyMaterial;
-    Qt3DExtras::QPhongAlphaMaterial *sphereMaterial;
+    Qt3DExtras::QDiffuseSpecularMaterial *sphereMaterial;
     QFileSystemModel *model;
     QModelIndex selectedIndex;
 };

@@ -33,10 +33,8 @@ THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGES.
 */
 
-#ifdef PARTIO_USE_ZLIB
-extern "C"{
-#   include <zlib.h>
-}
+#ifndef PARTIO_WIN32
+#include <zlib.h>
 #endif
 
 #include <cassert>
@@ -132,7 +130,7 @@ struct GZipFileHeader
 //#####################################################################
 };
 
-#ifdef PARTIO_USE_ZLIB
+#ifndef PARTIO_WIN32
 
 
 //#####################################################################

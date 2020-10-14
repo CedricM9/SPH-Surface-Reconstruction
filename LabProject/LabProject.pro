@@ -19,6 +19,24 @@ SOURCES += \
     main.cpp \
     mainwindow.cpp \
     surfrec_io/code/io.cpp \
+    surfrec_io/extern/partio/src/lib/core/Particle.cpp \
+    surfrec_io/extern/partio/src/lib/core/ParticleCaching.cpp \
+    surfrec_io/extern/partio/src/lib/core/ParticleHeaders.cpp \
+    surfrec_io/extern/partio/src/lib/core/ParticleSimple.cpp \
+    surfrec_io/extern/partio/src/lib/core/ParticleSimpleInterleave.cpp \
+    surfrec_io/extern/partio/src/lib/io/BGEO.cpp \
+    surfrec_io/extern/partio/src/lib/io/BIN.cpp \
+    surfrec_io/extern/partio/src/lib/io/GEO.cpp \
+    surfrec_io/extern/partio/src/lib/io/MC.cpp \
+    surfrec_io/extern/partio/src/lib/io/PDA.cpp \
+    surfrec_io/extern/partio/src/lib/io/PDB.cpp \
+    surfrec_io/extern/partio/src/lib/io/PDC.cpp \
+    surfrec_io/extern/partio/src/lib/io/PRT.cpp \
+    surfrec_io/extern/partio/src/lib/io/PTC.cpp \
+    surfrec_io/extern/partio/src/lib/io/PTS.cpp \
+    surfrec_io/extern/partio/src/lib/io/ParticleIO.cpp \
+    surfrec_io/extern/partio/src/lib/io/RIB.cpp \
+    surfrec_io/extern/partio/src/lib/io/ZIP.cpp \
     surfrec_io/extern/zlib/src/adler32.c \
     surfrec_io/extern/zlib/src/compress.c \
     surfrec_io/extern/zlib/src/crc32.c \
@@ -365,6 +383,22 @@ HEADERS += \
     surfrec_io/extern/Eigen/Eigen/src/plugins/MatrixCwiseUnaryOps.h \
     surfrec_io/extern/Eigen/Eigen/src/plugins/ReshapedMethods.h \
     surfrec_io/extern/happly.h \
+    surfrec_io/extern/partio/src/lib/Partio.h \
+    surfrec_io/extern/partio/src/lib/PartioAttribute.h \
+    surfrec_io/extern/partio/src/lib/PartioConfig.h \
+    surfrec_io/extern/partio/src/lib/PartioIterator.h \
+    surfrec_io/extern/partio/src/lib/PartioVec3.h \
+    surfrec_io/extern/partio/src/lib/core/KdTree.h \
+    surfrec_io/extern/partio/src/lib/core/Mutex.h \
+    surfrec_io/extern/partio/src/lib/core/ParticleCaching.h \
+    surfrec_io/extern/partio/src/lib/core/ParticleHeaders.h \
+    surfrec_io/extern/partio/src/lib/core/ParticleSimple.h \
+    surfrec_io/extern/partio/src/lib/core/ParticleSimpleInterleave.h \
+    surfrec_io/extern/partio/src/lib/io/PartioEndian.h \
+    surfrec_io/extern/partio/src/lib/io/ZIP.h \
+    surfrec_io/extern/partio/src/lib/io/half2float.h \
+    surfrec_io/extern/partio/src/lib/io/pdb.h \
+    surfrec_io/extern/partio/src/lib/io/readers.h \
     surfrec_io/extern/vtkio/ByteBuffer.h \
     surfrec_io/extern/vtkio/VTKStream.h \
     surfrec_io/extern/vtkio/dynamic_types.h \
@@ -397,4 +431,7 @@ RESOURCES += \
 DISTFILES += \
     surfrec_io/extern/Eigen/CMakeLists.txt \
     surfrec_io/extern/Eigen/signature_of_eigen3_matrix_library \
+    surfrec_io/extern/partio/CMakeLists.txt \
+    surfrec_io/extern/partio/README \
+    surfrec_io/extern/partio/src/lib/CMakeLists.txt \
     surfrec_io/extern/zlib/CMakeLists.txt

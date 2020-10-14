@@ -39,7 +39,7 @@ Modifications from: github user: redpawfx (redpawFX@gmail.com)  and Luma Picture
 
 */
 #ifndef PARTIO_WIN32
-#ifdef PARTIO_USE_ZLIB
+#define PARTIO_USE_ZLIB
 #include "../Partio.h"
 #include "PartioEndian.h"
 #include "../core/ParticleHeaders.h"
@@ -430,7 +430,7 @@ bool writePRT(const char* filename,const ParticlesData& p,const bool /*compresse
 }
 
 }
-#else
+#ifdef PARTIO_WIN32
 #include "../Partio.h"
 #include <iostream>
 #include <fstream>

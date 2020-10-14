@@ -481,9 +481,10 @@ namespace vtkio
 					std::getline(line_stream, dim_str);
 
 					std::getline(input, line_buffer);
-					if (line_buffer.substr(0, 20) != "LOOKUP_TABLE default") {
-						throw std::invalid_argument("Only 'LOOKUP_TABLE default' supported.");
-					}
+                    if (line_buffer.substr(0, 20) != "LOOKUP_TABLE default" && line_buffer.substr(0, 21) != "LOOKUP_TABLE id_table") {
+
+                        throw std::invalid_argument("Only 'LOOKUP_TABLE default' and 'LOOKUP_TABLE id_table' supported.");
+                    }
 					readDataSeries(point_data, is_binary, label, vtkio::tables::AttributeType::Scalars, data_type_str, dim_str, n_entities);
 				}
 				else if (line_buffer.substr(0, 7) == "VECTORS") {

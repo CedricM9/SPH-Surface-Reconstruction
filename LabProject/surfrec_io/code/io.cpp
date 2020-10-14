@@ -1,5 +1,5 @@
+#define PARTIO_USE_ZLIB
 #include "io.h"
-
 std::vector<Vector3f> io::read_particles_from_vtk(const std::string path)
 {
 	constexpr float MAX_FLOAT = std::numeric_limits<float>::max();
@@ -43,7 +43,7 @@ std::vector<Vector3f> io::read_particles_from_vtk(const std::string path, const 
 	return particles_in_AABB;
 }
 
-/*std::vector<Vector3f> io::read_particles_from_bgeo(const std::string path)
+std::vector<Vector3f> io::read_particles_from_bgeo(const std::string path)
 {
 	constexpr float MAX_FLOAT = std::numeric_limits<float>::max();
 	Eigen::AlignedBox3f empty_aabb;
@@ -53,7 +53,7 @@ std::vector<Vector3f> io::read_particles_from_vtk(const std::string path, const 
 
 std::vector<Vector3f> io::read_particles_from_bgeo(const std::string path, const Eigen::AlignedBox3f& aabb, const float ghost_distance)
 {
-    double t0 = omp_get_wtime();
+    //double t0 = omp_get_wtime();
 	std::cout << "io::read_from_bgeo started... ";
 
 
@@ -110,10 +110,10 @@ std::vector<Vector3f> io::read_particles_from_bgeo(const std::string path, const
 		}
 	}
 
-    double t1 = omp_get_wtime();
-    std::cout << "finished.  " << t1 - t0 << " s." << std::endl;
+    //double t1 = omp_get_wtime();
+    //std::cout << "finished.  " << t1 - t0 << " s." << std::endl;
 	return particles;
-} */
+}
 
 void io::write_trimesh_to_vtk(const std::string path, const std::vector<Vector3f>& vertices, const std::vector<std::array<int, 3>>& triangles)
 {
