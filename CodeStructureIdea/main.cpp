@@ -17,6 +17,8 @@
 
 #include "marching_cubes_reconstructor.h"
 
+#include "open_mesh_processor.h"
+
 int main() {
     // Create particles.
     particle p1(1.0, 0.0, 0.0), p2(0.0, 1.0, 0.0);
@@ -43,7 +45,7 @@ int main() {
     partioParticleReader partioParticleIn;
     particles = partioParticleIn.read("/media/sf_Software_Lab/SPH-Surface-Reconstruction/SimulationOutputTestData/bgeo/ParticleData_Fluid_163.bgeo");
     vtkParticleReader vtkParticleIn;
-    particles = vtkParticleIn.read("filename.vtk");
+    //particles = vtkParticleIn.read("/media/sf_Software_Lab/SPH-Surface-Reconstruction/SimulationOutputTestData/vtk/ParticleData_Fluid_163.vtk");
     vtkTriangleReader vtkTriangleIn;
     particles = vtkTriangleIn.read("filename.vtk");
 
@@ -70,7 +72,15 @@ int main() {
 
     // Reconstruct a surface using marching cubes algorithm.
     marchingCubesReconstructor reconstructor;
-    triangleList result = reconstructor.reconstruct(particles, levelSetPointer, nSearchPointer, kernelPointer);
+    //triangleList result = reconstructor.reconstruct(particles, levelSetPointer, nSearchPointer, kernelPointer);
+    particleList vertices;
+    for (int i = 0; i < 8; ++i) vertices.addParticle(p1);
+    triangleList result = triangles;  // reconstructor.reconstruct(vertices, {}, particles, levelSetPointer, nSearchPointer, kernelPointer);
+
+    // Postprocessing.
+    openMeshProcessor postprocessor;
+    result = postprocessor.smooth(result);
+    result = postprocessor.simplify(result);
 
     return 0;
 }

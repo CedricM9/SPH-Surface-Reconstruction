@@ -15,10 +15,16 @@ class surfaceReconstructor {
   public:
     surfaceReconstructor() {}
 
-    virtual triangleList reconstruct(const particleList& particles,
+    /*virtual triangleList reconstruct(const particleList& particles,
                                      std::shared_ptr<levelSetFunction> levelSetPointer,
                                      std::shared_ptr<compactNeighborhoodSearch> nSearchPointer,
-                                     std::shared_ptr<SPHInterpolationKernel>) = 0;
+                                     std::shared_ptr<SPHInterpolationKernel>) = 0; */
+    virtual triangleList reconstruct(const particleList& verticeCoordinates,
+                             const double verticeISO[8],
+                             particleList& particles,
+                             std::shared_ptr<levelSetFunction> levelSetPointer,
+                             std::shared_ptr<compactNeighborhoodSearch> nSearchPointer,
+                             std::shared_ptr<SPHInterpolationKernel> kernelPointer) = 0;
 };
 
 #endif // SURFACE_RECONSTRUCTOR_H

@@ -1,6 +1,6 @@
 triangleList marchingCubesReconstructor::reconstruct(
   const particleList& verticeCoordinates,
-  const verticeISO[8],
+  const double verticeISO[8],
   particleList& particles,
   std::shared_ptr<levelSetFunction> levelSetPointer,
   std::shared_ptr<compactNeighborhoodSearch> nSearchPointer,
@@ -25,7 +25,7 @@ triangleList marchingCubesReconstructor::reconstruct(
 
 
    //Creates Vector that includes Intersected Edges
-   vector<int> intersectedEdges;
+   std::vector<int> intersectedEdges;
        for(int i=0; i<16; i++) {
            if (geometryTable[geometryIdentifier][i] != -1){
                intersectedEdges.push_back(geometryTable[geometryIdentifier][i]);
@@ -38,10 +38,8 @@ triangleList marchingCubesReconstructor::reconstruct(
 
     //Linear Interpolation of Intersection Coordinates
 	for (int i=0; i<intersectedEdges.size(); i++) {
-	    particle p1();
-	    p1.equals(verticeCoordinates.getParticle(edgeTable[intersectedEdges[i]][0]));	
-	    particle p2();
-	    p2.equals(verticeCoordinates.getParticle(edgeTable[intersectedEdges[i]][1]));
+	    particle p1(verticeCoordinates.getParticle(edgeTable[intersectedEdges[i]][0]));	
+	    particle p2(verticeCoordinates.getParticle(edgeTable[intersectedEdges[i]][1]));
 
 	    double iso1 = verticeISO[edgeTable[intersectedEdges[i]][0]];
 	    double iso2 = verticeISO[edgeTable[intersectedEdges[i]][1]];
