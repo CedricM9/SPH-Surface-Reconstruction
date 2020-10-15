@@ -5,6 +5,7 @@
 
 #include "particle_list.h"
 #include "triangle_list.h"
+#include "graph.h"
 
 #include "level_set_function.h"
 #include "compact_neighborhood_search.h"
