@@ -44,22 +44,36 @@ private slots:
 
     void on_loadPushButton_clicked();
 
+    void loadParticleData(QString filePath);
+
+    void loadSurfaceData(QString filePath);
+
     void on_fileSelectTreeView_clicked(const QModelIndex &index);
 
     void on_resetCamPushButton_clicked();
 
     void on_particlesCheckBox_stateChanged(int arg1);
 
+    void on_prevFramePushButton_clicked();
+
+    void on_nextFramePushButton_clicked();
+
+    void on_checkBox_stateChanged(int arg1);
+
 private:
     Ui::MainWindow *ui;
     int time;
     Qt3DCore::QEntity *rootEntity;
-    Qt3DCore::QEntity *plyEntity;
+    Qt3DCore::QEntity *surfaceEntity;
     Qt3DRender::QCamera *cameraEntity;
     Qt3DCore::QEntity *sphereEntity;
+    Qt3DRender::QMesh *surfaceMesh;
     Qt3DExtras::QSphereMesh *sphereMesh;
-    Qt3DExtras::QPhongAlphaMaterial *bodyMaterial;
+    Qt3DExtras::QDiffuseSpecularMaterial *surfaceMaterial;
     Qt3DExtras::QDiffuseSpecularMaterial *sphereMaterial;
+    QVector<Qt3DCore::QEntity*> sphereVector;
+    Qt3DCore::QTransform *surfaceTransform;
+    QVector<Qt3DCore::QTransform*> sphereTransVector;
     QFileSystemModel *model;
     QModelIndex selectedIndex;
 };

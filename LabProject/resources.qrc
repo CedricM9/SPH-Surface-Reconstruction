@@ -2,5 +2,8 @@
     <qresource prefix="/resources">
         <file>airplane.ply</file>
         <file>bunny.bgeo</file>
+        <file>beethoven.ply</file>
+        <file>cow.ply</file>
     </qresource>
+    <qresource prefix="/"/>
 </RCC>

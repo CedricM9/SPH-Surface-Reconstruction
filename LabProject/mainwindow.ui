@@ -157,22 +157,32 @@
      </property>
      <layout class="QGridLayout" name="viewportGridLayout">
       <item row="1" column="0">
-       <widget class="QCheckBox" name="verticesCheckBox">
-        <property name="text">
-         <string>Mesh Vertices</string>
-        </property>
-        <property name="checked">
-         <bool>true</bool>
-        </property>
-       </widget>
-      </item>
-      <item row="2" column="0">
        <widget class="QCheckBox" name="surfaceCheckBox">
         <property name="text">
          <string>Surface</string>
         </property>
         <property name="checked">
          <bool>true</bool>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="2">
+       <widget class="QSlider" name="transparencySlider">
+        <property name="maximum">
+         <number>100</number>
+        </property>
+        <property name="orientation">
+         <enum>Qt::Horizontal</enum>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="3">
+       <widget class="QSpinBox" name="transparencySpinBox">
+        <property name="maximum">
+         <number>100</number>
+        </property>
+        <property name="singleStep">
+         <number>1</number>
         </property>
        </widget>
       </item>
@@ -192,20 +202,16 @@
         </property>
        </widget>
       </item>
-      <item row="2" column="2">
-       <widget class="QSpinBox" name="transparencySpinBox">
-        <property name="maximum">
-         <number>100</number>
+      <item row="1" column="1">
+       <widget class="QCheckBox" name="checkBox">
+        <property name="enabled">
+         <bool>true</bool>
         </property>
-        <property name="singleStep">
-         <number>1</number>
+        <property name="text">
+         <string>Transparency</string>
         </property>
-       </widget>
-      </item>
-      <item row="2" column="1">
-       <widget class="QSlider" name="transparencySlider">
-        <property name="orientation">
-         <enum>Qt::Horizontal</enum>
+        <property name="checked">
+         <bool>false</bool>
         </property>
        </widget>
       </item>
@@ -392,6 +398,32 @@
     </property>
     <property name="text">
      <string>Reset Camera</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="nextFramePushButton">
+    <property name="geometry">
+     <rect>
+      <x>1164</x>
+      <y>440</y>
+      <width>91</width>
+      <height>23</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Next Frame</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="prevFramePushButton">
+    <property name="geometry">
+     <rect>
+      <x>1060</x>
+      <y>440</y>
+      <width>91</width>
+      <height>23</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Previous Frame</string>
     </property>
    </widget>
   </widget>

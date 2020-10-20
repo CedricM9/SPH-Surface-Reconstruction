@@ -1,6 +1,7 @@
 #pragma once
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
+
 using Vector3f = Eigen::Matrix<float, 3, 1, Eigen::DontAlign>;
 
 /*Constructor: Sets up the UI and the QTreeView on the left to show files on the local
@@ -55,23 +56,25 @@ MainWindow::MainWindow(QWidget *parent)
     camController->setLookSpeed(75.0f);
 
     //Loading .ply data
-    QUrl data = QUrl("qrc:/resources/airplane.ply");
+    QUrl data = QUrl("qrc:/resources/cow.ply");
     qDebug() << data << data.isValid();
-    Qt3DRender::QMesh *sceneLoader = new Qt3DRender::QMesh();
-    sceneLoader->setMeshName("bodyMesh");
-    sceneLoader->setSource(data);
+    surfaceMesh = new Qt3DRender::QMesh();
+    surfaceMesh->setMeshName("surfaceMesh");
+    surfaceMesh->setSource(data);
 
-    Qt3DCore::QTransform *bodyTransform = new Qt3DCore::QTransform();
-    bodyTransform->setScale3D(QVector3D(0.2, 0.2, 0.2));
-    bodyTransform->setTranslation(QVector3D(0, 0, 0));
+    surfaceTransform = new Qt3DCore::QTransform();
+    surfaceTransform->setScale3D(QVector3D(1, 1, 1));
+    surfaceTransform->setTranslation(QVector3D(0, 0, 0));
+    surfaceTransform->setRotationY(180.0f);
 
-    bodyMaterial = new Qt3DExtras::QPhongAlphaMaterial();
-    bodyMaterial->setDiffuse(QColor(255, 0, 0, 127));
+    surfaceMaterial = new Qt3DExtras::QDiffuseSpecularMaterial();
+    surfaceMaterial->setAlphaBlendingEnabled(false);
+    surfaceMaterial->setDiffuse(QColor(255, 0, 0, 255));
 
-    plyEntity = new Qt3DCore::QEntity(rootEntity);
-    plyEntity->addComponent(sceneLoader);
-    plyEntity->addComponent(bodyMaterial);
-    plyEntity->addComponent(bodyTransform);
+    surfaceEntity = new Qt3DCore::QEntity(rootEntity);
+    surfaceEntity->addComponent(surfaceMesh);
+    surfaceEntity->addComponent(surfaceMaterial);
+    surfaceEntity->addComponent(surfaceTransform);
 
     //Set root Object of the scene
     view->setRootEntity(rootEntity);
@@ -138,7 +141,8 @@ void MainWindow::on_exportPushButton_clicked()
 
 void MainWindow::on_transparencySlider_valueChanged(int value)
 {
-    bodyMaterial->setAlpha(value/100.0f);
+    surfaceMaterial->setDiffuse(QColor(255, 0, 0, (100-value)*2.55f));
+    surfaceMaterial->setSpecular(QColor(255, 0, 0, (100-value)*2.55f));
 }
 
 void MainWindow::on_fileSelectTreeView_clicked(const QModelIndex &index)
@@ -149,58 +153,17 @@ void MainWindow::on_fileSelectTreeView_clicked(const QModelIndex &index)
 void MainWindow::on_loadPushButton_clicked()
 {
     QString filePath = model->fileInfo(selectedIndex).absoluteFilePath();
-    if (filePath.back() == "k" && filePath.at(filePath.size()-2) == "t" && filePath.at(filePath.size()-3) == "v" && filePath.at(filePath.size()-4) == ".") {
-        std::string stringFilePath = filePath.toStdString();
-        std::vector<Vector3f> particleVector = io::read_particles_from_vtk(stringFilePath);
-        int numParticles = particleVector.size();
-        ui->numberParticlesLabel_2->setNum(numParticles);
-
-        QVector<Qt3DCore::QEntity*> sphereVector(numParticles);
-        QVector<Qt3DCore::QTransform*> sphereTransVector(numParticles);
-
-        sphereMaterial = new Qt3DExtras::QDiffuseSpecularMaterial();
-        sphereMaterial->setAlphaBlendingEnabled(false);
-        sphereMaterial->setDiffuse(QColor(0, 255, 0, 255));
-
-        sphereMesh->setRings(3);
-        sphereMesh->setSlices(3);
-        sphereMesh->setRadius(0.02);
-
-        for (int i=0; i<numParticles; i++) {
-            sphereTransVector[i] = new Qt3DCore::QTransform();
-            sphereTransVector[i]->setTranslation(QVector3D(particleVector[i](2), particleVector[i](1), particleVector[i](0)));
-            sphereVector[i] = new Qt3DCore::QEntity(rootEntity);
-            sphereVector[i]->addComponent(sphereMesh);
-            sphereVector[i]->addComponent(sphereMaterial);
-            sphereVector[i]->addComponent(sphereTransVector[i]);
-        }
+    if (filePath.back() == "k" && filePath.at(filePath.size()-2) == "t" && filePath.at(filePath.size()-3) == "v"
+            && filePath.at(filePath.size()-4) == ".") {
+        loadParticleData(filePath);
     }
     else if (filePath.back() == "o" && filePath.at(filePath.size()-2) == "e" && filePath.at(filePath.size()-3) == "g"
             && filePath.at(filePath.size()-4) == "b" && filePath.at(filePath.size()-5) == ".") {
-        std::string stringFilePath = filePath.toStdString();
-        std::vector<Vector3f> particleVector = io::read_particles_from_bgeo(stringFilePath);
-        int numParticles = particleVector.size();
-        ui->numberParticlesLabel_2->setNum(numParticles);
-
-        QVector<Qt3DCore::QEntity*> sphereVector(numParticles);
-        QVector<Qt3DCore::QTransform*> sphereTransVector(numParticles);
-
-        sphereMaterial = new Qt3DExtras::QDiffuseSpecularMaterial();
-        sphereMaterial->setAlphaBlendingEnabled(false);
-        sphereMaterial->setDiffuse(QColor(0, 255, 0, 255));
-
-        sphereMesh->setRings(3);
-        sphereMesh->setSlices(3);
-        sphereMesh->setRadius(0.02);
-
-        for (int i=0; i<numParticles; i++) {
-            sphereTransVector[i] = new Qt3DCore::QTransform();
-            sphereTransVector[i]->setTranslation(QVector3D(particleVector[i](2), particleVector[i](1), particleVector[i](0)));
-            sphereVector[i] = new Qt3DCore::QEntity(rootEntity);
-            sphereVector[i]->addComponent(sphereMesh);
-            sphereVector[i]->addComponent(sphereMaterial);
-            sphereVector[i]->addComponent(sphereTransVector[i]);
-        }
+        loadParticleData(filePath);
+    }
+    else if (filePath.back() == "y" && filePath.at(filePath.size()-2) == "l" && filePath.at(filePath.size()-3) == "p"
+            && filePath.at(filePath.size()-4) == ".") {
+        loadSurfaceData(filePath);
     }
     else {
         QErrorMessage errorMessage;
@@ -210,8 +173,93 @@ void MainWindow::on_loadPushButton_clicked()
 
 }
 
+//Loads and displays particles from .bgeo or .vtk file format
+void MainWindow::loadParticleData(QString filePath)
+{
+    int numParticles = 0;
+    std::vector<Vector3f> particleVector;
+    if (filePath.back() == "k" && filePath.at(filePath.size()-2) == "t" && filePath.at(filePath.size()-3) == "v"
+            && filePath.at(filePath.size()-4) == ".") {
+        std::string stringFilePath = filePath.toStdString();
+        particleVector = io::read_particles_from_vtk(stringFilePath);
+    }
+    else if (filePath.back() == "o" && filePath.at(filePath.size()-2) == "e" && filePath.at(filePath.size()-3) == "g"
+            && filePath.at(filePath.size()-4) == "b" && filePath.at(filePath.size()-5) == ".") {
+        std::string stringFilePath = filePath.toStdString();
+        particleVector = io::read_particles_from_bgeo(stringFilePath);
+    }
 
+    numParticles = particleVector.size();
+    ui->numberParticlesLabel_2->setNum(numParticles);
 
+    //If the number of particles did not change, the particles will only be moved
+    if (numParticles == sphereVector.size() && sphereVector.isEmpty() == false) {
+        for (int i=0; i<numParticles; i++) {
+            sphereTransVector[i]->setTranslation(QVector3D(particleVector[i](2), particleVector[i](1), particleVector[i](0)));
+        }
+    }
+
+    //If there were no particles at all before, the particles will be initialized
+    else if(sphereVector.isEmpty() == true) {
+                sphereVector.resize(numParticles);
+                sphereTransVector.resize(numParticles);
+
+                sphereMaterial = new Qt3DExtras::QDiffuseSpecularMaterial();
+                sphereMaterial->setAlphaBlendingEnabled(false);
+                sphereMaterial->setDiffuse(QColor(0, 255, 0, 255));
+
+                sphereMesh->setRings(3);
+                sphereMesh->setSlices(3);
+                sphereMesh->setRadius(0.02);
+
+                for (int i=0; i<numParticles; i++) {
+                    sphereTransVector[i] = new Qt3DCore::QTransform();
+                    sphereTransVector[i]->setTranslation(QVector3D(particleVector[i](2), particleVector[i](1), particleVector[i](0)));
+                    sphereVector[i] = new Qt3DCore::QEntity(rootEntity);
+                    sphereVector[i]->addComponent(sphereMesh);
+                    sphereVector[i]->addComponent(sphereMaterial);
+                    sphereVector[i]->addComponent(sphereTransVector[i]);
+                }
+    }
+
+    //If there are more particles than before, the new ones will be initialized, while the old ones will be moved
+    else if (numParticles > sphereVector.size()) {
+        int oldNumParticles = sphereVector.size();
+        sphereVector.resize(numParticles);
+        sphereTransVector.resize(numParticles);
+        for (int i = 0; i<oldNumParticles; i++) {
+            sphereTransVector[i]->setTranslation(QVector3D(particleVector[i](2), particleVector[i](1), particleVector[i](0)));
+        }
+        for (int i = oldNumParticles; i<numParticles; i++) {
+            sphereTransVector[i] = new Qt3DCore::QTransform();
+            sphereTransVector[i]->setTranslation(QVector3D(particleVector[i](2), particleVector[i](1), particleVector[i](0)));
+            sphereVector[i] = new Qt3DCore::QEntity(rootEntity);
+            sphereVector[i]->addComponent(sphereMesh);
+            sphereVector[i]->addComponent(sphereMaterial);
+            sphereVector[i]->addComponent(sphereTransVector[i]);
+        }
+    }
+
+    //If there are less particles than before, the superflous ones will be made invisible, while the others will be moved
+    else if (numParticles < sphereVector.size()) {
+        for (int i = numParticles; i<sphereVector.size(); i++) {
+            sphereVector[i]->setEnabled(false);
+        }
+        for (int i = 0; i<numParticles; i++) {
+            sphereTransVector[i]->setTranslation(QVector3D(particleVector[i](2), particleVector[i](1), particleVector[i](0)));
+        }
+    }
+}
+
+//Loads and displays surface mesh from .ply file format
+void MainWindow::loadSurfaceData(QString filePath)
+{
+    QUrl fileUrl = QUrl::fromLocalFile(QFileInfo(filePath).absoluteFilePath());
+    surfaceMesh->setSource(fileUrl);
+    surfaceTransform->setRotationY(0.0f);
+}
+
+//PushButton resets the camera to default position and angle
 void MainWindow::on_resetCamPushButton_clicked()
 {
     cameraEntity->setPosition(QVector3D(-3.5f, 3.5f, 0));
@@ -219,6 +267,7 @@ void MainWindow::on_resetCamPushButton_clicked()
     cameraEntity->setUpVector(QVector3D(0,1,0));
 }
 
+//Checkbox makes particles visible/invisible
 void MainWindow::on_particlesCheckBox_stateChanged(int arg1)
 {
     if (arg1 == 0) {
@@ -226,5 +275,27 @@ void MainWindow::on_particlesCheckBox_stateChanged(int arg1)
     }
     if(arg1 == 2) {
         sphereMesh->setEnabled(true);
+    }
+}
+
+void MainWindow::on_prevFramePushButton_clicked()
+{
+    selectedIndex = ui->fileSelectTreeView->indexAbove(selectedIndex);
+    on_loadPushButton_clicked();
+}
+
+void MainWindow::on_nextFramePushButton_clicked()
+{
+    selectedIndex = ui->fileSelectTreeView->indexBelow(selectedIndex);
+    on_loadPushButton_clicked();
+}
+
+void MainWindow::on_checkBox_stateChanged(int arg1)
+{
+    if (arg1 == 0) {
+        surfaceMaterial->setAlphaBlendingEnabled(false);
+    }
+    if(arg1 == 2) {
+        surfaceMaterial->setAlphaBlendingEnabled(true);
     }
 }
