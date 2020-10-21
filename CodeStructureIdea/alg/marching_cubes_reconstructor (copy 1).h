@@ -12,7 +12,7 @@ class marchingCubesReconstructor : public surfaceReconstructor {
     graph createGrid(particleList& particles,
                      int accuracy);
 
-    triangleList reconstruct(const graph& g,
+    triangleList reconstruct(graph& g,
                              const particleList& particles,
                              std::shared_ptr<levelSetFunction> levelSetPointer,
                              std::shared_ptr<compactNeighborhoodSearch> nSearchPointer,
