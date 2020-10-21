@@ -16,6 +16,7 @@
 #include <Qt3DLogic>
 #include <Qt3DExtras>
 #include <Qt3DAnimation>
+#include <omp.h>
 #include "surfrec_io/code/io.h"
 
 

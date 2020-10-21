@@ -152,7 +152,7 @@
        <x>10</x>
        <y>20</y>
        <width>611</width>
-       <height>101</height>
+       <height>131</height>
       </rect>
      </property>
      <layout class="QGridLayout" name="viewportGridLayout">
@@ -221,9 +221,9 @@
    <widget class="QWidget" name="horizontalLayoutWidget">
     <property name="geometry">
      <rect>
-      <x>370</x>
+      <x>360</x>
       <y>0</y>
-      <width>891</width>
+      <width>901</width>
       <height>41</height>
      </rect>
     </property>
@@ -279,6 +279,24 @@
         </property>
        </item>
       </widget>
+     </item>
+     <item>
+      <layout class="QHBoxLayout" name="topInnerHorizontalLayout">
+       <item>
+        <widget class="QLabel" name="ompNumThreadsLabel">
+         <property name="text">
+          <string># of OpenMP Threads:</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QSpinBox" name="ompNumThreadsSpinBox">
+         <property name="maximum">
+          <number>64</number>
+         </property>
+        </widget>
+       </item>
+      </layout>
      </item>
      <item>
       <widget class="QPushButton" name="batchJobPushButton">
