@@ -20,12 +20,12 @@ class graph {
 
     private:
         //float xLength, yLength, zLength;
-        float xMin, xMax;
-        float yMin, yMax;
-        float zMin, zMax;
+        float xMin_, xMax_;
+        float yMin_, yMax_;
+        float zMin_, zMax_;
 
-        float cellSize;
-        int numCells[3];
+        float cellSize_;
+        int numCells_[3];
         
 
 

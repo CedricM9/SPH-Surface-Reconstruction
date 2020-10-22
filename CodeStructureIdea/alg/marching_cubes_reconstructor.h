@@ -9,9 +9,11 @@ class marchingCubesReconstructor : public surfaceReconstructor {
   public:
     marchingCubesReconstructor() {}
 
+    graph createGrid(const particleList& particles,
+                     const int accuracy);
+
     triangleList reconstruct(graph& g,
                              const particleList& particles,
-                             particleList& particles,
                              std::shared_ptr<levelSetFunction> levelSetPointer,
                              std::shared_ptr<compactNeighborhoodSearch> nSearchPointer,
                              std::shared_ptr<SPHInterpolationKernel> kernelPointer);

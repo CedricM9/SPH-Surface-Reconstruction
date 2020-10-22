@@ -1,6 +1,6 @@
 particleList::particleList() {}
     
-void particleList::addParticle(double x, double y, double z) {
+void particleList::addParticle(float x, float y, float z) {
     particles_.push_back(particle(x,y,z));
 }
 
@@ -16,8 +16,8 @@ int particleList::getNumberOfParticles() const {
     return particles_.size();
 }
 
-std::vector<std::array<double, 3>> particleList::getParticleVector() const {
-    std::vector<std::array<double, 3>> particleVector;
+std::vector<std::array<float, 3>> particleList::getParticleVector() const {
+    std::vector<std::array<float, 3>> particleVector;
     for (int i=0; i<particles_.size(); ++i) {
         particleVector.push_back(particles_[i].getArray());
     }

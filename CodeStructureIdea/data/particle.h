@@ -6,21 +6,21 @@
 class particle {
   public:
     particle();
-    particle(double x, double y, double z);
+    particle(float x, float y, float z);
 
     particle(const particle& p);
     //void equals(particle p) const;
 
-    double const& x() const;
-    double const& y() const;
-    double const& z() const;
+    float const& x() const;
+    float const& y() const;
+    float const& z() const;
 
-    std::array<double, 3> getArray() const;
+    std::array<float, 3> getArray() const;
 
   private:
-    double x_;
-    double y_;
-    double z_;
+    float x_;
+    float y_;
+    float z_;
 };
 
 #include "particle.cpp"

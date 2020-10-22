@@ -21,7 +21,6 @@ class surfaceReconstructor {
                                      std::shared_ptr<SPHInterpolationKernel>) = 0; */
     virtual triangleList reconstruct(graph& g,
                              const particleList& particles,
-                             particleList& particles,
                              std::shared_ptr<levelSetFunction> levelSetPointer,
                              std::shared_ptr<compactNeighborhoodSearch> nSearchPointer,
                              std::shared_ptr<SPHInterpolationKernel> kernelPointer) = 0;

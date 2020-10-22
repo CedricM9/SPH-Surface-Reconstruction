@@ -10,13 +10,13 @@ class particleList {
     particleList();
     virtual ~particleList() = default;
     
-    void addParticle(double x, double y, double z);
+    void addParticle(float x, float y, float z);
     void addParticle(particle p);
 
     particle const& getParticle(int index) const;
     int getNumberOfParticles() const;
 
-    std::vector<std::array<double, 3>> getParticleVector() const;
+    std::vector<std::array<float, 3>> getParticleVector() const;
 
   protected:
     std::vector<particle> particles_;
