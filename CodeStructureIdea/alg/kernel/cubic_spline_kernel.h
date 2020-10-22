@@ -13,3 +13,5 @@ class cubicSplineKernel : public SPHInterpolationKernel {
 #include "cubic_spline_kernel.cpp"
 
 #endif // CUBIC_SPLINE_KERNEL_H
+
+
