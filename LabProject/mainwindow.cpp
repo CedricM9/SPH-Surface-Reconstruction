@@ -15,6 +15,10 @@ MainWindow::MainWindow(QWidget *parent)
     model->setRootPath("C:/");
     ui->fileSelectTreeView->setModel(model);
 
+    QSurfaceFormat format;
+    format.setStereo(true); // Disables anti-aliasing, but is definitely weird
+    QSurfaceFormat::setDefaultFormat(format);
+
     //Set up viewport
     Qt3DExtras::Qt3DWindow *view = new Qt3DExtras::Qt3DWindow();
     view->defaultFrameGraph()->setClearColor(QColor(QRgb(0x607B8B)));
@@ -208,7 +212,7 @@ void MainWindow::loadParticleData(QString filePath)
                 sphereMaterial->setAlphaBlendingEnabled(false);
                 sphereMaterial->setDiffuse(QColor(0, 255, 0, 255));
 
-                sphereMesh->setRings(3);
+                sphereMesh->setRings(2);
                 sphereMesh->setSlices(3);
                 sphereMesh->setRadius(0.02);
 

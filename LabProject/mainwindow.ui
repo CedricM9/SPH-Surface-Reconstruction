@@ -44,7 +44,7 @@
       <rect>
        <x>10</x>
        <y>20</y>
-       <width>210</width>
+       <width>201</width>
        <height>391</height>
       </rect>
      </property>
@@ -56,18 +56,12 @@
         </property>
        </widget>
       </item>
-      <item row="0" column="1">
-       <widget class="QLineEdit" name="smoothingLineEdit"/>
-      </item>
       <item row="1" column="0">
        <widget class="QLabel" name="isoLabel">
         <property name="text">
          <string>ISO-Value:</string>
         </property>
        </widget>
-      </item>
-      <item row="1" column="1">
-       <widget class="QLineEdit" name="isoLineEdit"/>
       </item>
       <item row="2" column="0">
        <widget class="QLabel" name="radiusLabel">
@@ -76,8 +70,24 @@
         </property>
        </widget>
       </item>
+      <item row="3" column="0">
+       <widget class="QLabel" name="AccuracyLabel">
+        <property name="text">
+         <string>Accuracy:</string>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="1">
+       <widget class="QDoubleSpinBox" name="smoothingDoubleSpinBox"/>
+      </item>
+      <item row="1" column="1">
+       <widget class="QDoubleSpinBox" name="isoDoubleSpinBox"/>
+      </item>
       <item row="2" column="1">
-       <widget class="QLineEdit" name="radiusLineEdit"/>
+       <widget class="QDoubleSpinBox" name="supportDoubleSpinBox"/>
+      </item>
+      <item row="3" column="1">
+       <widget class="QDoubleSpinBox" name="accuracyDoubleSpinBox"/>
       </item>
      </layout>
     </widget>
@@ -92,8 +102,57 @@
      </rect>
     </property>
     <property name="title">
-     <string>Post-Processing Parameters</string>
+     <string>Post-Processing</string>
     </property>
+    <widget class="QWidget" name="gridLayoutWidget_2">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>50</y>
+       <width>341</width>
+       <height>31</height>
+      </rect>
+     </property>
+     <layout class="QGridLayout" name="gridLayout">
+      <item row="1" column="0">
+       <widget class="QLabel" name="postSmoothingLabel">
+        <property name="text">
+         <string># of Smoothings</string>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="1">
+       <widget class="QSpinBox" name="postSmoothingSpinBox">
+        <property name="minimum">
+         <number>1</number>
+        </property>
+        <property name="maximum">
+         <number>20</number>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="2">
+       <widget class="QPushButton" name="postSmoothingPushButton">
+        <property name="text">
+         <string>Smooth</string>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </widget>
+    <widget class="QPushButton" name="simplifyPushButton">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>20</y>
+       <width>341</width>
+       <height>23</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Simplify Surface</string>
+     </property>
+    </widget>
    </widget>
    <widget class="QGroupBox" name="simulationMetricsGroupBox">
     <property name="geometry">
