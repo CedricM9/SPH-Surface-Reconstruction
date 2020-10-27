@@ -12,7 +12,7 @@ void vtkTriangleWriter::write(const std::string& filename, const particleList& l
     assert(tlist);
 
     // Create mesh data.
-    std::vector<std::array<double, 3>> meshVertexPositions = tlist->getParticleVector();
+    std::vector<std::array<float, 3>> meshVertexPositions = tlist->getParticleVector();
     std::vector<std::vector<size_t>> meshFaceIndices = tlist->getFaceVector();
     
     // Create a VTK stream handling the actual conversion to VTK file format.
@@ -23,6 +23,6 @@ void vtkTriangleWriter::write(const std::string& filename, const particleList& l
     vtk_stream.setCellsNestedIterator(meshFaceIndices.begin(), meshFaceIndices.end(), vtkio::tables::CellType::Triangle);
 
     // Write the objects to the file.
-    vtk_stream.write(filename);
+    vtk_stream.write(filename, false);
 }
 

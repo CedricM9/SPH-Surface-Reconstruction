@@ -11,8 +11,8 @@ class cubicSplineKernel : public SPHInterpolationKernel {
   public:
     cubicSplineKernel();
     
-    void setRadius(float compactSupport);
-    double evaluate(particle& p1, particle& p2);
+    virtual void setRadius(float compactSupport);
+    virtual float evaluate(particle p1, particle p2);
 
 
   private:

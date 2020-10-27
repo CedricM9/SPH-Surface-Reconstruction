@@ -47,7 +47,7 @@ int main() {
     vtkParticleReader vtkParticleIn;
     //particles = vtkParticleIn.read("/media/sf_Software_Lab/SPH-Surface-Reconstruction/SimulationOutputTestData/vtk/ParticleData_Fluid_163.vtk");
     vtkTriangleReader vtkTriangleIn;
-    particles = vtkTriangleIn.read("filename.vtk");
+    //particles = vtkTriangleIn.read("filename.vtk");
 
     // Create writers.
     vtkTriangleWriter vtkTriangleOut;
@@ -63,24 +63,40 @@ int main() {
     // Evaluate cubic spline kernel.
     cubicSplineKernel kernel;
     std::shared_ptr<cubicSplineKernel> kernelPointer = std::make_shared<cubicSplineKernel>(kernel);
-    double s = kernel.evaluate(2.0);
+    //double s = kernel.evaluate(2.0);
 
     // Evaluate dimensionless level set function.
     dimensionlessLevelSetFunction levelSet;
     std::shared_ptr<dimensionlessLevelSetFunction> levelSetPointer = std::make_shared<dimensionlessLevelSetFunction>(levelSet);
-    double phi = levelSet.evaluate(particles);
+    //double phi = levelSet.evaluate(particles);
 
     // Reconstruct a surface using marching cubes algorithm.
     marchingCubesReconstructor reconstructor;
     //triangleList result = reconstructor.reconstruct(particles, levelSetPointer, nSearchPointer, kernelPointer);
     particleList vertices;
-    for (int i = 0; i < 8; ++i) vertices.addParticle(p1);
-    triangleList result = triangles;  // reconstructor.reconstruct(vertices, {}, particles, levelSetPointer, nSearchPointer, kernelPointer);
+    for (int i = 0; i < 8; ++i) {
+        particle p(i/10.0, i/10.0, i/10.0);
+        vertices.addParticle(p);
+    }
+    vertices.addParticle(0.5,0,0);
+    //vertices.addParticle(0,0,0);
+    //vertices.addParticle(0.5,0.5,0);
+    //vertices.addParticle(0.5,0,0.5);
+    //vertices.addParticle(0,0.5,0.5);
+    //vertices.addParticle(0.5,0.5,0.5);
+    vertices.addParticle(0,0,0.5);
+    vertices.addParticle(0,0.5,0);
+    //vertices = partioParticleIn.read("/media/sf_Software_Lab/SPH-Surface-Reconstruction/SimulationOutputTestData/bgeo/ParticleData_Fluid_163.bgeo");
+    graph g(vertices, 1);
+    float h = 0.3;  // smoothing length
+    float r = 2*h;
+    triangleList result = reconstructor.reconstruct(g, vertices, h, r, levelSetPointer, nSearchPointer, kernelPointer);
+    vtkTriangleOut.write("test_result2.vtk", result);
 
     // Postprocessing.
     openMeshProcessor postprocessor;
-    result = postprocessor.smooth(result);
-    result = postprocessor.simplify(result);
+    //result = postprocessor.smooth(result);
+    //result = postprocessor.simplify(result);
 
     return 0;
 }

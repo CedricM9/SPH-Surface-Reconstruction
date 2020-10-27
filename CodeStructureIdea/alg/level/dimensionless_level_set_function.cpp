@@ -20,13 +20,18 @@ double dimensionlessLevelSetFunction::evaluate(particleList& list,
     }
     
     std::vector<std::vector<int>> allNeighbors = nSearchPointer->find(list,r);
-    std::vector<int> neighbors(allNeighbors[list.getNumberOfParticles()-1]);
+    std::vector<int> neighbors(allNeighbors[list.getNumberOfParticles()-1].size());
 
     float result = -c;
+    kernelPointer->setRadius(h);
     for(int i=0; i<neighbors.size(); i++) {
-        result += (kernelPointer->evaluate(p,list.getParticle(neighbors[i]),h) / ((h*h*h)*(list.getParticle(neighbors[i]).density())));
+        float du = kernelPointer->evaluate(p,list.getParticle(neighbors[i]));
+        float y = list.getParticle(neighbors[i]).density();
+//        std::cout << du << " " << y << "; ";
+        result += (kernelPointer->evaluate(p,list.getParticle(neighbors[i])) / ((h*h*h)*(list.getParticle(neighbors[i]).density())));
         //result += ((evaluate(p, list.getParticle(neighbors[i]), h) / ((h*h*h) * list.getParticle(neighbors[i]).density());
     }
+//    std::cout << std::endl;
 
     list.removeParticle();
 

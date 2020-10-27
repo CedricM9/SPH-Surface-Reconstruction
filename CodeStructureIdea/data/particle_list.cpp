@@ -16,6 +16,10 @@ particle& particleList::getParticle(int index) {
     return particles_[index];
 }
 
+particle particleList::getParticle(int index) const {
+    return particles_[index];
+}
+
 int particleList::getNumberOfParticles() const {
     return particles_.size();
 }

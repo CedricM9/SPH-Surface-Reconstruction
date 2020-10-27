@@ -6,6 +6,7 @@ spatialHashingNeighborhoodSearch::spatialHashingNeighborhoodSearch() {}
 
 std::vector<std::vector<int>> spatialHashingNeighborhoodSearch::find(const particleList& list, double radius) {
     // Create data structure to perform neighborhood search with fixed radius.
+    assert(radius > 0);
     NeighborhoodSearch nsearch(radius);
 
     // Create test data.

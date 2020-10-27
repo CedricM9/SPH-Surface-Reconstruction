@@ -11,6 +11,7 @@
 class levelSetFunction {
   public:
     levelSetFunction() {}
+    virtual ~levelSetFunction() = default;
 
     virtual double evaluate(particleList& list, 
                     particle& p, 

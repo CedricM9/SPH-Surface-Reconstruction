@@ -6,9 +6,10 @@
 class SPHInterpolationKernel {
   public:
     SPHInterpolationKernel() {}
+    virtual ~SPHInterpolationKernel() = default;
 
-    virtual void setRadius(float compactSupport);
-    virtual float evaluate(particle& x, particle& xPrime, int h) = 0;
+    virtual void setRadius(float compactSupport) = 0;
+    virtual float evaluate(particle x, particle xPrime) = 0;
 };
 
 #endif // SPH_INTERPOLATION_KERNEL_H

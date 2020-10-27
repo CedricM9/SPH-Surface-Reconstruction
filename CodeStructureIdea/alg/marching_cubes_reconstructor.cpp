@@ -1,3 +1,6 @@
+#include <set>
+#include <iterator>
+
 void marchingCubesReconstructor::calculateDensities(
     std::vector<std::vector<int>>& nearestNeighbors, 
     std::shared_ptr<SPHInterpolationKernel> kernelPointer,
@@ -5,14 +8,14 @@ void marchingCubesReconstructor::calculateDensities(
     float h
 ) {
     float density = 0.0;
+    kernelPointer->setRadius(h);
     for(int i=0; i<particles.getNumberOfParticles(); i++) {
         for(int j=0; j<nearestNeighbors[i].size(); j++) {
-            density += (kernelPointer->evaluate(particles.getParticle(i), particles.getParticle(nearestNeighbors[i][j]), h)) / (h*h*h);    
+            density += (kernelPointer->evaluate(particles.getParticle(i), particles.getParticle(nearestNeighbors[i][j]))) / (h*h*h);    
          } 
         particles.getParticle(i).setDensity(density);
         density = 0.0;
     }
-
 }
     
 
@@ -33,7 +36,11 @@ triangleList marchingCubesReconstructor::reconstruct(
     std::vector<std::vector<int>> nearestNeighbors = nSearchPointer->find(particles, r);
     calculateDensities(nearestNeighbors, kernelPointer, particles, h);
     
+    for (int i = 0; i < particles.getNumberOfParticles(); ++i) {
+        std::cout << "density: " << particles.getParticle(i).density() << std::endl;
+    }
     particleList triangleCoordinates;
+    triangleList list;
 
     // Format [x][y][z]
     float p[8];
@@ -42,14 +49,16 @@ triangleList marchingCubesReconstructor::reconstruct(
     float D[g.numCells(0)][g.numCells(1)];
     float temp[2];
 
-    float c = 0;
-    float compactSupport;
+    float c = 0.1;
+    float compactSupport = r;
     int geometryIdentifier = 0;
 
     
 
     //levelSetPointer->evaluate(particles, tempParticle, h, c, compactSupport, nSearchPointer, kernelPointer);
 
+    std::cout << g.numCells(2) << " " << g.numCells(1) << " " << g.numCells(0) << std::endl;
+    std::cout << g.xMin() << " " << g.yMin() << " " << g.zMin() << " " << g.cellSize() << std::endl;
     //g.numCells-1 ???
     for(int m=0; m<g.numCells(2); m++) {
         for(int i=0; i<g.numCells(1); i++){
@@ -122,28 +131,53 @@ triangleList marchingCubesReconstructor::reconstruct(
                 if (p[6] < c) {geometryIdentifier += 64;}
                 if (p[7] < c) {geometryIdentifier += 128;}
 
+//                if (m==13) std::cout << geometryIdentifier << "  " << p[0] << "  " << p[3] << "  " << p[4] << "  " << p[7] << std::endl;
+                /*if (p[0] < c) std::cout << "0  " << p[0] << "  " << geometryIdentifier << std::endl;
+                if (p[1] < c) std::cout << "1  " << p[1] << "  " << geometryIdentifier << std::endl;
+                if (p[2] < c) std::cout << "2  " << p[2] << "  " << geometryIdentifier << std::endl;
+                if (p[3] < c) std::cout << "3  " << p[3] << "  " << geometryIdentifier << std::endl;
+                if (p[4] < c) std::cout << "4  " << p[4] << "  " << geometryIdentifier << std::endl;
+                if (p[5] < c) std::cout << "5  " << p[5] << "  " << geometryIdentifier << std::endl;
+                if (p[6] < c) std::cout << "6  " << p[6] << "  " << geometryIdentifier << std::endl;
+                if (p[7] < c) std::cout << "7  " << p[7] << "  " << geometryIdentifier << std::endl;
+                */
+                //std::cout << geometryIdentifier << std::endl;
                 
                 //Ignores fully encased cells and ones without intersections
-                if((geometryIdentifier == 0) || (geometryIdentifier == 256)) {
+                if((geometryIdentifier == 0) || (geometryIdentifier == 255)) {
                     break;
                 }
 
 
                 //Creates Vector that includes Intersected Edges
                 std::vector<int> intersectedEdges;
-                    for(int i=0; i<16; i++) {
-                        if (geometryTable[geometryIdentifier][i] != -1){
-                            intersectedEdges.push_back(geometryTable[geometryIdentifier][i]);
-                        } else {
-                            break;
-                        }
-                     }
+                std::set<int> edgesSet;
+                for(int i=0; i<16; i++) {
+                    if (geometryTable[geometryIdentifier][i] != -1){                                                                                   
+                        intersectedEdges.push_back(geometryTable[geometryIdentifier][i]);
+                        edgesSet.insert(geometryTable[geometryIdentifier][i]);
+                    } else {
+                        break;
+                    }   
+                }
 
+                // Add new triangles.
+                int numberParticles = list.getNumberOfParticles();
+                for (int i=0; i<intersectedEdges.size(); i+=3) {
+                    int index1 = std::distance(edgesSet.begin(), edgesSet.find(intersectedEdges[i]));
+                    int index2 = std::distance(edgesSet.begin(), edgesSet.find(intersectedEdges[i+1]));
+                    int index3 = std::distance(edgesSet.begin(), edgesSet.find(intersectedEdges[i+2]));
+                    list.addTriangle(index1, index2, index3);
+                }
 
 
                 //Linear Interpolation of Intersection Coordinates
                 float vertexCoordinatesX[2],vertexCoordinatesY[2],vertexCoordinatesZ[2];
-                for (int r=0; r<intersectedEdges.size(); r++) {
+                //for (int r=0; r<intersectedEdges.size(); r++) {
+                std::set<int>::iterator edgeIterator = edgesSet.begin();
+                std::cout << "set size: " << edgesSet.size() << std::endl;
+                for (int r=0; r<edgesSet.size(); r++, edgeIterator++) {
+                    int edgeNumber = *edgeIterator;
                     vertexCoordinatesX[0] = g.xMin()+(j*g.cellSize());
                     vertexCoordinatesX[1] = g.xMin()+(j*g.cellSize());
                     vertexCoordinatesY[0] = g.yMin()+(i*g.cellSize());
@@ -152,6 +186,21 @@ triangleList marchingCubesReconstructor::reconstruct(
                     vertexCoordinatesZ[1] = g.zMin()+(m*g.cellSize());
 
                     for (int t=0; t<2; t++) {
+                        if(edgeTable[edgeNumber][t] == 1) {vertexCoordinatesX[t]+=g.cellSize();}
+                        if(edgeTable[edgeNumber][t] == 2) {vertexCoordinatesX[t]+=g.cellSize();
+                                                                    vertexCoordinatesY[t]+=g.cellSize();}
+                        if(edgeTable[edgeNumber][t] == 3) {vertexCoordinatesY[t]+=g.cellSize();}
+                        if(edgeTable[edgeNumber][t] == 4) {vertexCoordinatesZ[t]+=g.cellSize();}
+                        if(edgeTable[edgeNumber][t] == 5) {vertexCoordinatesX[t]+=g.cellSize();
+                                                                    vertexCoordinatesZ[t]+=g.cellSize();}
+                        if(edgeTable[edgeNumber][t] == 6) {vertexCoordinatesX[t]+=g.cellSize();
+                                                                    vertexCoordinatesY[t]+=g.cellSize();
+                                                                    vertexCoordinatesZ[t]+=g.cellSize();}
+                        if(edgeTable[edgeNumber][t] == 7) {vertexCoordinatesX[t]+=g.cellSize();
+                                                                    vertexCoordinatesY[t]+=g.cellSize();}
+                    }
+
+                    /*for (int t=0; t<2; t++) {
                         if(edgeTable[intersectedEdges[t]][0] == 1) {vertexCoordinatesX[t]+=g.cellSize();}
                         if(edgeTable[intersectedEdges[t]][0] == 2) {vertexCoordinatesX[t]+=g.cellSize();
                                                                     vertexCoordinatesY[t]+=g.cellSize();}
@@ -164,11 +213,14 @@ triangleList marchingCubesReconstructor::reconstruct(
                                                                     vertexCoordinatesZ[t]+=g.cellSize();}
                         if(edgeTable[intersectedEdges[t]][0] == 7) {vertexCoordinatesX[t]+=g.cellSize();
                                                                     vertexCoordinatesY[t]+=g.cellSize();}
-                    }
+                    }*/
 
 
-                    float iso1 = p[edgeTable[intersectedEdges[i]][0]];
-                    float iso2 = p[edgeTable[intersectedEdges[i]][1]];
+                    //float iso1 = p[edgeTable[intersectedEdges[i]][0]];
+                    //float iso2 = p[edgeTable[intersectedEdges[i]][1]];
+                    float iso1 = p[edgeTable[edgeNumber][0]];
+                    float iso2 = p[edgeTable[edgeNumber][1]];
+                    //std::cout << "iso1 " << iso1 << std::endl;
 
                     float x = (1.0-(iso1/(iso1-iso2)))*(vertexCoordinatesX[0]) + ((iso1/(iso1-iso2))*vertexCoordinatesX[1]);
                     float y = (1.0-(iso1/(iso1-iso2)))*vertexCoordinatesY[0] + ((iso1/(iso1-iso2))*vertexCoordinatesY[1]);
@@ -177,6 +229,8 @@ triangleList marchingCubesReconstructor::reconstruct(
                     particle intersection(x,y,z);
 
                     triangleCoordinates.addParticle(intersection);  
+                    list.addParticle(intersection);  
+                    //std::cout << "particles: " << list.getNumberOfParticles() << ", triangles: " << list.getNumberOfTriangles() << std::endl;
                 }
 
 
@@ -190,7 +244,7 @@ triangleList marchingCubesReconstructor::reconstruct(
 
     //double s = kernelPointer->evaluate(5.0);
 
-    triangleList list(triangleCoordinates);
+    //triangleList list(triangleCoordinates);
     return list;
 }
 

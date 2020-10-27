@@ -14,7 +14,7 @@ class marchingCubesReconstructor : public surfaceReconstructor {
                             particleList& particles,
                             float h);
 
-    triangleList reconstruct(graph& g,
+    virtual triangleList reconstruct(graph& g,
                              particleList& particles,
                              const float h,
                              const float r,
