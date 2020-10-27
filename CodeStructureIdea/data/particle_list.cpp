@@ -8,7 +8,11 @@ void particleList::addParticle(particle p) {
     particles_.push_back(p);
 }
 
-particle const& particleList::getParticle(int index) const {
+void particleList::removeParticle() {
+    particles_.pop_back();
+}
+
+particle& particleList::getParticle(int index) {
     return particles_[index];
 }
 

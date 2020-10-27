@@ -1,7 +1,29 @@
 cubicSplineKernel::cubicSplineKernel() {}
 
-double cubicSplineKernel::evaluate(double q) {
-    // TODO: implement cubic spline kernel
-    return q;
+void cubicSplineKernel::setRadius(float compactSupport) {
+    h_ = compactSupport;
+    a_ = 3/(2*(M_PI));
+}
+
+double cubicSplineKernel::evaluate(particle& p1, particle& p2) {
+
+    float xDistance = p1.x() - p2.x();
+    float yDistance = p1.y() - p2.y();
+    float zDistance = p1.z() - p2.z();
+
+    float r = sqrt((xDistance*xDistance) + (yDistance*yDistance) + (zDistance*zDistance));
+    float q = r / h_;  
+    float q2 = pow(q,2);
+    float q3 = pow(q,3);
+
+    //std::complex<float> resultantParticle(xVal, yVal);
+    //float q = (std::norm(resultantParticle)+(zVal*zVal)) / h;
+    float result = 0.0;
+
+    if ((q >= 0) && (q < 1)) {result = ((2/3) - q2 + (q3/2));} 
+    if ((q >= 1) && (q < 2)) {result = (pow(2-q,3)/6);}
+    if (q >= 2) {return 0.0;}
+ 
+    return a_*result;
 }
 

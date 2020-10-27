@@ -12,8 +12,9 @@ class particleList {
     
     void addParticle(float x, float y, float z);
     void addParticle(particle p);
+    void removeParticle();
 
-    particle const& getParticle(int index) const;
+    particle& getParticle(int index);
     int getNumberOfParticles() const;
 
     std::vector<std::array<float, 3>> getParticleVector() const;

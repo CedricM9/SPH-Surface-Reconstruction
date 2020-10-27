@@ -12,12 +12,12 @@ class marchingCubesReconstructor : public surfaceReconstructor {
     void calculateDensities(std::vector<std::vector<int>>& nearestNeighbors, 
                             std::shared_ptr<SPHInterpolationKernel> kernelPointer,
                             particleList& particles,
-                            float h);
+                            int h);
 
     triangleList reconstruct(graph& g,
-                             particleList& particles,
-                             const float h,
-                             const float r,
+                             const particleList& particles,
+			     float h,
+			     float r,
                              std::shared_ptr<levelSetFunction> levelSetPointer,
                              std::shared_ptr<compactNeighborhoodSearch> nSearchPointer,
                              std::shared_ptr<SPHInterpolationKernel> kernelPointer);

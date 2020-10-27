@@ -2,7 +2,7 @@ void marchingCubesReconstructor::calculateDensities(
     std::vector<std::vector<int>>& nearestNeighbors, 
     std::shared_ptr<SPHInterpolationKernel> kernelPointer,
     particleList& particles,
-    float h
+    int h
 ) {
     float density = 0.0;
     for(int i=0; i<particles.getNumberOfParticles(); i++) {
@@ -42,30 +42,19 @@ triangleList marchingCubesReconstructor::reconstruct(
     float D[g.numCells(0)][g.numCells(1)];
     float temp[2];
 
-    float c = 0;
-    float compactSupport;
+    int isoValue = 0;
     int geometryIdentifier = 0;
-
-    
-
-    //levelSetPointer->evaluate(particles, tempParticle, h, c, compactSupport, nSearchPointer, kernelPointer);
 
     //g.numCells-1 ???
     for(int m=0; m<g.numCells(2); m++) {
         for(int i=0; i<g.numCells(1); i++){
             for(int j=0; j<g.numCells(0); j++) {
                 if(j==0) {
-                    particle tempParticle1(g.xMin()+(j*g.cellSize()), g.yMin()+(i*g.cellSize())+g.cellSize(), g.zMin()+(m*g.cellSize()));
-					p[3] = levelSetPointer->evaluate(particles, tempParticle1, h, c, compactSupport, nSearchPointer, kernelPointer);
-
-                    particle tempParticle2(g.xMin()+(j*g.cellSize()), g.yMin()+(i*g.cellSize())+g.cellSize(), g.zMin()+(m*g.cellSize())+g.cellSize());   
-					p[7] = levelSetPointer->evaluate(particles, tempParticle2, h, c, compactSupport, nSearchPointer, kernelPointer);  
+					p[3] = calculateISO(g.xMin()+(j*g.cellSize()), g.yMin()+(i*g.cellSize())+g.cellSize(), g.zMin()+(m*g.cellSize()));
+					p[7] = calculateISO(g.xMin()+(j*g.cellSize()), g.yMin()+(i*g.cellSize())+g.cellSize(), g.zMin()+(m*g.cellSize())+g.cellSize());   
 					if(i==0) {
-                        particle tempParticle3(g.xMin()+(j*g.cellSize()), g.yMin()+(i*g.cellSize()), g.zMin()+(m*g.cellSize()));
-						p[0] = levelSetPointer->evaluate(particles, tempParticle3, h, c, compactSupport, nSearchPointer, kernelPointer);
-
-                        particle tempParticle4(g.xMin()+(j*g.cellSize()), g.yMin()+(i*g.cellSize()), g.zMin()+(m*g.cellSize())+g.cellSize());
-						p[4] = levelSetPointer->evaluate(particles, tempParticle4, h, c, compactSupport, nSearchPointer, kernelPointer);
+						p[0] = calculateISO(g.xMin()+(j*g.cellSize()), g.yMin()+(i*g.cellSize()), g.zMin()+(m*g.cellSize()));
+						p[4] = calculateISO(g.xMin()+(j*g.cellSize()), g.yMin()+(i*g.cellSize()), g.zMin()+(m*g.cellSize())+g.cellSize());
 					} else {
 						p[0] = temp[0];
 						p[4] = temp[1];
@@ -80,26 +69,20 @@ triangleList marchingCubesReconstructor::reconstruct(
 				}
 
 				if(i==0) {
-                    particle tempParticle5(g.xMin()+(j*g.cellSize())+g.cellSize(), g.yMin()+(i*g.cellSize()), g.zMin()+(m*g.cellSize()));
-					p[1] = levelSetPointer->evaluate(particles, tempParticle5, h, c, compactSupport, nSearchPointer, kernelPointer);
-                    
-            
-                    particle tempParticle6(g.xMin()+(j*g.cellSize())+g.cellSize(), g.yMin()+(i*g.cellSize()), g.zMin()+(m*g.cellSize())+g.cellSize());
-					p[5] = levelSetPointer->evaluate(particles, tempParticle6, h, c, compactSupport, nSearchPointer, kernelPointer);
+					p[1] = calculateISO(g.xMin()+(j*g.cellSize())+g.cellSize(), g.yMin()+(i*g.cellSize()), g.zMin()+(m*g.cellSize()));
+					p[5] = calculateISO(g.xMin()+(j*g.cellSize())+g.cellSize(), g.yMin()+(i*g.cellSize()), g.zMin()+(m*g.cellSize())+g.cellSize());
 				} else {
 					p[1] = E[j][0];
 					p[5] = E[j][1];
 				}
 				
 				if(m==0) {
-                    particle tempParticle7(g.xMin()+(j*g.cellSize())+g.cellSize(), g.yMin()+(i*g.cellSize())+g.cellSize(), g.zMin()+(m*g.cellSize()));
-					p[2] = levelSetPointer->evaluate(particles, tempParticle7, h, c, compactSupport, nSearchPointer, kernelPointer);
+					p[2] = calculateISO(g.xMin()+(j*g.cellSize())+g.cellSize(), g.yMin()+(i*g.cellSize())+g.cellSize(), g.zMin()+(m*g.cellSize()));
 				} else {
 					p[2] = D[j][i];
 				}
 				
-                particle tempParticle8(g.xMin()+(j*g.cellSize())+g.cellSize(), g.yMin()+(i*g.cellSize())+g.cellSize(), g.zMin()+(m*g.cellSize())+g.cellSize());
-				p[6] = levelSetPointer->evaluate(particles, tempParticle8, h, c, compactSupport, nSearchPointer, kernelPointer);
+				p[6] = calculateISO(g.xMin()+(j*g.cellSize())+g.cellSize(), g.yMin()+(i*g.cellSize())+g.cellSize(), g.zMin()+(m*g.cellSize())+g.cellSize());
 
 				L[0] = p[1];
 				L[1] = p[2];
@@ -113,14 +96,14 @@ triangleList marchingCubesReconstructor::reconstruct(
                 
                 //Identifies which vertices are within Fluid	
                 geometryIdentifier = 0;
-                if (p[0] < c) {geometryIdentifier += 1;}
-                if (p[1] < c) {geometryIdentifier += 2;}
-                if (p[2] < c) {geometryIdentifier += 4;}
-                if (p[3] < c) {geometryIdentifier += 8;}
-                if (p[4] < c) {geometryIdentifier += 16;}
-                if (p[5] < c) {geometryIdentifier += 32;}
-                if (p[6] < c) {geometryIdentifier += 64;}
-                if (p[7] < c) {geometryIdentifier += 128;}
+                if (p[0] < isoValue) {geometryIdentifier += 1;}
+                if (p[1] < isoValue) {geometryIdentifier += 2;}
+                if (p[2] < isoValue) {geometryIdentifier += 4;}
+                if (p[3] < isoValue) {geometryIdentifier += 8;}
+                if (p[4] < isoValue) {geometryIdentifier += 16;}
+                if (p[5] < isoValue) {geometryIdentifier += 32;}
+                if (p[6] < isoValue) {geometryIdentifier += 64;}
+                if (p[7] < isoValue) {geometryIdentifier += 128;}
 
                 
                 //Ignores fully encased cells and ones without intersections
@@ -186,9 +169,9 @@ triangleList marchingCubesReconstructor::reconstruct(
 
 
 
-    //double q = levelSetPointer->evaluate(particles);
+    double q = levelSetPointer->evaluate(particles);
 
-    //double s = kernelPointer->evaluate(5.0);
+    double s = kernelPointer->evaluate(5.0);
 
     triangleList list(triangleCoordinates);
     return list;

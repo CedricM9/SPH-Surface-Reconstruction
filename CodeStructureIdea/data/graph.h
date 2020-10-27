@@ -1,10 +1,14 @@
 #ifndef GRAPH_H
 #define GRAPH_H
 
+#include<cassert>
+
+#include "particle_list.h"
+
 class graph {
     public:
-        graph();
-        graph(float x1, float x2, float y1, float y2, float z1, float z2);
+        graph ();
+        graph (particleList& particles, int accuracy);
         
         float const& xMin() const;
         float const& xMax() const;
@@ -14,9 +18,9 @@ class graph {
         float const& zMax() const;
 
         float const& cellSize() const;
-        int cells(int i);
+        int numCells(int i);
 
-        void adjustCellSize(float val);
+        //void adjustCellSize(float val);
 
     private:
         //float xLength, yLength, zLength;
@@ -27,7 +31,7 @@ class graph {
         float cellSize_;
         int numCells_[3];
         
-
+};
 
 
 #include "graph.cpp"
