@@ -17,6 +17,8 @@
 #include <Qt3DExtras>
 #include <Qt3DAnimation>
 #include <omp.h>
+#include <OpenMesh/Core/IO/MeshIO.hh>
+#include "CompactNSearch/include/CompactNSearch.h"
 #include "surfrec_io/code/io.h"
 
 
@@ -30,8 +32,18 @@ class MainWindow : public QMainWindow
 
 public:
     MainWindow(QWidget *parent = nullptr);
+
     ~MainWindow();
+
     void updateTimeElapsed();
+
+    void reconstructOneFrame(QString filePath);
+
+    void reconstructWholeSimulation(QString filePath);
+
+    void loadParticleData(QString filePath);
+
+    void loadSurfaceData(QString filePath);
 
 private slots:
 
@@ -45,10 +57,6 @@ private slots:
 
     void on_loadPushButton_clicked();
 
-    void loadParticleData(QString filePath);
-
-    void loadSurfaceData(QString filePath);
-
     void on_fileSelectTreeView_clicked(const QModelIndex &index);
 
     void on_resetCamPushButton_clicked();
@@ -60,6 +68,10 @@ private slots:
     void on_nextFramePushButton_clicked();
 
     void on_checkBox_stateChanged(int arg1);
+
+    void on_simplifyPushButton_clicked();
+
+    void on_postSmoothingPushButton_clicked();
 
 private:
     Ui::MainWindow *ui;
