@@ -23,6 +23,6 @@ void vtkTriangleWriter::write(const std::string& filename, const particleList& l
     vtk_stream.setCellsNestedIterator(meshFaceIndices.begin(), meshFaceIndices.end(), vtkio::tables::CellType::Triangle);
 
     // Write the objects to the file.
-    vtk_stream.write(filename, false);
+    vtk_stream.write(filename, true); //false);
 }
 

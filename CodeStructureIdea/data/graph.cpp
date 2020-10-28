@@ -6,7 +6,7 @@ graph::graph() : xMin_(0.0), xMax_(0.0), yMin_(0.0), yMax_(0.0), zMin_(0.0), zMa
 graph::graph(particleList& particles, int accuracy) {
     assert(accuracy > 0 && accuracy < 10);
 
-    xMin_, xMax_, yMin_, yMax_, zMin_, zMax_ = 0.0;
+    xMin_ = 0.0, xMax_ = 0.0, yMin_ = 0.0, yMax_ = 0.0, zMin_ = 0.0, zMax_ = 0.0;
     yMin_ = 0.0;
     for(int i=0; i<particles.getNumberOfParticles(); i+=accuracy) {
         if(particles.getParticle(i).x() < xMin_) {xMin_ = particles.getParticle(i).x();}

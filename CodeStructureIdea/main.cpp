@@ -76,21 +76,30 @@ int main() {
     particleList vertices;
     for (int i = 0; i < 8; ++i) {
         particle p(i/10.0, i/10.0, i/10.0);
-        vertices.addParticle(p);
+        //vertices.addParticle(p);
     }
-    vertices.addParticle(0.5,0,0);
+    //vertices.addParticle(0.5,0,0);
     //vertices.addParticle(0,0,0);
     //vertices.addParticle(0.5,0.5,0);
     //vertices.addParticle(0.5,0,0.5);
     //vertices.addParticle(0,0.5,0.5);
     //vertices.addParticle(0.5,0.5,0.5);
-    vertices.addParticle(0,0,0.5);
-    vertices.addParticle(0,0.5,0);
+    //vertices.addParticle(0,0,0.5);
+    //vertices.addParticle(0,0.5,0);
+    for (int i = 0; i < 5; ++i) {
+        for (int j = 0; j < 5; ++j) {
+            for (int k=0; k<5; ++k) {
+                particle p(k/10.0, j/10.0, i/10.0);
+                vertices.addParticle(p);
+            }
+        }
+    }
     //vertices = partioParticleIn.read("/media/sf_Software_Lab/SPH-Surface-Reconstruction/SimulationOutputTestData/bgeo/ParticleData_Fluid_163.bgeo");
     graph g(vertices, 1);
     float h = 0.3;  // smoothing length
     float r = 2*h;
     triangleList result = reconstructor.reconstruct(g, vertices, h, r, levelSetPointer, nSearchPointer, kernelPointer);
+    plyTriangleOut.write("test_result2.ply", result);
     vtkTriangleOut.write("test_result2.vtk", result);
 
     // Postprocessing.

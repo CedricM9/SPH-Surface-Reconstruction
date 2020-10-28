@@ -7,6 +7,8 @@ void cubicSplineKernel::setRadius(float compactSupport) {
 
 float cubicSplineKernel::evaluate(particle p1, particle p2) {
 
+    h_ = 0.3;
+    a_ = 3.0/(2.0*M_PI);
     float xDistance = p1.x() - p2.x();
     float yDistance = p1.y() - p2.y();
     float zDistance = p1.z() - p2.z();

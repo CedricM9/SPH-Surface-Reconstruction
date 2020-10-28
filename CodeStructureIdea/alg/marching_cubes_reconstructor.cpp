@@ -1,5 +1,7 @@
-#include <set>
+#include <array>
 #include <iterator>
+#include <set>
+#include <vector>
 
 void marchingCubesReconstructor::calculateDensities(
     std::vector<std::vector<int>>& nearestNeighbors, 
@@ -43,11 +45,15 @@ triangleList marchingCubesReconstructor::reconstruct(
     triangleList list;
 
     // Format [x][y][z]
-    float p[8];
-    float L[4];
-    float E[g.numCells(0)][2];
-    float D[g.numCells(0)][g.numCells(1)];
-    float temp[2];
+    std::array<float, 8> p = {0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0};
+    std::array<float, 4> L = {0.0, 0.0, 0.0, 0.0};
+    std::vector<std::array<float, 2>> E(g.numCells(0), {0.0, 0.0});
+    std::vector<std::vector<float>> D;
+    for (int i = 0; i < g.numCells(0); ++i) {
+        std::vector<float> t(g.numCells(1), 0.0);
+        D.push_back(t);
+    }
+    std::array<float, 2> temp = {0.0, 0.0};
 
     float c = 0.1;
     float compactSupport = r;
@@ -57,66 +63,63 @@ triangleList marchingCubesReconstructor::reconstruct(
 
     //levelSetPointer->evaluate(particles, tempParticle, h, c, compactSupport, nSearchPointer, kernelPointer);
 
-    std::cout << g.numCells(2) << " " << g.numCells(1) << " " << g.numCells(0) << std::endl;
-    std::cout << g.xMin() << " " << g.yMin() << " " << g.zMin() << " " << g.cellSize() << std::endl;
     //g.numCells-1 ???
     for(int m=0; m<g.numCells(2); m++) {
-        for(int i=0; i<g.numCells(1); i++){
+        for(int i=0; i<g.numCells(1); i++) {
             for(int j=0; j<g.numCells(0); j++) {
                 if(j==0) {
                     particle tempParticle1(g.xMin()+(j*g.cellSize()), g.yMin()+(i*g.cellSize())+g.cellSize(), g.zMin()+(m*g.cellSize()));
-					p[3] = levelSetPointer->evaluate(particles, tempParticle1, h, c, compactSupport, nSearchPointer, kernelPointer);
+		    p[3] = levelSetPointer->evaluate(particles, tempParticle1, h, c, compactSupport, nSearchPointer, kernelPointer);
 
                     particle tempParticle2(g.xMin()+(j*g.cellSize()), g.yMin()+(i*g.cellSize())+g.cellSize(), g.zMin()+(m*g.cellSize())+g.cellSize());   
-					p[7] = levelSetPointer->evaluate(particles, tempParticle2, h, c, compactSupport, nSearchPointer, kernelPointer);  
-					if(i==0) {
+		    p[7] = levelSetPointer->evaluate(particles, tempParticle2, h, c, compactSupport, nSearchPointer, kernelPointer);  
+		    if(i==0) {
                         particle tempParticle3(g.xMin()+(j*g.cellSize()), g.yMin()+(i*g.cellSize()), g.zMin()+(m*g.cellSize()));
-						p[0] = levelSetPointer->evaluate(particles, tempParticle3, h, c, compactSupport, nSearchPointer, kernelPointer);
+			p[0] = levelSetPointer->evaluate(particles, tempParticle3, h, c, compactSupport, nSearchPointer, kernelPointer);
 
                         particle tempParticle4(g.xMin()+(j*g.cellSize()), g.yMin()+(i*g.cellSize()), g.zMin()+(m*g.cellSize())+g.cellSize());
-						p[4] = levelSetPointer->evaluate(particles, tempParticle4, h, c, compactSupport, nSearchPointer, kernelPointer);
-					} else {
-						p[0] = temp[0];
-						p[4] = temp[1];
-					}
-					temp[0] = p[3];
-					temp[1] = p[7];
-				} else {
-					p[0] = L[0];
-					p[3] = L[1];
-					p[4] = L[2];
-					p[7] = L[3];
-				}
+			p[4] = levelSetPointer->evaluate(particles, tempParticle4, h, c, compactSupport, nSearchPointer, kernelPointer);
+		    } else {
+			p[0] = temp[0];
+			p[4] = temp[1];
+		    }
+		    temp[0] = p[3];
+		    temp[1] = p[7];
+		} else {
+		    p[0] = L[0];
+		    p[3] = L[1];
+		    p[4] = L[2];
+		    p[7] = L[3];
+		}
 
-				if(i==0) {
+		if(i==0) {
                     particle tempParticle5(g.xMin()+(j*g.cellSize())+g.cellSize(), g.yMin()+(i*g.cellSize()), g.zMin()+(m*g.cellSize()));
-					p[1] = levelSetPointer->evaluate(particles, tempParticle5, h, c, compactSupport, nSearchPointer, kernelPointer);
+		    p[1] = levelSetPointer->evaluate(particles, tempParticle5, h, c, compactSupport, nSearchPointer, kernelPointer);
                     
-            
                     particle tempParticle6(g.xMin()+(j*g.cellSize())+g.cellSize(), g.yMin()+(i*g.cellSize()), g.zMin()+(m*g.cellSize())+g.cellSize());
-					p[5] = levelSetPointer->evaluate(particles, tempParticle6, h, c, compactSupport, nSearchPointer, kernelPointer);
-				} else {
-					p[1] = E[j][0];
-					p[5] = E[j][1];
-				}
+		    p[5] = levelSetPointer->evaluate(particles, tempParticle6, h, c, compactSupport, nSearchPointer, kernelPointer);
+		} else {
+		    p[1] = E[j][0];
+		    p[5] = E[j][1];
+		}
 				
-				if(m==0) {
+		if(m==0) {
                     particle tempParticle7(g.xMin()+(j*g.cellSize())+g.cellSize(), g.yMin()+(i*g.cellSize())+g.cellSize(), g.zMin()+(m*g.cellSize()));
-					p[2] = levelSetPointer->evaluate(particles, tempParticle7, h, c, compactSupport, nSearchPointer, kernelPointer);
-				} else {
-					p[2] = D[j][i];
-				}
+		    p[2] = levelSetPointer->evaluate(particles, tempParticle7, h, c, compactSupport, nSearchPointer, kernelPointer);
+		} else {
+		    p[2] = D[j][i];
+		}
 				
                 particle tempParticle8(g.xMin()+(j*g.cellSize())+g.cellSize(), g.yMin()+(i*g.cellSize())+g.cellSize(), g.zMin()+(m*g.cellSize())+g.cellSize());
-				p[6] = levelSetPointer->evaluate(particles, tempParticle8, h, c, compactSupport, nSearchPointer, kernelPointer);
+		p[6] = levelSetPointer->evaluate(particles, tempParticle8, h, c, compactSupport, nSearchPointer, kernelPointer);
 
-				L[0] = p[1];
-				L[1] = p[2];
-				L[2] = p[5];
-				L[3] = p[6];
-				E[j][0] = p[2];
-				E[j][1] = p[6];
-				D[j][i] = p[6];
+		L[0] = p[1];
+		L[1] = p[2];
+		L[2] = p[5];
+		L[3] = p[6];
+		E[j][0] = p[2];
+		E[j][1] = p[6];
+		D[j][i] = p[6];
                 
 
                 
@@ -146,7 +149,7 @@ triangleList marchingCubesReconstructor::reconstruct(
 
                 //Ignores fully encased cells and ones without intersections
                 if((geometryIdentifier == 0) || (geometryIdentifier == 255)) {
-                    break;
+                    continue;
                 }
 
                 numImportantGridcells++;
@@ -154,13 +157,11 @@ triangleList marchingCubesReconstructor::reconstruct(
                 //Creates Vector that includes Intersected Edges
                 std::vector<int> intersectedEdges;
                 std::set<int> edgesSet;
-                for(int i=0; i<16; i++) {
-                    if (geometryTable[geometryIdentifier][i] != -1){                                                                                   
-                        intersectedEdges.push_back(geometryTable[geometryIdentifier][i]);
-                        edgesSet.insert(geometryTable[geometryIdentifier][i]);
-                    } else {
-                        break;
-                    }   
+                for(int k=0; k<16; k++) {
+                    if (geometryTable[geometryIdentifier][k] != -1){                                                                             
+                        intersectedEdges.push_back(geometryTable[geometryIdentifier][k]);
+                        edgesSet.insert(geometryTable[geometryIdentifier][k]);
+                    }
                 }
 
                 std::cout << "# of Edges: " << intersectedEdges.size() << std::endl;
@@ -168,17 +169,16 @@ triangleList marchingCubesReconstructor::reconstruct(
                 // Add new triangles.
                 int numberParticles = list.getNumberOfParticles();
                 std::cout << "# of Particles: " << numberParticles << std::endl;
-                for (int i=0; i<intersectedEdges.size(); i+=3) {
-                    int index1 = std::distance(edgesSet.begin(), edgesSet.find(intersectedEdges[i]));
-                    int index2 = std::distance(edgesSet.begin(), edgesSet.find(intersectedEdges[i+1]));
-                    int index3 = std::distance(edgesSet.begin(), edgesSet.find(intersectedEdges[i+2]));
+                for (int k=0; k<intersectedEdges.size(); k+=3) {
+                    int index1 = numberParticles + std::distance(edgesSet.begin(), edgesSet.find(intersectedEdges[k]));
+                    int index2 = numberParticles + std::distance(edgesSet.begin(), edgesSet.find(intersectedEdges[k+1]));
+                    int index3 = numberParticles + std::distance(edgesSet.begin(), edgesSet.find(intersectedEdges[k+2]));
                     list.addTriangle(index1, index2, index3);
                 }
 
 
                 //Linear Interpolation of Intersection Coordinates
                 float vertexCoordinatesX[2],vertexCoordinatesY[2],vertexCoordinatesZ[2];
-                //for (int r=0; r<intersectedEdges.size(); r++) {
                 std::set<int>::iterator edgeIterator = edgesSet.begin();
                 //std::cout << "set size: " << edgesSet.size() << std::endl;
                 for (int r=0; r<edgesSet.size(); r++, edgeIterator++) {
@@ -190,6 +190,7 @@ triangleList marchingCubesReconstructor::reconstruct(
                     vertexCoordinatesZ[0] = g.zMin()+(m*g.cellSize());
                     vertexCoordinatesZ[1] = g.zMin()+(m*g.cellSize());
 
+                    std::cout << "4: j = " << j << std::endl;
                     for (int t=0; t<2; t++) {
                         if(edgeTable[edgeNumber][t] == 1) {vertexCoordinatesX[t]+=g.cellSize();}
                         if(edgeTable[edgeNumber][t] == 2) {vertexCoordinatesX[t]+=g.cellSize();
@@ -205,24 +206,6 @@ triangleList marchingCubesReconstructor::reconstruct(
                                                            vertexCoordinatesZ[t]+=g.cellSize();}
                     }
 
-                    /*for (int t=0; t<2; t++) {
-                        if(edgeTable[intersectedEdges[t]][0] == 1) {vertexCoordinatesX[t]+=g.cellSize();}
-                        if(edgeTable[intersectedEdges[t]][0] == 2) {vertexCoordinatesX[t]+=g.cellSize();
-                                                                    vertexCoordinatesY[t]+=g.cellSize();}
-                        if(edgeTable[intersectedEdges[t]][0] == 3) {vertexCoordinatesY[t]+=g.cellSize();}
-                        if(edgeTable[intersectedEdges[t]][0] == 4) {vertexCoordinatesZ[t]+=g.cellSize();}
-                        if(edgeTable[intersectedEdges[t]][0] == 5) {vertexCoordinatesX[t]+=g.cellSize();
-                                                                    vertexCoordinatesZ[t]+=g.cellSize();}
-                        if(edgeTable[intersectedEdges[t]][0] == 6) {vertexCoordinatesX[t]+=g.cellSize();
-                                                                    vertexCoordinatesY[t]+=g.cellSize();
-                                                                    vertexCoordinatesZ[t]+=g.cellSize();}
-                        if(edgeTable[intersectedEdges[t]][0] == 7) {vertexCoordinatesX[t]+=g.cellSize();
-                                                                    vertexCoordinatesY[t]+=g.cellSize();}
-                    }*/
-
-
-                    //float iso1 = p[edgeTable[intersectedEdges[i]][0]];
-                    //float iso2 = p[edgeTable[intersectedEdges[i]][1]];
                     float iso1 = p[edgeTable[edgeNumber][0]];
                     float iso2 = p[edgeTable[edgeNumber][1]];
                     //std::cout << "iso1 " << iso1 << std::endl;
@@ -230,6 +213,7 @@ triangleList marchingCubesReconstructor::reconstruct(
                     float x = (1.0-(iso1/(iso1-iso2)))*(vertexCoordinatesX[0]) + ((iso1/(iso1-iso2))*vertexCoordinatesX[1]);
                     float y = (1.0-(iso1/(iso1-iso2)))*vertexCoordinatesY[0] + ((iso1/(iso1-iso2))*vertexCoordinatesY[1]);
                     float z = (1.0-(iso1/(iso1-iso2)))*vertexCoordinatesZ[0] + ((iso1/(iso1-iso2))*vertexCoordinatesZ[1]);
+                    //std::cout << "x = " << x << ", y = " << y << ", z = " << z << std::endl;
         
                     particle intersection(x,y,z);
 
@@ -242,6 +226,17 @@ triangleList marchingCubesReconstructor::reconstruct(
 
             }
         }
+    }
+
+    //for (int i = 0; i < list.getNumberOfParticles(); ++i) {
+    //    std::cout << "x = " << list.getParticle(i).x() << ", y = " << list.getParticle(i).y() << ", z = " << list.getParticle(i).z() << std::endl;
+    //}
+    for (int i = 0; i < list.getNumberOfTriangles(); ++i) {
+        std::array<particle, 3> triang = list.getTriangle(i);
+        for (int j = 0; j < 3; ++j) {
+            std::cout << "x = " << triang[j].x() << ", y = " << triang[j].y() << ", z = " << triang[j].z() << std::endl;
+        }
+        std::cout << "---" << std::endl;
     }
     std::cout << std::endl << std::endl;
     std::cout << "Graph X: " << g.xMin() << "->" << g.xMax() << std::endl;
