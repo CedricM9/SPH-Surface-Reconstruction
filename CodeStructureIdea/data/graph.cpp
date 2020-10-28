@@ -32,8 +32,8 @@ graph::graph(particleList& particles, int accuracy) {
     zMin_ = zMin_ - padding;
     zMax_ = zMax_ + padding;
 
-    cellSize_ = (largestSide / (100 + (accuracy*10)));
-        
+    cellSize_ = (largestSide / (10 + (accuracy*10)));
+       
     numCells_[0] = (xMax_ - xMin_) / cellSize_;
     numCells_[1] = (yMax_ - yMin_) / cellSize_;
     numCells_[2] = (zMax_ - zMin_) / cellSize_;
