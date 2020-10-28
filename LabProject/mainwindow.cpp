@@ -303,3 +303,13 @@ void MainWindow::on_checkBox_stateChanged(int arg1)
         surfaceMaterial->setAlphaBlendingEnabled(true);
     }
 }
+
+void MainWindow::on_simplifyPushButton_clicked()
+{
+
+}
+
+void MainWindow::on_postSmoothingPushButton_clicked()
+{
+
+}

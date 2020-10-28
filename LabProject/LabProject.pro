@@ -20,6 +20,7 @@ LIBS += -fopenmp
 
 
 SOURCES += \
+    CompactNSearch/src/CompactNSearch.cpp \
     main.cpp \
     mainwindow.cpp \
     surfrec_io/code/io.cpp \
@@ -55,6 +56,19 @@ SOURCES += \
     surfrec_io/extern/zlib/src/zutil.c
 
 HEADERS += \
+    CompactNSearch/extern/libmorton/libmorton/include/morton.h \
+    CompactNSearch/extern/libmorton/libmorton/include/morton2D.h \
+    CompactNSearch/extern/libmorton/libmorton/include/morton2D_LUTs.h \
+    CompactNSearch/extern/libmorton/libmorton/include/morton3D.h \
+    CompactNSearch/extern/libmorton/libmorton/include/morton3D_LUTs.h \
+    CompactNSearch/extern/libmorton/libmorton/include/morton_BMI.h \
+    CompactNSearch/extern/libmorton/libmorton/include/morton_LUT_generators.h \
+    CompactNSearch/extern/libmorton/libmorton/include/morton_common.h \
+    CompactNSearch/include/CompactNSearch \
+    CompactNSearch/include/CompactNSearch.h \
+    CompactNSearch/include/Config.h \
+    CompactNSearch/include/DataStructures.h \
+    CompactNSearch/include/PointSet.h \
     mainwindow.h \
     surfrec_io/code/io.h \
     surfrec_io/extern/Eigen/Eigen/Cholesky \
@@ -433,9 +447,31 @@ RESOURCES += \
     resources.qrc
 
 DISTFILES += \
+    CompactNSearch/.github/workflows/build-linux.yml \
+    CompactNSearch/.github/workflows/build-windows.yml \
+    CompactNSearch/CMakeLists.txt \
+    CompactNSearch/LICENSE \
+    CompactNSearch/README.md \
+    CompactNSearch/demo/CMakeLists.txt \
+    CompactNSearch/extern/libmorton/LICENSE \
+    CompactNSearch/extern/libmorton/README.md \
     surfrec_io/extern/Eigen/CMakeLists.txt \
     surfrec_io/extern/Eigen/signature_of_eigen3_matrix_library \
     surfrec_io/extern/partio/CMakeLists.txt \
     surfrec_io/extern/partio/README \
     surfrec_io/extern/partio/src/lib/CMakeLists.txt \
     surfrec_io/extern/zlib/CMakeLists.txt
+
+win32:CONFIG(release, debug|release): LIBS += -L$$PWD/OpenMesh/Lib/ -lOpenMeshCore
+else:win32:CONFIG(debug, debug|release): LIBS += -L$$PWD/OpenMesh/Lib/ -lOpenMeshCored
+else:unix: LIBS += -L$$PWD/OpenMesh/Lib/ -lOpenMeshCore
+
+INCLUDEPATH += $$PWD/OpenMesh/Core
+DEPENDPATH += $$PWD/OpenMesh/Core
+
+win32:CONFIG(release, debug|release): LIBS += -L$$PWD/OpenMesh/Lib/ -lOpenMeshTools
+else:win32:CONFIG(debug, debug|release): LIBS += -L$$PWD/OpenMesh/Lib/ -lOpenMeshToolsd
+else:unix: LIBS += -L$$PWD/OpenMesh/Lib/ -lOpenMeshTools
+
+INCLUDEPATH += $$PWD/OpenMesh/Tools
+DEPENDPATH += $$PWD/OpenMesh/Tools
