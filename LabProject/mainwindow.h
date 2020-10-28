@@ -67,11 +67,13 @@ private slots:
 
     void on_nextFramePushButton_clicked();
 
-    void on_checkBox_stateChanged(int arg1);
+    void on_transparencyCheckBox_stateChanged(int arg1);
 
     void on_simplifyPushButton_clicked();
 
     void on_postSmoothingPushButton_clicked();
+
+    void on_surfaceCheckBox_stateChanged(int arg1);
 
 private:
     Ui::MainWindow *ui;

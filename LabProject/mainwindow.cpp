@@ -294,7 +294,7 @@ void MainWindow::on_nextFramePushButton_clicked()
     on_loadPushButton_clicked();
 }
 
-void MainWindow::on_checkBox_stateChanged(int arg1)
+void MainWindow::on_transparencyCheckBox_stateChanged(int arg1)
 {
     if (arg1 == 0) {
         surfaceMaterial->setAlphaBlendingEnabled(false);
@@ -312,4 +312,14 @@ void MainWindow::on_simplifyPushButton_clicked()
 void MainWindow::on_postSmoothingPushButton_clicked()
 {
 
+}
+
+void MainWindow::on_surfaceCheckBox_stateChanged(int arg1)
+{
+    if (arg1 == 0) {
+        surfaceMaterial->setEnabled(false);
+    }
+    if(arg1 == 2) {
+        surfaceMaterial->setEnabled(true);
+    }
 }
