@@ -4,6 +4,8 @@
 #include "particle_list.h"
 #include "triangle_list.h"
 
+#include "spatial_hashing_neighborhood_search.h"
+
 #include "partio_particle_reader.h"
 #include "vtk_particle_reader.h"
 #include "vtk_triangle_reader.h"
@@ -40,6 +42,16 @@ int main() {
     // Index a triangle.
     std::array<particle, 3> t = triangles.getTriangle(0);
     std::cout << "third particle of first triangle: x = " << t[2].x() << ", y = " << t[2].y() << ", z = " << t[2].z() << std::endl;
+
+    // Neighborhood search for one particle.
+    spatialHashingNeighborhoodSearch nsearch;
+    particles.addParticle(particle(0.5, 0.5, 0.5));
+    std::vector<std::vector<int>> all_neighbors = nsearch.find(particles, 0.9);
+    std::vector<unsigned int> neighbors = nsearch.find(particles, 0.9, 1);
+    std::cout << "neighbors of particle 1:" << std::endl;
+    for (auto neighbor : neighbors) {
+        std::cout << neighbor << std::endl;
+    }
 
     // Create readers.
     partioParticleReader partioParticleIn;
@@ -86,17 +98,19 @@ int main() {
     //vertices.addParticle(0.5,0.5,0.5);
     //vertices.addParticle(0,0,0.5);
     //vertices.addParticle(0,0.5,0);
-    for (int i = 0; i < 5; ++i) {
-        for (int j = 0; j < 5; ++j) {
-            for (int k=0; k<5; ++k) {
-                particle p(k/10.0, j/10.0, i/10.0);
+    int n = 3;
+    float scaling = 20.0;
+    for (int i = 0; i < 3; ++i) {
+        for (int j = 0; j < 3; ++j) {
+            for (int k=0; k<3; ++k) {
+                particle p(k/scaling, j/scaling, i/scaling);
                 vertices.addParticle(p);
             }
         }
     }
     //vertices = partioParticleIn.read("/media/sf_Software_Lab/SPH-Surface-Reconstruction/SimulationOutputTestData/bgeo/ParticleData_Fluid_163.bgeo");
     graph g(vertices, 1);
-    float h = 0.3;  // smoothing length
+    float h = 0.028;  // smoothing length
     float r = 2*h;
     triangleList result = reconstructor.reconstruct(g, vertices, h, r, levelSetPointer, nSearchPointer, kernelPointer);
     plyTriangleOut.write("test_result2.ply", result);

@@ -12,7 +12,6 @@ std::vector<std::vector<int>> spatialHashingNeighborhoodSearch::find(const parti
     // Create test data.
     std::vector<std::array<Real, 3>> positions;
     int numberParticles = list.getNumberOfParticles();
-    int getNumberOfParticles();
     for (int i=0; i<numberParticles; ++i) {
         std::array<Real, 3> point = {list.getParticle(i).x(), list.getParticle(i).y(), list.getParticle(i).z()};
         positions.push_back(point);
@@ -37,5 +36,33 @@ std::vector<std::vector<int>> spatialHashingNeighborhoodSearch::find(const parti
         all_neighbors.push_back(neighbors);
     }
     return all_neighbors;
+}
+
+std::vector<unsigned int> spatialHashingNeighborhoodSearch::find(const particleList& list, double radius, int index) {
+    // Check pre requisites.
+    assert(radius > 0);
+    int numberParticles = list.getNumberOfParticles();
+    assert(index < numberParticles);
+
+    // Create data structure to perform neighborhood search with fixed radius.
+    NeighborhoodSearch nsearch(radius);
+
+    // Convert particle list to vector of arrays of reals.
+    std::vector<std::array<Real, 3>> positions;
+    for (int i=0; i<numberParticles; ++i) {
+        std::array<Real, 3> point = {list.getParticle(i).x(), list.getParticle(i).y(), list.getParticle(i).z()};
+        positions.push_back(point);
+    }
+
+    // Add the points to the neighborhood search data structure.
+    unsigned int point_set_id = nsearch.add_point_set(positions.front().data(), positions.size());
+
+    // Perform nerighborhood search on the added point set for the given particle index.
+    std::vector<std::vector<unsigned int>> all_neighbors;
+    nsearch.update_point_sets();
+    nsearch.find_neighbors(point_set_id, index, all_neighbors);
+
+    // Return the index vector for the given particle.
+    return all_neighbors[0];
 }
 
