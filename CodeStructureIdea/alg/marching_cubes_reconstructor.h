@@ -9,7 +9,7 @@ class marchingCubesReconstructor : public surfaceReconstructor {
   public:
     marchingCubesReconstructor() {}
 
-    void calculateDensities(std::vector<std::vector<int>>& nearestNeighbors, 
+    void calculateDensities(std::vector<std::vector<unsigned int>>& nearestNeighbors, 
                             std::shared_ptr<SPHInterpolationKernel> kernelPointer,
                             particleList& particles,
                             float h);

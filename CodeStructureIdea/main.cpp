@@ -4,8 +4,6 @@
 #include "particle_list.h"
 #include "triangle_list.h"
 
-#include "spatial_hashing_neighborhood_search.h"
-
 #include "partio_particle_reader.h"
 #include "vtk_particle_reader.h"
 #include "vtk_triangle_reader.h"
@@ -45,13 +43,13 @@ int main() {
 
     // Neighborhood search for one particle.
     spatialHashingNeighborhoodSearch nsearch;
-    particles.addParticle(particle(0.5, 0.5, 0.5));
-    std::vector<std::vector<int>> all_neighbors = nsearch.find(particles, 0.9);
-    std::vector<unsigned int> neighbors = nsearch.find(particles, 0.9, 1);
-    std::cout << "neighbors of particle 1:" << std::endl;
+    std::vector<std::vector<unsigned int>> all_neighbors = nsearch.find(particles, 0.9);
+    std::vector<unsigned int> neighbors = nsearch.find(particles, 0.9, 0.5, 0.5, 0.5);
+    std::cout << "neighbors of particle 0.5 0.5 0.5:" << std::endl;
     for (auto neighbor : neighbors) {
-        std::cout << neighbor << std::endl;
+        std::cout << neighbor << "  ";
     }
+    std::cout << std::endl;
 
     // Create readers.
     partioParticleReader partioParticleIn;
@@ -70,7 +68,7 @@ int main() {
     // Find nearest neighbors.
     spatialHashingNeighborhoodSearch nSearch;
     std::shared_ptr<spatialHashingNeighborhoodSearch> nSearchPointer = std::make_shared<spatialHashingNeighborhoodSearch>(nSearch);
-    std::vector<std::vector<int>> nearestNeighbors = nSearch.find({}, 0.5);
+    std::vector<std::vector<unsigned int>> nearestNeighbors = nSearch.find({}, 0.5);
 
     // Evaluate cubic spline kernel.
     cubicSplineKernel kernel;

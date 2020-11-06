@@ -14,18 +14,20 @@ class spatialHashingNeighborhoodSearch : public compactNeighborhoodSearch {
 
     /** \brief Function where the actual compact neighborhood search algorithm is implemented
      * \details For a given particle list and radius a list of all neighbors is returned for each particle.
-     * \param list triangle list to be searched
+     * \param list particle list to be searched
      * \param radius radius in which neighbors are searched for each particle
      */
-    std::vector<std::vector<int>> find(const particleList& list, double radius);
+    std::vector<std::vector<unsigned int>> find(const particleList& list, float radius);
 
     /** \brief Function where the actual compact neighborhood search algorithm is implemented
-     * \details For a given particle list, radius and a particle index all neighbors for this paricle is returned.
-     * \param list triangle list to be searched
+     * \details For a given particle list, radius and a point all neighbors for this point is returned.
+     * \param list particle list to be searched
      * \param radius radius in which neighbors are searched for each particle
-     * \param index index of the particle in the particle list for which all neighbors have to be searched
+     * \param x x-coordinate of the point for which all neighbors have to be searched
+     * \param y y-coordinate of the point for which all neighbors have to be searched
+     * \param z z-coordinate of the point for which all neighbors have to be searched
      */
-    std::vector<unsigned int> find(const particleList& list, double radius, int index);
+    std::vector<unsigned int> find(const particleList& list, float radius, float x, float y, float z);
 };
 
 #include "spatial_hashing_neighborhood_search.cpp"

@@ -18,7 +18,7 @@ class compactNeighborhoodSearch {
      * \param list triangle list to be searched
      * \param radius radius in which neighbors are searched for each particle
      */
-    virtual std::vector<std::vector<int>> find(const particleList& list, double radius) = 0;
+    virtual std::vector<std::vector<unsigned int>> find(const particleList& list, float radius) = 0;
 };
 
 #endif // COMPACT_NEIGHBORHOOD_SEARCH_H
