@@ -1,3 +1,5 @@
+#include <cmath>
+
 graph::graph() : xMin_(0.0), xMax_(0.0), yMin_(0.0), yMax_(0.0), zMin_(0.0), zMax_(0.0), cellSize_(0.0) {}
 
 //graph::graph(float x1, float x2, float y1, float y2, float z1, float z2)
@@ -32,11 +34,11 @@ graph::graph(particleList& particles, int accuracy) {
     zMin_ = zMin_ - padding;
     zMax_ = zMax_ + padding;
 
-    cellSize_ = (largestSide / (10 + (accuracy*10)));
+    cellSize_ = (largestSide + 2.0*padding) / (10.0 + (accuracy*10.0));
        
-    numCells_[0] = (xMax_ - xMin_) / cellSize_;
-    numCells_[1] = (yMax_ - yMin_) / cellSize_;
-    numCells_[2] = (zMax_ - zMin_) / cellSize_;
+    numCells_[0] = ceil((xMax_ - xMin_) / cellSize_);
+    numCells_[1] = ceil((yMax_ - yMin_) / cellSize_);
+    numCells_[2] = ceil((zMax_ - zMin_) / cellSize_);
 }
     
 
