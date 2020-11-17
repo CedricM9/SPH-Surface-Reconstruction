@@ -14,7 +14,9 @@ class levelSetFunction {
     virtual ~levelSetFunction() = default;
 
     virtual double evaluate(particleList& list, 
-                    particle& p, 
+                    float x,
+                    float y,
+                    float z,
                     float h,
                     float c,
                     float r,

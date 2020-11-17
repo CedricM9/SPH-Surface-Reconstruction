@@ -1,6 +1,8 @@
 #ifndef MARCHING_CUBES_RECONSTRUCTOR_H
 #define MARCHING_CUBES_RECONSTRUCTOR_H
 
+#include<cmath>
+
 #include "surface_reconstructor.h"
 #include "possibleGeometry.data"
 #include "edgeIdentification.data"

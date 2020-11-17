@@ -12,6 +12,7 @@ class cubicSplineKernel : public SPHInterpolationKernel {
     cubicSplineKernel();
     
     virtual void setRadius(float compactSupport);
+    virtual float evaluate(float x, float y, float z, particle p2);
     virtual float evaluate(particle p1, particle p2);
 
 

@@ -3,6 +3,7 @@
 
 #include<memory>
 #include<vector>
+#include<cmath>
 
 #include "level_set_function.h"
 
@@ -11,7 +12,9 @@ class dimensionlessLevelSetFunction : public levelSetFunction {
     dimensionlessLevelSetFunction();
 
     double evaluate(particleList& list, 
-                    particle& p, 
+                    float x,
+                    float y,
+                    float z,
                     float h,
                     float c,
                     float r,

@@ -11,6 +11,7 @@ class spikyKernel : public SPHInterpolationKernel {
     spikyKernel();
 
     void setRadius(float compactSupport);
+    double evaluate(float x, float y, float z, particle& p2);
     double evaluate(particle& p1, particle& p2);
 
   private:

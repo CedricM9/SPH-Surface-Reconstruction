@@ -6,6 +6,20 @@ void spikyKernel::setRadius(float compactSupport) {
 }
     
 
+double spikyKernel::evaluate(float x, float y, float z, particle& p2) {
+
+    float xDistance = p2.x() - x;
+    float yDistance = p2.y() - y;
+    float zDistance = p2.z() - z;
+
+    float r = sqrt( (xDistance*xDistance) + (yDistance*yDistance) + (zDistance*zDistance));
+    float result = 0.0;
+
+    if ((r >= 0) && (r <= h_)) {result = pow(h_-r,3);}
+    else {return 0;}
+    return a_*result;
+}
+
 double spikyKernel::evaluate(particle& p1, particle& p2) {
 
     float xDistance = p2.x() - p1.x();

@@ -53,17 +53,17 @@ int main() {
 
     // Create readers.
     partioParticleReader partioParticleIn;
-    particles = partioParticleIn.read("/media/sf_Software_Lab/SPH-Surface-Reconstruction/SimulationOutputTestData/bgeo/ParticleData_Fluid_163.bgeo");
+    //  particles = partioParticleIn.read("/media/sf_Software_Lab/SPH-Surface-Reconstruction/SimulationOutputTestData/bgeo/ParticleData_Fluid_163.bgeo");
     vtkParticleReader vtkParticleIn;
     //particles = vtkParticleIn.read("/media/sf_Software_Lab/SPH-Surface-Reconstruction/SimulationOutputTestData/vtk/ParticleData_Fluid_163.vtk");
     vtkTriangleReader vtkTriangleIn;
-    //particles = vtkTriangleIn.read("filename.vtk");
+    particles = vtkTriangleIn.read("ParticleData_Fluid_1.vtk");
 
     // Create writers.
     vtkTriangleWriter vtkTriangleOut;
     vtkTriangleOut.write("filename.vtk", triangles);
-    plyTriangleWriter plyTriangleOut;
-    plyTriangleOut.write("filename.ply", triangles);
+    //  plyTriangleWriter plyTriangleOut;
+    //  plyTriangleOut.write("filename.ply", triangles);
 
     // Find nearest neighbors.
     spatialHashingNeighborhoodSearch nSearch;
@@ -83,11 +83,13 @@ int main() {
     // Reconstruct a surface using marching cubes algorithm.
     marchingCubesReconstructor reconstructor;
     //triangleList result = reconstructor.reconstruct(particles, levelSetPointer, nSearchPointer, kernelPointer);
+    /*
     particleList vertices;
     for (int i = 0; i < 8; ++i) {
         particle p(i/10.0, i/10.0, i/10.0);
         //vertices.addParticle(p);
     }
+    */
     //vertices.addParticle(0.5,0,0);
     //vertices.addParticle(0,0,0);
     //vertices.addParticle(0.5,0.5,0);
@@ -96,22 +98,25 @@ int main() {
     //vertices.addParticle(0.5,0.5,0.5);
     //vertices.addParticle(0,0,0.5);
     //vertices.addParticle(0,0.5,0);
+    //particleList particles;
+/*    
     int n = 3;
     float scaling = 20.0;
     for (int i = 0; i < 3; ++i) {
         for (int j = 0; j < 3; ++j) {
             for (int k=0; k<3; ++k) {
                 particle p(k/scaling, j/scaling, i/scaling);
-                vertices.addParticle(p);
+                particles.addParticle(p);
             }
         }
     }
+ */  
     //vertices = partioParticleIn.read("/media/sf_Software_Lab/SPH-Surface-Reconstruction/SimulationOutputTestData/bgeo/ParticleData_Fluid_163.bgeo");
-    graph g(vertices, 1);
+    graph g(particles, 1);
     float h = 0.028;  // smoothing length
     float r = 2*h;
-    triangleList result = reconstructor.reconstruct(g, vertices, h, r, levelSetPointer, nSearchPointer, kernelPointer);
-    plyTriangleOut.write("test_result2.ply", result);
+    triangleList result = reconstructor.reconstruct(g, particles, h, r, levelSetPointer, nSearchPointer, kernelPointer);
+    //  plyTriangleOut.write("test_result2.ply", result);
     vtkTriangleOut.write("test_result2.vtk", result);
 
     // Postprocessing.
