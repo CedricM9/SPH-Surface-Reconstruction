@@ -13,6 +13,7 @@
 class triangleReader : public reader {
   public:
     triangleReader() {}
+    virtual ~triangleReader() = default;
 
     /** \brief Abstract function where the actual reading triangles algorithm is implemented in the derived classes
      * \param filename name of the file with the triangles to read in

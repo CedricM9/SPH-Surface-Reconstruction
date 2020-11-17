@@ -13,6 +13,7 @@
 class triangleWriter : public writer {
   public:
     triangleWriter() {}
+    virtual ~triangleWriter() = default;
 
     /** \brief Abstract function where the actual writing triangles algorithm is implemented in the derived classes
      * \param filename name of the file to write the triangles to

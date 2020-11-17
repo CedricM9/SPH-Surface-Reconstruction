@@ -13,6 +13,7 @@
 class reader {
   public:
     reader() {}
+    virtual ~reader() = default;
 
     /** \brief Abstract function where the actual reading algorithm is implemented in the derived classes
      * \param filename name of the file with the data to read in

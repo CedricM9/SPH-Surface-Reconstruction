@@ -13,6 +13,7 @@
 class particleReader : public reader {
   public:
     particleReader() {}
+    virtual ~particleReader() = default;
 
     /** \brief Abstract function where the actual reading particles algorithm is implemented in the derived classes
      * \param filename name of the file with the particles to read in

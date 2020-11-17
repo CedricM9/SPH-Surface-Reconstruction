@@ -13,6 +13,7 @@
 class writer {
   public:
     writer() {}
+    virtual ~writer() = default;
 
     /** \brief Abstract funtion where the actual writing algorithm is implemented in the derived classes
      * \param filename name of the file to write the data to
