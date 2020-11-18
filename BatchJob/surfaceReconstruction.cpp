@@ -1,6 +1,11 @@
 #include <cassert>
 #include <experimental/filesystem>
 #include <string>
+#include <vector>
+
+#include <omp.h>
+
+#include "create_batch_job_script.cpp"
 
 #include "particle_list.h"
 #include "triangle_list.h"
@@ -28,7 +33,7 @@ int main(int argc, char* argv[]) {
 
     std::string neighborhoodSearch      = argv[3];  // only "spatialHashing"
     std::string kernelFunction          = argv[4];  // "cubicSpline" or "spiky"
-    std::string levelSetFunction        = argv[5];  // only "dimensionless"
+    std::string levelFunction           = argv[5];  // only "dimensionless"
     std::string reconstructionMethod    = argv[6];  // only "marchingCubes"
 
     std::string inputFolder             = argv[7];  // absolute path to simulation frames
@@ -38,82 +43,103 @@ int main(int argc, char* argv[]) {
     float compactSupport                = std::stof(argv[10]);
     int openMPThreads                   = std::stoi(argv[11]);
 
+    int requestedMinutes = 60;
+    int requestedMB = 512;
+    create_script("generated_batch_job_script.sh", inputFileFormat, outputFileFormat, neighborhoodSearch, kernelFunction, levelFunction, reconstructionMethod, inputFolder, outputFolder, smoothingLength, compactSupport, openMPThreads, requestedMinutes, requestedMB);
+
     // Create correct reader.
     std::shared_ptr<particleReader> particleIn;
     if (inputFileFormat == "bgeo") {
-        partioParticleReader partioParticleIn;
-        particleIn.reset(&partioParticleIn);
+        particleIn.reset(new partioParticleReader);
     } else if (inputFileFormat == "vtk") {
-        vtkParticleReader vtkParticleIn;
-        particleIn.reset(&vtkParticleIn);
+        particleIn.reset(new vtkParticleReader);
     } else {
-        std::cerr << "Input file format not supported. Has to be bgeo or vtk." << std::endl;
+        throw std::runtime_error("Input file format not supported. Has to be bgeo or vtk.");
     }
 
     // Create correct writer.
     std::shared_ptr<triangleWriter> triangleOut;
     if (outputFileFormat == "bgeo") {
-        plyTriangleWriter plyTriangleOut;
-        triangleOut.reset(&plyTriangleOut);
+        triangleOut.reset(new plyTriangleWriter);
     } else if (outputFileFormat == "vtk") {
-        vtkTriangleWriter vtkTriangleOut;
-        triangleOut.reset(&vtkTriangleOut);
+        triangleOut.reset(new vtkTriangleWriter);
     } else {
-        std::cerr << "Output file format not supported. Has to be ply or vtk." << std::endl;
+        throw std::runtime_error("Output file format not supported. Has to be ply or vtk.");
     }
 
     // Create pointer to the correct neighborhood search object.
-    std::shared_ptr<spatialHashingNeighborhoodSearch> nSearchPointer;
-    if (neighborhoodSearch == "spatialHasing") {
-        spatialHashingNeighborhoodSearch nSearch;
-        nSearchPointer = std::make_shared<spatialHashingNeighborhoodSearch>(nSearch);
+    std::shared_ptr<compactNeighborhoodSearch> nSearchPointer;
+    if (neighborhoodSearch == "spatialHashing") {
+        nSearchPointer.reset(new spatialHashingNeighborhoodSearch);
     } else {
-        std::cerr << "Neighborhood search not supported. Has to be spatialHashing." << std::endl;
+        throw std::runtime_error("Neighborhood search not supported. Has to be spatialHashing.");
     }
 
     // Create pointer to the correct SPH interpolation kernel.
     std::shared_ptr<cubicSplineKernel> kernelPointer;
     if (kernelFunction == "cubicSpline") {
-        cubicSplineKernel kernel;
-        kernelPointer = std::make_shared<cubicSplineKernel>(kernel);
+        kernelPointer.reset(new cubicSplineKernel);
     } else if (kernelFunction == "spiky") {
-//        spikyKernel kernel;
-//        kernelPointer = std::make_shared<cubicSplineKernel>(kernel);
+//        kernelPointer.reset(new spikyKernel);
     } else {
-        std::cerr << "Kernel function type not supported. Has to be cubicSpline or spiky." << std::endl;
+        throw std::runtime_error("Kernel function type not supported. Has to be cubicSpline or spiky.");
     }
 
     // Create pointer to the correct level set function.
-    std::shared_ptr<dimensionlessLevelSetFunction> levelSetPointer;
-    if (levelSetFunction == "dimensionless") {
-        dimensionlessLevelSetFunction levelSet;
-        levelSetPointer = std::make_shared<dimensionlessLevelSetFunction>(levelSet);
+    std::shared_ptr<levelSetFunction> levelSetPointer;
+    if (levelFunction == "dimensionless") {
+        levelSetPointer.reset(new dimensionlessLevelSetFunction);
     } else {
-        std::cerr << "Level set function type not supported. Has to be dimensionless." << std::endl;
+        throw std::runtime_error("Level set function type not supported. Has to be dimensionless.");
     }
 
     // Create pointer to the correct reconstructor.
     std::shared_ptr<surfaceReconstructor> reconstructionPointer;
     if (reconstructionMethod == "marchingCubes") {
-        marchingCubesReconstructor reconstructor;
-        //reconstructionPointer = std::make_shared<surfaceReconstructor>(reconstructor);
-        reconstructionPointer.reset(&reconstructor);
+        reconstructionPointer.reset(new marchingCubesReconstructor);
     } else {
-        std::cerr << "Surface reconstruction method not supported. Has to be marchingCubes." << std::endl;
+        throw std::runtime_error("Surface reconstruction method not supported. Has to be marchingCubes.");
     }
 
-    // TODO: add openmp    
+    std::vector<std::string> inputFileNames;
     for (const auto & entry : std::experimental::filesystem::directory_iterator(inputFolder)) {
-        std::cout << entry.path() << std::endl;
-        std::string inputFile = entry.path();
-        std::string outputFile = entry.path();
+        inputFileNames.push_back(entry.path());
+    }
+    // Set up openMP.
+    omp_set_num_threads(openMPThreads);
 
-        // Reconstruct a surface using marching cubes algorithm.
-        particleList particles = particleIn->read(inputFolder);
-        graph reconstructionGraph(particles, 1);
-        triangleList result = reconstructionPointer->reconstruct(
-            reconstructionGraph, particles, smoothingLength, compactSupport, levelSetPointer, nSearchPointer, kernelPointer);
-        triangleOut->write(outputFile, result);
+#pragma omp parallel for firstprivate(particleIn, triangleOut, reconstructionPointer, nSearchPointer, kernelPointer, levelSetPointer)
+    for (int fileNumber = 0; fileNumber < inputFileNames.size(); ++fileNumber) {
+        // Read in the input file.
+        std::string numThreads = std::to_string(omp_get_num_threads());
+        std::string threadNum = std::to_string(omp_get_thread_num());
+        std::string inputFile = inputFileNames[fileNumber];
+        if (inputFileFormat == "vtk" && inputFile.substr(inputFile.size()-3, inputFile.size()) == "vtk" ||
+            inputFileFormat == "bgeo" && inputFile.substr(inputFile.size()-4, inputFile.size()) == "bgeo") {
+            // Get file names.
+            int fileNameBeginning = inputFile.find_last_of("/");
+            int fileNameEnding = inputFile.find_last_of(".");
+            std::string outputFile = outputFolder + inputFile.substr(fileNameBeginning, fileNameEnding);
+            std::string fileEnding = (outputFileFormat == "vtk") ? ".vtk" : ".ply";
+            if (std::experimental::filesystem::exists(outputFile)) {
+                throw std::runtime_error("Thread " + threadNum + " of " + numThreads + ": File " + outputFile + " already exists.");
+            }
+
+            // Read in particles.
+            std::cout << "Thread " + threadNum + " of " + numThreads + ": reading " << inputFile << std::endl;
+            particleList particles = particleIn->read(inputFile);
+
+            // Reconstruct a surface using marching cubes algorithm.
+            graph reconstructionGraph(particles, 1);
+            triangleList result = reconstructionPointer->reconstruct(
+                reconstructionGraph, particles, smoothingLength, compactSupport, levelSetPointer, nSearchPointer, kernelPointer);
+
+            // Write the output file.
+            std::cout << "Thread " + threadNum + " of " + numThreads + ": writing to " << outputFile << std::endl;
+            triangleOut->write(outputFile, result);
+        } else {
+            std::cerr << "Thread " + threadNum + " of " + numThreads + ": File " << inputFile << " is of wrong format." << std::endl;
+        }
     }
 
     // Postprocessing.
@@ -123,5 +149,11 @@ int main(int argc, char* argv[]) {
     //vtkTriangleOut.write("test_result5.vtk", result);
     //result = postprocessor.simplify(result);
 
+    particleIn.reset();
+    triangleOut.reset();
+    reconstructionPointer.reset();
+    levelSetPointer.reset();
+    nSearchPointer.reset();
+    kernelPointer.reset();
     return 0;
 }
