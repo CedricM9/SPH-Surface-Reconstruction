@@ -38,7 +38,7 @@ void create_script(std::string filename,
            << "\n\nsmoothingLength=" << std::to_string(smoothingLength)
            << "\ncompactSupport=" << std::to_string(compactSupport) << "\n\n";
 
-    script << "### Execute the application\n./surfaceReconstruction.exe "
-           << "inputFileFormat $outputFileFormat $neighborhoodSearch $kernelFunction $levelFunction $reconstructionMethod "
+    script << "### Execute and time the application\ntime ./surfaceReconstruction.exe "
+           << "$inputFileFormat $outputFileFormat $neighborhoodSearch $kernelFunction $levelFunction $reconstructionMethod "
            << "$inputFolder $outputFolder $smoothingLength $compactSupport";
 }
