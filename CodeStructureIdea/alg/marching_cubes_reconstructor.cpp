@@ -65,7 +65,7 @@ triangleList marchingCubesReconstructor::reconstruct(
     
     for (int i = 0; i < particles.getNumberOfParticles(); ++i) {
         particle cur = particles.getParticle(i);
-        std::cout << cur.x() << " " << cur.y() << " " << cur.z() << ", density: " << particles.getParticle(i).density() << std::endl;
+        //std::cout << cur.x() << " " << cur.y() << " " << cur.z() << ", density: " << particles.getParticle(i).density() << std::endl;
     }
     particleList triangleCoordinates;
     triangleList list;
@@ -170,9 +170,9 @@ triangleList marchingCubesReconstructor::reconstruct(
                 if (p[6] < c) std::cout << "6  " << p[6] << "  " << geometryIdentifier << std::endl;
                 if (p[7] < c) std::cout << "7  " << p[7] << "  " << geometryIdentifier << std::endl;
                 */
-                std::cout << "-------------------" << std::endl;
-                std::cout << "ISO: " << geometryIdentifier << std::endl;
-                std::cout << p[0] << " " << p[1] << " " << p[2] << " " << p[3] << " " << p[4] << " " << p[5] << " " << p[6] << " " << p[7] << " " << std::endl;
+                //std::cout << "-------------------" << std::endl;
+                //std::cout << "ISO: " << geometryIdentifier << std::endl;
+                //std::cout << p[0] << " " << p[1] << " " << p[2] << " " << p[3] << " " << p[4] << " " << p[5] << " " << p[6] << " " << p[7] << " " << std::endl;
 
                 //Ignores fully encased cells and ones without intersections
                 if((geometryIdentifier == 0) || (geometryIdentifier == 255)) {
@@ -195,11 +195,11 @@ triangleList marchingCubesReconstructor::reconstruct(
                     }
                 }
 
-                std::cout << "# of Edges: " << intersectedEdges.size() << std::endl;
+                //std::cout << "# of Edges: " << intersectedEdges.size() << std::endl;
                 
                 // Add new triangles.
                 int numberParticles = list.getNumberOfParticles();
-                std::cout << "# of Particles: " << numberParticles << std::endl;
+                //std::cout << "# of Particles: " << numberParticles << std::endl;
                 for (int k=0; k<intersectedEdges.size(); k+=3) {
                     int index1 = numberParticles + std::distance(edgesSet.begin(), edgesSet.find(intersectedEdges[k]));
                     int index2 = numberParticles + std::distance(edgesSet.begin(), edgesSet.find(intersectedEdges[k+1]));
@@ -255,7 +255,7 @@ triangleList marchingCubesReconstructor::reconstruct(
                     //std::cout << "particles: " << list.getNumberOfParticles() << ", triangles: " << list.getNumberOfTriangles() << std::endl;
 
                 }
-                std::cout << "-------------------" << std::endl;
+                //std::cout << "-------------------" << std::endl;
 
             }
         }
