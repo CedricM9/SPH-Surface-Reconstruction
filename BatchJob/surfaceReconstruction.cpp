@@ -27,7 +27,7 @@
 
 int main(int argc, char* argv[]) {
     // Read in command line arguments.
-    assert(argc == 12);
+    assert(argc == 11);
     std::string inputFileFormat         = argv[1];  // "bgeo" or "vtk"
     std::string outputFileFormat        = argv[2];  // "ply" or "vtk"
 
@@ -41,8 +41,8 @@ int main(int argc, char* argv[]) {
 
     float smoothingLength               = std::stof(argv[9]);
     float compactSupport                = std::stof(argv[10]);
-    int openMPThreads                   = std::stoi(argv[11]);
 
+    int openMPThreads = 4;
     int requestedMinutes = 60;
     int requestedMB = 512;
     create_script("generated_batch_job_script.sh", inputFileFormat, outputFileFormat, neighborhoodSearch, kernelFunction, levelFunction, reconstructionMethod, inputFolder, outputFolder, smoothingLength, compactSupport, openMPThreads, requestedMinutes, requestedMB);
@@ -105,8 +105,6 @@ int main(int argc, char* argv[]) {
     for (const auto & entry : std::experimental::filesystem::directory_iterator(inputFolder)) {
         inputFileNames.push_back(entry.path());
     }
-    // Set up openMP.
-    omp_set_num_threads(openMPThreads);
 
 #pragma omp parallel for firstprivate(particleIn, triangleOut, reconstructionPointer, nSearchPointer, kernelPointer, levelSetPointer)
     for (int fileNumber = 0; fileNumber < inputFileNames.size(); ++fileNumber) {

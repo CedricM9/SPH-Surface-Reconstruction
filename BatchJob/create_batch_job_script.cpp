@@ -16,13 +16,15 @@ void create_script(std::string filename,
 
     script << "### File / path where STDOUT & STDERR will be written\n### %J is the job ID\n#SBATCH --output=surfaceReconstruction.%J.log\n\n";
 
-    script << "### Requested time\n#SBATCH --time=" << requestedMinutes << "\n\n";
+    script << "### Requested time\n#SBATCH --time=00:" << requestedMinutes << ":00\n\n";
 
     script << "### Requested memory needed per process in MB\n#SBATCH --mem-per-cpu=" << std::to_string(requestedMB) << "\n\n";
 
-    script << "### Requested number of compute slots\n#SBATCH --ntasks=4\n\n";
+    script << "### Requested number of compute slots\n#SBATCH --cpus-per-task=" << std::to_string(openMPThreads) << "\n\n";
 
-    script << "### Change to working directory\n$PWD\n\n";
+    script << "### Set the number of threads in the cluster environment as specified above\nexport OMP_NUM_THREADS=$SLURM_CPUS_PER_TASK\n\n";
+
+    script << "### Load a gcc compiler supporting C++17\nmodule load gcc/8\n\n";
 
     script << "### Create necessary variables\n" 
            << "inputFileFormat=" << inputFileFormat
@@ -34,10 +36,9 @@ void create_script(std::string filename,
            << "\n\ninputFolder=" << inputFolder
            << "\noutputFolder=" << outputFolder
            << "\n\nsmoothingLength=" << std::to_string(smoothingLength)
-           << "\ncompactSupport=" << std::to_string(compactSupport)
-           << "\nopenMPThreads=" << std::to_string(openMPThreads) << "\n\n";
+           << "\ncompactSupport=" << std::to_string(compactSupport) << "\n\n";
 
-    script << "### Execute the application\n./surfaceReconstructin.exe "
+    script << "### Execute the application\n./surfaceReconstruction.exe "
            << "inputFileFormat $outputFileFormat $neighborhoodSearch $kernelFunction $levelFunction $reconstructionMethod "
-           << "$inputFolder $outputFolder $smoothingLength $compactSupport $openMPThreads";
+           << "$inputFolder $outputFolder $smoothingLength $compactSupport";
 }
