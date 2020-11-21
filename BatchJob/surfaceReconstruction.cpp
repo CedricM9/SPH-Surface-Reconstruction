@@ -45,7 +45,7 @@ int main(int argc, char* argv[]) {
     int openMPThreads = 4;
     int requestedMinutes = 60;
     int requestedMB = 512;
-    create_script("generated_batch_job_script.sh", inputFileFormat, outputFileFormat, neighborhoodSearch, kernelFunction, levelFunction, reconstructionMethod, inputFolder, outputFolder, smoothingLength, compactSupport, openMPThreads, requestedMinutes, requestedMB);
+    //create_script("generated_batch_job_script.sh", inputFileFormat, outputFileFormat, neighborhoodSearch, kernelFunction, levelFunction, reconstructionMethod, inputFolder, outputFolder, smoothingLength, compactSupport, openMPThreads, requestedMinutes, requestedMB);
 
     // Create correct reader.
     std::shared_ptr<particleReader> particleIn;
@@ -54,7 +54,7 @@ int main(int argc, char* argv[]) {
     } else if (inputFileFormat == "vtk") {
         particleIn.reset(new vtkParticleReader);
     } else {
-        throw std::runtime_error("Input file format not supported. Has to be bgeo or vtk.");
+        throw std::runtime_error("Input file format not supported. Has to be bgeo or vtk, but is " + inputFileFormat + ".");
     }
 
     // Create correct writer.
@@ -64,7 +64,7 @@ int main(int argc, char* argv[]) {
     } else if (outputFileFormat == "vtk") {
         triangleOut.reset(new vtkTriangleWriter);
     } else {
-        throw std::runtime_error("Output file format not supported. Has to be ply or vtk.");
+        throw std::runtime_error("Output file format not supported. Has to be ply or vtk, but is " + outputFileFormat + ".");
     }
 
     // Create pointer to the correct neighborhood search object.
@@ -72,7 +72,7 @@ int main(int argc, char* argv[]) {
     if (neighborhoodSearch == "spatialHashing") {
         nSearchPointer.reset(new spatialHashingNeighborhoodSearch);
     } else {
-        throw std::runtime_error("Neighborhood search not supported. Has to be spatialHashing.");
+        throw std::runtime_error("Neighborhood search not supported. Has to be spatialHashing, but is " + neighborhoodSearch + ".");
     }
 
     // Create pointer to the correct SPH interpolation kernel.
@@ -82,7 +82,7 @@ int main(int argc, char* argv[]) {
     } else if (kernelFunction == "spiky") {
 //        kernelPointer.reset(new spikyKernel);
     } else {
-        throw std::runtime_error("Kernel function type not supported. Has to be cubicSpline or spiky.");
+        throw std::runtime_error("Kernel function type not supported. Has to be cubicSpline or spiky, but is " + kernelFunction + ".");
     }
 
     // Create pointer to the correct level set function.
@@ -90,7 +90,7 @@ int main(int argc, char* argv[]) {
     if (levelFunction == "dimensionless") {
         levelSetPointer.reset(new dimensionlessLevelSetFunction);
     } else {
-        throw std::runtime_error("Level set function type not supported. Has to be dimensionless.");
+        throw std::runtime_error("Level set function type not supported. Has to be dimensionless, but is " + levelFunction + ".");
     }
 
     // Create pointer to the correct reconstructor.
@@ -98,7 +98,7 @@ int main(int argc, char* argv[]) {
     if (reconstructionMethod == "marchingCubes") {
         reconstructionPointer.reset(new marchingCubesReconstructor);
     } else {
-        throw std::runtime_error("Surface reconstruction method not supported. Has to be marchingCubes.");
+        throw std::runtime_error("Surface reconstruction method not supported. Has to be marchingCubes, but is " + reconstructionMethod + ".");
     }
 
     std::vector<std::string> inputFileNames;

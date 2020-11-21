@@ -8,7 +8,7 @@
 #SBATCH --output=surfaceReconstruction.%J.log
 
 ### Requested time
-#SBATCH --time=00:60:00
+#SBATCH --time=00:15:00
 
 ### Requested memory needed per process in MB
 #SBATCH --mem-per-cpu=512
@@ -31,11 +31,11 @@ kernelFunction=cubicSpline
 levelFunction=dimensionless
 reconstructionMethod=marchingCubes
 
-inputFolder=/media/sf_Software_Lab/newd/test_input
-outputFolder=/media/sf_Software_Lab/newd/test_output
+inputFolder=../../test_input
+outputFolder=../../test_output
 
 smoothingLength=0.028000
 compactSupport=0.400000
 
 ### Execute the application
-./surfaceReconstruction.exe inputFileFormat $outputFileFormat $neighborhoodSearch $kernelFunction $levelFunction $reconstructionMethod $inputFolder $outputFolder $smoothingLength $compactSupport
+time ./surfaceReconstruction.exe $inputFileFormat $outputFileFormat $neighborhoodSearch $kernelFunction $levelFunction $reconstructionMethod $inputFolder $outputFolder $smoothingLength $compactSupport

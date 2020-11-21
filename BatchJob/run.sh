@@ -8,8 +8,8 @@ kernel=cubicSpline
 level=dimensionless
 reconstruction=marchingCubes
 
-input_folder=/media/sf_Software_Lab/newd/test_input
-output_folder=/media/sf_Software_Lab/newd/test_output
+input_folder=../../test_input
+output_folder=../../test_output
 
 smoothing_length=0.028
 compact_support=0.4
