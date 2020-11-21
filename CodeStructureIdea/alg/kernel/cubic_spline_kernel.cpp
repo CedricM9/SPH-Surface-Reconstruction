@@ -13,8 +13,8 @@ float cubicSplineKernel::evaluate(float x, float y, float z, particle p2) {
 
     float r = sqrt((xDistance*xDistance) + (yDistance*yDistance) + (zDistance*zDistance));
     float q = r / h_;  
-    float q2 = pow(q,2);
-    float q3 = pow(q,3);
+    float q2 = q*q;
+    float q3 = q2*q;
 
     //std::complex<float> resultantParticle(xVal, yVal);
     //float q = (std::norm(resultantParticle)+(zVal*zVal)) / h;
@@ -35,8 +35,8 @@ float cubicSplineKernel::evaluate(particle p1, particle p2) {
 
     float r = sqrt((xDistance*xDistance) + (yDistance*yDistance) + (zDistance*zDistance));
     float q = r / h_;  
-    float q2 = pow(q,2);
-    float q3 = pow(q,3);
+    float q2 = q*q;
+    float q3 = q2*q;
 
     //std::complex<float> resultantParticle(xVal, yVal);
     //float q = (std::norm(resultantParticle)+(zVal*zVal)) / h;

@@ -1,6 +1,6 @@
 #include <string>
 
-#include <Partio.h>
+#include "Partio.h"
 
 partioParticleReader::partioParticleReader() {}
 

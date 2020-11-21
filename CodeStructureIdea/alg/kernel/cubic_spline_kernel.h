@@ -1,7 +1,6 @@
 #ifndef CUBIC_SPLINE_KERNEL_H
 #define CUBIC_SPLINE_KERNEL_H
 
-#include<cmath>
 #include<complex>
 
 #include "particle.h"
