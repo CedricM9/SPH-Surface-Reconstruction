@@ -19,8 +19,9 @@ class openMeshProcessor : public postProcessor {
      * \details One smoothing iteration includes the calculation of the barycenter of its one-ring neighbors
      *  for each vertex and then moving the vertex to the computed barycenter.
      * \param list triangle list to be smoothed
+     * \param smoothingTimes number of times the smoothing algorithm is applied to the mesh
      */
-    triangleList smooth(const triangleList& list) const;
+    triangleList smooth(const triangleList& list, int smoothingTimes) const;
 
     /** \brief Function where the actual mesh decimation algorithm is implemented using Open Mesh
      * \details An Open Mesh Decimator using a quadric module computes an error for each decimation possibility.

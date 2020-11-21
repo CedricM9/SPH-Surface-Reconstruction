@@ -111,18 +111,20 @@ int main() {
         }
     }
  */  
-    //vertices = partioParticleIn.read("/media/sf_Software_Lab/SPH-Surface-Reconstruction/SimulationOutputTestData/bgeo/ParticleData_Fluid_163.bgeo");
+    //particles = partioParticleIn.read("/media/sf_Software_Lab/SPH-Surface-Reconstruction/SimulationOutputTestData/bgeo/ParticleData_Fluid_13.bgeo");
     graph g(particles, 1);
     float h = 0.028;  // smoothing length
     float r = 2*h;
     triangleList result = reconstructor.reconstruct(g, particles, h, r, levelSetPointer, nSearchPointer, kernelPointer);
     //  plyTriangleOut.write("test_result2.ply", result);
-    vtkTriangleOut.write("test_result2.vtk", result);
+    vtkTriangleOut.write("test_result4.vtk", result);
 
     // Postprocessing.
     openMeshProcessor postprocessor;
-    //result = postprocessor.smooth(result);
-    //result = postprocessor.simplify(result);
+    triangleList result2 = postprocessor.smooth(result, 100);
+    vtkTriangleOut.write("test_result5.vtk", result2);
+    triangleList result3 = postprocessor.simplify(result);
+    vtkTriangleOut.write("test_result6.vtk", result3);
 
     return 0;
 }
