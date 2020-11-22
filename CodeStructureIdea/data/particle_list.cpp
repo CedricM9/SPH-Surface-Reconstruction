@@ -8,6 +8,15 @@ void particleList::addParticle(particle p) {
     particles_.push_back(p);
 }
 
+int particleList::addParticleWithCheck(particle p) {
+    for (int index = 0; index < particles_.size(); ++index) {
+        particle existingParticle = particles_[index];
+        if (existingParticle.x() == p.x() && existingParticle.y() == p.y() && existingParticle.z() == p.z()) return index;
+    }
+    particles_.push_back(p);
+    return -1;
+}
+
 void particleList::removeParticle() {
     particles_.pop_back();
 }

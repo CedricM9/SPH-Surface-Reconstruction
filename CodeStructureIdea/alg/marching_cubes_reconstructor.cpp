@@ -195,23 +195,13 @@ triangleList marchingCubesReconstructor::reconstruct(
                     }
                 }
 
-                //std::cout << "# of Edges: " << intersectedEdges.size() << std::endl;
-                
-                // Add new triangles.
-                int numberParticles = list.getNumberOfParticles();
-                //std::cout << "# of Particles: " << numberParticles << std::endl;
-                for (int k=0; k<intersectedEdges.size(); k+=3) {
-                    int index1 = numberParticles + std::distance(edgesSet.begin(), edgesSet.find(intersectedEdges[k]));
-                    int index2 = numberParticles + std::distance(edgesSet.begin(), edgesSet.find(intersectedEdges[k+1]));
-                    int index3 = numberParticles + std::distance(edgesSet.begin(), edgesSet.find(intersectedEdges[k+2]));
-                    list.addTriangle(index1, index2, index3);
-                }
-
+                // Store number of particles before adding new points and indices of already existing points.
+                int numberParticlesBefore = list.getNumberOfParticles();
+                std::vector<int> edgesIndices(edgesSet.size(), -1);
 
                 //Linear Interpolation of Intersection Coordinates
                 float vertexCoordinatesX[2],vertexCoordinatesY[2],vertexCoordinatesZ[2];
                 std::set<int>::iterator edgeIterator = edgesSet.begin();
-                //std::cout << "set size: " << edgesSet.size() << std::endl;
                 for (int r=0; r<edgesSet.size(); r++, edgeIterator++) {
                     int edgeNumber = *edgeIterator;
                     vertexCoordinatesX[0] = g.xMin()+(j*g.cellSize());
@@ -245,15 +235,27 @@ triangleList marchingCubesReconstructor::reconstruct(
                     float y = (1.0-(iso1/(iso1-iso2)))*vertexCoordinatesY[0] + ((iso1/(iso1-iso2))*vertexCoordinatesY[1]);
                     float z = (1.0-(iso1/(iso1-iso2)))*vertexCoordinatesZ[0] + ((iso1/(iso1-iso2))*vertexCoordinatesZ[1]);
                     
-                    //std::cout << "x = " << x << ", y = " << y << ", z = " << z << std::endl;
- 
                     particle intersection(x,y,z);
+                    edgesIndices[r] = list.addParticleWithCheck(intersection);
 
-                    triangleCoordinates.addParticle(intersection);  
-
-                    list.addParticle(intersection);  
+                    //list.addParticle(intersection);  
                     //std::cout << "particles: " << list.getNumberOfParticles() << ", triangles: " << list.getNumberOfTriangles() << std::endl;
 
+                }
+
+                // Add new triangles.
+                for (int k=0; k<intersectedEdges.size(); k+=3) {
+                    std::array<int, 3> indices;
+                    for (int triangleVertexIndex = 0; triangleVertexIndex < 3; ++triangleVertexIndex) {
+                        int distance = std::distance(edgesSet.begin(), edgesSet.find(intersectedEdges[k + triangleVertexIndex]));
+                        int newOnes = std::count(edgesIndices.begin(), edgesIndices.begin() + distance, -1);
+                        if (edgesIndices[distance] == -1) {
+                            indices[triangleVertexIndex] = numberParticlesBefore + newOnes;
+                        } else {
+                            indices[triangleVertexIndex] = edgesIndices[distance];
+                        }
+                    }
+                    list.addTriangle(indices[0], indices[1], indices[2]);
                 }
                 //std::cout << "-------------------" << std::endl;
 
@@ -262,16 +264,17 @@ triangleList marchingCubesReconstructor::reconstruct(
     }
 
     //for (int i = 0; i < list.getNumberOfParticles(); ++i) {
-    //    std::cout << "x = " << list.getParticle(i).x() << ", y = " << list.getParticle(i).y() << ", z = " << list.getParticle(i).z() << std::endl;
+    //    std::cout << i << ", x = " << list.getParticle(i).x() << ", y = " << list.getParticle(i).y() << ", z = " << list.getParticle(i).z() << std::endl;
     //}
-    for (int i = 0; i < list.getNumberOfTriangles(); ++i) {
-        std::array<particle, 3> triang = list.getTriangle(i);
-        for (int j = 0; j < 3; ++j) {
-            std::cout << "x = " << triang[j].x() << ", y = " << triang[j].y() << ", z = " << triang[j].z() << std::endl;
-        }
-        std::cout << "---" << std::endl;
-    }
-    std::cout << std::endl << std::endl;
+    //std::cout << "#p = " << list.getNumberOfParticles() << ", #t = " << list.getNumberOfTriangles() << std::endl;
+    //for (int i = 0; i < list.getNumberOfTriangles(); ++i) {
+    //    std::array<particle, 3> triang = list.getTriangle(i);
+    //    for (int j = 0; j < 3; ++j) {
+    //        std::cout << list.getTriangleIndices(i)[j] << ", x = " << triang[j].x() << ", y = " << triang[j].y() << ", z = " << triang[j].z() << std::endl;
+    //    }
+    //    std::cout << "---" << std::endl;
+    //}
+    //std::cout << std::endl << std::endl;
     std::cout << "Graph X: " << g.xMin() << "->" << g.xMax() << std::endl;
     std::cout << "Graph Y: " << g.yMin() << "->" << g.yMax() << std::endl;
     std::cout << "Graph Z: " << g.zMin() << "->" << g.zMax() << std::endl << std::endl;

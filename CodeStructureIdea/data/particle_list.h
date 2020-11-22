@@ -12,6 +12,7 @@ class particleList {
     
     void addParticle(float x, float y, float z);
     void addParticle(particle p);
+    int addParticleWithCheck(particle p);
     void removeParticle();
 
     particle& getParticle(int index);

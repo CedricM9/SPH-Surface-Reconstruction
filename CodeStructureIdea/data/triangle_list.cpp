@@ -9,7 +9,7 @@ void triangleList::addTriangle(int index1, int index2, int index3) {
 }
 
 std::array<particle, 3> triangleList::getTriangle(int index) const {
-    assert(index < this->particles_.size());
+    assert(index < this->vertices_.size());
     return std::array<particle, 3>({
         this->particles_[vertices_[index][0]],
         this->particles_[vertices_[index][1]],

@@ -117,14 +117,42 @@ int main() {
     float r = 2*h;
     triangleList result = reconstructor.reconstruct(g, particles, h, r, levelSetPointer, nSearchPointer, kernelPointer);
     //  plyTriangleOut.write("test_result2.ply", result);
-    vtkTriangleOut.write("test_result4.vtk", result);
+    vtkTriangleOut.write("test_result.vtk", result);
 
     // Postprocessing.
     openMeshProcessor postprocessor;
-    triangleList result2 = postprocessor.smooth(result, 100);
-    vtkTriangleOut.write("test_result5.vtk", result2);
+    triangleList result2 = postprocessor.smooth(result, 50);
+    vtkTriangleOut.write("test_result_smoothed.vtk", result2);
+    std::cout << "result: particles = " << result.getNumberOfParticles() << ", triangles = " << result.getNumberOfTriangles() << std::endl;
     triangleList result3 = postprocessor.simplify(result);
-    vtkTriangleOut.write("test_result6.vtk", result3);
+    std::cout << "result after simplification: particles = " << result3.getNumberOfParticles() << ", triangles = " << result3.getNumberOfTriangles() << std::endl;
+    vtkTriangleOut.write("test_result_simplified.vtk", result3);
+
+    triangleList mesh;
+    for (int i = 0; i < 2; ++i) {
+        for (int j = 0; j < 2; ++j) {
+            for (int k = 0; k < 2; ++k) {
+                particle q(i, j, k);
+                mesh.addParticle(q);
+            }
+        }
+    }
+    mesh.addTriangle(1, 2, 0);
+    mesh.addTriangle(3, 2, 1);
+    mesh.addTriangle(0, 5, 1);
+    mesh.addTriangle(0, 4, 5);
+    mesh.addTriangle(5, 7, 1);
+    mesh.addTriangle(1, 7, 3);
+    mesh.addTriangle(3, 6, 2);
+    mesh.addTriangle(7, 6, 3);
+    mesh.addTriangle(7, 5, 4);
+    mesh.addTriangle(7, 4, 6);
+    mesh.addTriangle(0, 2, 6);
+    mesh.addTriangle(0, 6, 4);
+    
+    vtkTriangleOut.write("triangle_mesh.vtk", mesh);
+    triangleList smoothed = postprocessor.smooth(mesh, 1);
+    vtkTriangleOut.write("smoothed_triangle_mesh.vtk", smoothed);
 
     return 0;
 }
