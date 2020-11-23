@@ -20,6 +20,21 @@ LIBS += -fopenmp
 
 
 SOURCES += \
+    CodeStructureIdea/alg/kernel/cubic_spline_kernel.cpp \
+    CodeStructureIdea/alg/kernel/spiky_kernel.cpp \
+    CodeStructureIdea/alg/level/dimensionless_level_set_function.cpp \
+    CodeStructureIdea/alg/marching_cubes_reconstructor.cpp \
+    CodeStructureIdea/alg/nsearch/spatial_hashing_neighborhood_search.cpp \
+    CodeStructureIdea/alg/post/open_mesh_processor.cpp \
+    CodeStructureIdea/data/graph.cpp \
+    CodeStructureIdea/data/particle.cpp \
+    CodeStructureIdea/data/particle_list.cpp \
+    CodeStructureIdea/data/triangle_list.cpp \
+    CodeStructureIdea/in/partio_particle_reader.cpp \
+    CodeStructureIdea/in/vtk_particle_reader.cpp \
+    CodeStructureIdea/in/vtk_triangle_reader.cpp \
+    CodeStructureIdea/out/ply_triangle_writer.cpp \
+    CodeStructureIdea/out/vtk_triangle_writer.cpp \
     CompactNSearch/src/CompactNSearch.cpp \
     main.cpp \
     mainwindow.cpp \
@@ -56,6 +71,31 @@ SOURCES += \
     surfrec_io/extern/zlib/src/zutil.c
 
 HEADERS += \
+    CodeStructureIdea/alg/kernel/SPH_interpolation_kernel.h \
+    CodeStructureIdea/alg/kernel/cubic_spline_kernel.h \
+    CodeStructureIdea/alg/kernel/spiky_kernel.h \
+    CodeStructureIdea/alg/level/dimensionless_level_set_function.h \
+    CodeStructureIdea/alg/level/level_set_function.h \
+    CodeStructureIdea/alg/marching_cubes_reconstructor.h \
+    CodeStructureIdea/alg/nsearch/compact_neighborhood_search.h \
+    CodeStructureIdea/alg/nsearch/spatial_hashing_neighborhood_search.h \
+    CodeStructureIdea/alg/post/open_mesh_processor.h \
+    CodeStructureIdea/alg/post/post_processor.h \
+    CodeStructureIdea/alg/surface_reconstructor.h \
+    CodeStructureIdea/data/graph.h \
+    CodeStructureIdea/data/particle.h \
+    CodeStructureIdea/data/particle_list.h \
+    CodeStructureIdea/data/triangle_list.h \
+    CodeStructureIdea/in/particle_reader.h \
+    CodeStructureIdea/in/partio_particle_reader.h \
+    CodeStructureIdea/in/reader.h \
+    CodeStructureIdea/in/triangle_reader.h \
+    CodeStructureIdea/in/vtk_particle_reader.h \
+    CodeStructureIdea/in/vtk_triangle_reader.h \
+    CodeStructureIdea/out/ply_triangle_writer.h \
+    CodeStructureIdea/out/triangle_writer.h \
+    CodeStructureIdea/out/vtk_triangle_writer.h \
+    CodeStructureIdea/out/writer.h \
     CompactNSearch/extern/libmorton/libmorton/include/morton.h \
     CompactNSearch/extern/libmorton/libmorton/include/morton2D.h \
     CompactNSearch/extern/libmorton/libmorton/include/morton2D_LUTs.h \
@@ -447,6 +487,9 @@ RESOURCES += \
     resources.qrc
 
 DISTFILES += \
+    CodeStructureIdea/alg/edgeIdentification.data \
+    CodeStructureIdea/alg/possibleGeometry.data \
+    CodeStructureIdea/doc/Doxyfile \
     CompactNSearch/.github/workflows/build-linux.yml \
     CompactNSearch/.github/workflows/build-windows.yml \
     CompactNSearch/CMakeLists.txt \

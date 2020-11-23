@@ -24,16 +24,16 @@
      </rect>
     </property>
     <property name="value">
-     <number>24</number>
+     <number>0</number>
     </property>
    </widget>
    <widget class="QGroupBox" name="reconstructionGroupBox">
     <property name="geometry">
      <rect>
-      <x>370</x>
-      <y>50</y>
-      <width>221</width>
-      <height>421</height>
+      <x>10</x>
+      <y>530</y>
+      <width>201</width>
+      <height>141</height>
      </rect>
     </property>
     <property name="title">
@@ -44,8 +44,8 @@
       <rect>
        <x>10</x>
        <y>20</y>
-       <width>201</width>
-       <height>391</height>
+       <width>181</width>
+       <height>101</height>
       </rect>
      </property>
      <layout class="QFormLayout" name="reconstructionFormLayout">
@@ -78,16 +78,44 @@
        </widget>
       </item>
       <item row="0" column="1">
-       <widget class="QDoubleSpinBox" name="smoothingDoubleSpinBox"/>
+       <widget class="QDoubleSpinBox" name="smoothingDoubleSpinBox">
+        <property name="decimals">
+         <number>3</number>
+        </property>
+        <property name="value">
+         <double>1.000000000000000</double>
+        </property>
+       </widget>
       </item>
       <item row="1" column="1">
-       <widget class="QDoubleSpinBox" name="isoDoubleSpinBox"/>
+       <widget class="QDoubleSpinBox" name="isoDoubleSpinBox">
+        <property name="decimals">
+         <number>3</number>
+        </property>
+        <property name="value">
+         <double>0.800000000000000</double>
+        </property>
+       </widget>
       </item>
       <item row="2" column="1">
-       <widget class="QDoubleSpinBox" name="supportDoubleSpinBox"/>
+       <widget class="QDoubleSpinBox" name="supportDoubleSpinBox">
+        <property name="decimals">
+         <number>3</number>
+        </property>
+        <property name="value">
+         <double>1.000000000000000</double>
+        </property>
+       </widget>
       </item>
       <item row="3" column="1">
-       <widget class="QDoubleSpinBox" name="accuracyDoubleSpinBox"/>
+       <widget class="QDoubleSpinBox" name="accuracyDoubleSpinBox">
+        <property name="decimals">
+         <number>3</number>
+        </property>
+        <property name="value">
+         <double>1.000000000000000</double>
+        </property>
+       </widget>
       </item>
      </layout>
     </widget>
@@ -96,9 +124,9 @@
     <property name="geometry">
      <rect>
       <x>230</x>
-      <y>480</y>
+      <y>530</y>
       <width>361</width>
-      <height>151</height>
+      <height>101</height>
      </rect>
     </property>
     <property name="title">
@@ -160,7 +188,7 @@
       <x>10</x>
       <y>480</y>
       <width>201</width>
-      <height>191</height>
+      <height>41</height>
      </rect>
     </property>
     <property name="title">
@@ -169,10 +197,10 @@
     <widget class="QWidget" name="formLayoutWidget_2">
      <property name="geometry">
       <rect>
-       <x>20</x>
-       <y>20</y>
-       <width>171</width>
-       <height>141</height>
+       <x>10</x>
+       <y>16</y>
+       <width>181</width>
+       <height>20</height>
       </rect>
      </property>
      <layout class="QFormLayout" name="simulationFormLayout">
@@ -197,9 +225,9 @@
     <property name="geometry">
      <rect>
       <x>600</x>
-      <y>470</y>
+      <y>550</y>
       <width>661</width>
-      <height>161</height>
+      <height>81</height>
      </rect>
     </property>
     <property name="title">
@@ -211,7 +239,7 @@
        <x>10</x>
        <y>20</y>
        <width>611</width>
-       <height>131</height>
+       <height>51</height>
       </rect>
      </property>
      <layout class="QGridLayout" name="viewportGridLayout">
@@ -298,17 +326,12 @@
       <widget class="QComboBox" name="exportFormatComboBox">
        <item>
         <property name="text">
-         <string>Option 1</string>
+         <string>.ply</string>
         </property>
        </item>
        <item>
         <property name="text">
-         <string>Option 2</string>
-        </property>
-       </item>
-       <item>
-        <property name="text">
-         <string>Option 3</string>
+         <string>.vtk</string>
         </property>
        </item>
       </widget>
@@ -324,12 +347,12 @@
       <widget class="QComboBox" name="sphComboBox">
        <item>
         <property name="text">
-         <string>Option 1</string>
+         <string>Cubic Spline</string>
         </property>
        </item>
        <item>
         <property name="text">
-         <string>Option 2</string>
+         <string>Spiky</string>
         </property>
        </item>
        <item>
@@ -350,6 +373,9 @@
        </item>
        <item>
         <widget class="QSpinBox" name="ompNumThreadsSpinBox">
+         <property name="minimum">
+          <number>1</number>
+         </property>
          <property name="maximum">
           <number>64</number>
          </property>
@@ -414,14 +440,14 @@
      <item>
       <widget class="QLabel" name="ramLabel">
        <property name="text">
-        <string>RAM Usage:</string>
+        <string/>
        </property>
       </widget>
      </item>
      <item>
       <widget class="QLabel" name="ramLabel_2">
        <property name="text">
-        <string>0MB</string>
+        <string/>
        </property>
       </widget>
      </item>
@@ -443,10 +469,10 @@
    <widget class="QWidget" name="verticalLayoutWidget">
     <property name="geometry">
      <rect>
-      <x>609</x>
+      <x>379</x>
       <y>49</y>
-      <width>651</width>
-      <height>381</height>
+      <width>881</width>
+      <height>461</height>
      </rect>
     </property>
     <layout class="QVBoxLayout" name="viewportLayout"/>
@@ -456,7 +482,7 @@
      <rect>
       <x>10</x>
       <y>450</y>
-      <width>141</width>
+      <width>351</width>
       <height>23</height>
      </rect>
     </property>
@@ -468,7 +494,7 @@
     <property name="geometry">
      <rect>
       <x>610</x>
-      <y>440</y>
+      <y>520</y>
       <width>101</width>
       <height>23</height>
      </rect>
@@ -480,8 +506,8 @@
    <widget class="QPushButton" name="nextFramePushButton">
     <property name="geometry">
      <rect>
-      <x>1164</x>
-      <y>440</y>
+      <x>1170</x>
+      <y>520</y>
       <width>91</width>
       <height>23</height>
      </rect>
@@ -493,8 +519,8 @@
    <widget class="QPushButton" name="prevFramePushButton">
     <property name="geometry">
      <rect>
-      <x>1060</x>
-      <y>440</y>
+      <x>1070</x>
+      <y>520</y>
       <width>91</width>
       <height>23</height>
      </rect>
