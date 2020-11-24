@@ -116,19 +116,25 @@ void MainWindow::on_batchJobPushButton_clicked()
 void MainWindow::on_reconstructPushButton_clicked()
 {
     QMessageBox msgBox;
-    msgBox.setText("Do you want to start the surface reconstruction of the selected simulation"
-                   "with the given parameters?");
-    msgBox.setStandardButtons(QMessageBox::Yes | QMessageBox::No);
-    msgBox.setDefaultButton(QMessageBox::No);
-    int ret = msgBox.exec();
-    //If "Yes" is clicked, a QTimer calls updateTimeElapsed() every second
-    if(ret==QMessageBox::Yes) {
+    msgBox.setText("Do you want to start the surface reconstruction"
+                   " with the given parameters?");
+    QPushButton *yesOneButton = msgBox.addButton(tr("Yes, reconstruct the selected frame."), QMessageBox::YesRole);
+    QPushButton *yesWholeButton = msgBox.addButton(tr("Yes, reconstruct all frames in the selected folder."), QMessageBox::YesRole);
+    QPushButton *noButton = msgBox.addButton(tr("No, abort."), QMessageBox::NoRole);
+    msgBox.setDefaultButton(noButton);
+    msgBox.setEscapeButton(noButton);
+    msgBox.exec();
+
+    if(msgBox.clickedButton() == yesOneButton) {
         /*time = 0;
         QTimer *timer = new QTimer(this);
         connect(timer, &QTimer::timeout, this, &MainWindow::updateTimeElapsed);
         timer->start(1000);
         ui->progressBar->setValue(42);*/
         reconstructOneFrame(model->fileInfo(selectedIndex).absoluteFilePath(), outputFolder.first());
+    }
+    if(msgBox.clickedButton() == yesWholeButton) {
+        reconstructWholeSimulation(model->fileInfo(selectedIndex).absoluteFilePath(), outputFolder.first());
     }
 }
 
@@ -179,6 +185,7 @@ void MainWindow::reconstructOneFrame(QString inputPath, QString outputPath)
     // Read in particles.
     particleList particles = particleIn->read(inputFile);
 
+
     // Reconstruct a surface using marching cubes algorithm.
     graph reconstructionGraph(particles, 1);
     triangleList result = reconstructionPointer->reconstruct(
@@ -189,12 +196,37 @@ void MainWindow::reconstructOneFrame(QString inputPath, QString outputPath)
     int dot = inputFile.find_last_of(".");
     outputFile.append(inputFile.substr(slash, dot-slash).append(".ply"));
 
+
     // Write the output file.
     triangleOut->write(outputFile, result);
 
 
     //Display the output file
-    loadSurfaceData(QString::fromStdString(outputFile));
+    //loadSurfaceData(QString::fromStdString(outputFile));
+}
+
+void MainWindow::reconstructWholeSimulation(QString inputPath, QString outputPath)
+{
+    ui->progressBar->setValue(100);
+    int slash = inputPath.lastIndexOf("/");
+    inputPath.remove(slash, inputPath.length()-slash);
+    QDir directory(inputPath);
+    QStringList simStatesList = directory.entryList(QStringList() << "*.vtk" << "*.bgeo",QDir::Files);
+
+    float fraction = 100/simStatesList.length();
+    float progress = 0;
+
+#pragma omp parallel for num_threads(ui->ompNumThreadsSpinBox->value())
+    for(int i=0; i<simStatesList.length(); i++) {
+        QString simState = inputPath;
+        simState.append("/");
+        simState.append(simStatesList[i]);
+        reconstructOneFrame(simState, outputPath);
+        progress += fraction;
+        int roundedProgress = progress;
+        ui->progressBar->setValue(roundedProgress);
+    }
+    ui->progressBar->setValue(100);
 }
 
 //Increases time by 1 and sets timeLabel_2 to time
@@ -210,7 +242,6 @@ void MainWindow::on_exportPushButton_clicked()
     dialog.setViewMode(QFileDialog::List);
     if (dialog.exec()) {
         outputFolder = dialog.selectedFiles();
-        std::cout << outputFolder.first().toStdString() << std::endl;
     }
 }
 

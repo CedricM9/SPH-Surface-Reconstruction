@@ -31,6 +31,11 @@ QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
 QT_END_NAMESPACE
 
+/** \class MainWindow
+ * \brief Class containing the full functionalities of the GUI
+ * \details This class manifests as the application's GUI. It allows you to browse through local files, set parameters for the surface reconstruction, initiate the reconstruction, display the surface and the input particle simulation, as well as initiate post processing of the surface's mesh.
+ */
+
 class MainWindow : public QMainWindow
 {
     Q_OBJECT
@@ -44,7 +49,7 @@ public:
 
     void reconstructOneFrame(QString inputPath, QString outputPath);
 
-    void reconstructWholeSimulation(QString filePath);
+    void reconstructWholeSimulation(QString filePath, QString outputPath);
 
     void loadParticleData(QString filePath);
 
