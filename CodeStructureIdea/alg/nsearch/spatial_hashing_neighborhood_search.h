@@ -3,7 +3,7 @@
 
 #include "compact_neighborhood_search.h"
 
-/** \class spatialHashingNeighborhookSearch
+/** \class spatialHashingNeighborhoodSearch
  * \brief Class to perform compact neighborhood searches using the spatial hashing algorithm
  * \details This abstract class implements the spatial hashing compact neighborhood search
  *  provided by the library CompactNSearch.

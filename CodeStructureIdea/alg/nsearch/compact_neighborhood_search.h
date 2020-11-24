@@ -5,7 +5,7 @@
 
 #include "particle_list.h"
 
-/** \class compactNeighborhookSearch
+/** \class compactNeighborhoodSearch
  * \brief Class to perform compact neighborhood searches
  * \details This abstract class defines the common structure of all classes performing compact neighborhood searches:
  *  spatialHashingNeighborhoodSearch.
