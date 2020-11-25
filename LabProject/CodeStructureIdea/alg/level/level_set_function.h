@@ -4,9 +4,9 @@
 #include<vector>
 #include<memory>
 
-#include "CodeStructureIdea/alg/nsearch/compact_neighborhood_search.h"
-#include "CodeStructureIdea/alg/kernel/SPH_interpolation_kernel.h"
-#include "CodeStructureIdea/data/particle_list.h"
+#include "compact_neighborhood_search.h"
+#include "SPH_interpolation_kernel.h"
+#include "particle_list.h"
 
 class levelSetFunction {
   public:

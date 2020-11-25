@@ -505,16 +505,11 @@ DISTFILES += \
     surfrec_io/extern/partio/src/lib/CMakeLists.txt \
     surfrec_io/extern/zlib/CMakeLists.txt
 
-win32:CONFIG(release, debug|release): LIBS += -L$$PWD/OpenMesh/Lib/ -lOpenMeshCore
-else:win32:CONFIG(debug, debug|release): LIBS += -L$$PWD/OpenMesh/Lib/ -lOpenMeshCored
-else:unix: LIBS += -L$$PWD/OpenMesh/Lib/ -lOpenMeshCore
 
-INCLUDEPATH += $$PWD/OpenMesh/Core
-DEPENDPATH += $$PWD/OpenMesh/Core
-
-win32:CONFIG(release, debug|release): LIBS += -L$$PWD/OpenMesh/Lib/ -lOpenMeshTools
-else:win32:CONFIG(debug, debug|release): LIBS += -L$$PWD/OpenMesh/Lib/ -lOpenMeshToolsd
-else:unix: LIBS += -L$$PWD/OpenMesh/Lib/ -lOpenMeshTools
-
-INCLUDEPATH += $$PWD/OpenMesh/Tools
-DEPENDPATH += $$PWD/OpenMesh/Tools
+INCLUDEPATH += $$PWD/CodeStructureIdea/data
+INCLUDEPATH += $$PWD/CodeStructureIdea/in
+INCLUDEPATH += $$PWD/CodeStructureIdea/out
+INCLUDEPATH += $$PWD/CodeStructureIdea/alg/kernel
+INCLUDEPATH += $$PWD/CodeStructureIdea/alg/level
+INCLUDEPATH += $$PWD/CodeStructureIdea/alg/nsearch
+INCLUDEPATH += $$PWD/CodeStructureIdea/alg/post

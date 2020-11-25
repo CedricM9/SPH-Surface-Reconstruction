@@ -3,7 +3,7 @@
 
 #include <vector>
 
-#include "CodeStructureIdea/data/particle_list.h"
+#include "particle_list.h"
 
 /** \class compactNeighborhookSearch
  * \brief Class to perform compact neighborhood searches

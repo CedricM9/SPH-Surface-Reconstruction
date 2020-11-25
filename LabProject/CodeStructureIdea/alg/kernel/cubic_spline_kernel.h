@@ -3,7 +3,7 @@
 
 #include<complex>
 
-#include "CodeStructureIdea/data/particle.h"
+#include "particle.h"
 #include "SPH_interpolation_kernel.h"
 
 class cubicSplineKernel : public SPHInterpolationKernel {

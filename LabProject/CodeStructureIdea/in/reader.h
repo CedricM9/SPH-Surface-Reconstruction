@@ -3,7 +3,7 @@
 
 #include <string>
 
-#include "CodeStructureIdea/data/particle_list.h"
+#include "particle_list.h"
 
 /** \class reader
  * \brief Class handling the reading of different file formats for particle lists

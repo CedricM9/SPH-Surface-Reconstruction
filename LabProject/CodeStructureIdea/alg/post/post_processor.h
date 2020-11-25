@@ -1,7 +1,7 @@
 #ifndef POST_PROCESSOR_H
 #define POST_PROCESSOR_H
 
-#include "CodeStructureIdea/data/triangle_list.h"
+#include "triangle_list.h"
 
 /** \class postProcessor
  * \brief Class to postprocess triangle meshes

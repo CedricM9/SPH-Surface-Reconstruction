@@ -3,7 +3,7 @@
 
 #include <string>
 
-#include "CodeStructureIdea/data/particle_list.h"
+#include "particle_list.h"
 
 /** \class writer
  * \brief Class handling the writing of particle lists to different file formats

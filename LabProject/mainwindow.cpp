@@ -115,26 +115,33 @@ void MainWindow::on_batchJobPushButton_clicked()
 //When the Button "Reconstruct..." is clicked, a QMessageBox asks for confirmation
 void MainWindow::on_reconstructPushButton_clicked()
 {
-    QMessageBox msgBox;
-    msgBox.setText("Do you want to start the surface reconstruction"
-                   " with the given parameters?");
-    QPushButton *yesOneButton = msgBox.addButton(tr("Yes, reconstruct the selected frame."), QMessageBox::YesRole);
-    QPushButton *yesWholeButton = msgBox.addButton(tr("Yes, reconstruct all frames in the selected folder."), QMessageBox::YesRole);
-    QPushButton *noButton = msgBox.addButton(tr("No, abort."), QMessageBox::NoRole);
-    msgBox.setDefaultButton(noButton);
-    msgBox.setEscapeButton(noButton);
-    msgBox.exec();
-
-    if(msgBox.clickedButton() == yesOneButton) {
-        /*time = 0;
-        QTimer *timer = new QTimer(this);
-        connect(timer, &QTimer::timeout, this, &MainWindow::updateTimeElapsed);
-        timer->start(1000);
-        ui->progressBar->setValue(42);*/
-        reconstructOneFrame(model->fileInfo(selectedIndex).absoluteFilePath(), outputFolder.first());
+    if(outputFolder.isEmpty()==true) {
+        QErrorMessage errorMessage;
+        errorMessage.showMessage("Please select an export directory.");
+        errorMessage.exec();
     }
-    if(msgBox.clickedButton() == yesWholeButton) {
-        reconstructWholeSimulation(model->fileInfo(selectedIndex).absoluteFilePath(), outputFolder.first());
+    else {
+        QMessageBox msgBox;
+        msgBox.setText("Do you want to start the surface reconstruction"
+                       " with the given parameters?");
+        QPushButton *yesOneButton = msgBox.addButton(tr("Yes, reconstruct the selected frame."), QMessageBox::YesRole);
+        QPushButton *yesWholeButton = msgBox.addButton(tr("Yes, reconstruct all frames in the selected folder."), QMessageBox::YesRole);
+        QPushButton *noButton = msgBox.addButton(tr("No, abort."), QMessageBox::NoRole);
+        msgBox.setDefaultButton(noButton);
+        msgBox.setEscapeButton(noButton);
+        msgBox.exec();
+
+        if(msgBox.clickedButton() == yesOneButton) {
+            /*time = 0;
+            QTimer *timer = new QTimer(this);
+            connect(timer, &QTimer::timeout, this, &MainWindow::updateTimeElapsed);
+            timer->start(1000);
+            ui->progressBar->setValue(42);*/
+            reconstructOneFrame(model->fileInfo(selectedIndex).absoluteFilePath(), outputFolder.first());
+        }
+        if(msgBox.clickedButton() == yesWholeButton) {
+            reconstructWholeSimulation(model->fileInfo(selectedIndex).absoluteFilePath(), outputFolder.first());
+        }
     }
 }
 
@@ -207,26 +214,34 @@ void MainWindow::reconstructOneFrame(QString inputPath, QString outputPath)
 
 void MainWindow::reconstructWholeSimulation(QString inputPath, QString outputPath)
 {
-    ui->progressBar->setValue(100);
+    ui->progressBar->setValue(1);
     int slash = inputPath.lastIndexOf("/");
     inputPath.remove(slash, inputPath.length()-slash);
     QDir directory(inputPath);
     QStringList simStatesList = directory.entryList(QStringList() << "*.vtk" << "*.bgeo",QDir::Files);
 
-    float fraction = 100/simStatesList.length();
-    float progress = 0;
-
-#pragma omp parallel for num_threads(ui->ompNumThreadsSpinBox->value())
-    for(int i=0; i<simStatesList.length(); i++) {
-        QString simState = inputPath;
-        simState.append("/");
-        simState.append(simStatesList[i]);
-        reconstructOneFrame(simState, outputPath);
-        progress += fraction;
-        int roundedProgress = progress;
-        ui->progressBar->setValue(roundedProgress);
+    if(simStatesList.isEmpty() == true) {
+        QErrorMessage errorMessage;
+        errorMessage.showMessage("There are no .vtk or .bgeo files in the current directory.");
+        errorMessage.exec();
     }
-    ui->progressBar->setValue(100);
+
+    else {
+        float fraction = 100/simStatesList.length();
+        float progress = 0;
+
+        #pragma omp parallel for num_threads(ui->ompNumThreadsSpinBox->value()) shared(progress)
+        for(int i=0; i<simStatesList.length(); i++) {
+            QString simState = inputPath;
+            simState.append("/");
+            simState.append(simStatesList.at(i));
+            reconstructOneFrame(simState, outputPath);
+            progress += fraction;
+            int roundedProgress = progress;
+            ui->progressBar->setValue(roundedProgress);
+        }
+        ui->progressBar->setValue(100);
+    }
 }
 
 //Increases time by 1 and sets timeLabel_2 to time

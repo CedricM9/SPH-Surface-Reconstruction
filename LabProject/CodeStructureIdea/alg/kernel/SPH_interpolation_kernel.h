@@ -1,7 +1,7 @@
 #ifndef SPH_INTERPOLATION_KERNEL_H
 #define SPH_INTERPOLATION_KERNEL_H
 
-#include "CodeStructureIdea/data/particle.h"
+#include "particle.h"
 
 class SPHInterpolationKernel {
   public:

@@ -4,10 +4,10 @@
 #include <memory>
 #include <vector>
 
-#include "CodeStructureIdea/data/particle_list.h"
-#include "CodeStructureIdea/data/triangle_list.h"
-#include "CodeStructureIdea/data/graph.h"
-#include "CodeStructureIdea/alg/level/level_set_function.h"
+#include "particle_list.h"
+#include "triangle_list.h"
+#include "graph.h"
+#include "level_set_function.h"
 
 //#include "level_set_function.h"
 //#include "compact_neighborhood_search.h"
