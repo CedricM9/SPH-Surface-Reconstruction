@@ -2,7 +2,7 @@
 #include <string>
 #include <vector>
 
-#include "VTKstream.h"
+#include "VTKStream.h"
 
 vtkTriangleReader::vtkTriangleReader() {}
 
