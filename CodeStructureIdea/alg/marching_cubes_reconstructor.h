@@ -18,8 +18,9 @@ class marchingCubesReconstructor : public surfaceReconstructor {
 
     virtual triangleList reconstruct(graph& g,
                              particleList& particles,
-                             const float h,
-                             const float r,
+                             const float smoothingLength,
+                             const float compactSupport,
+                             const float iso,
                              std::shared_ptr<levelSetFunction> levelSetPointer,
                              std::shared_ptr<compactNeighborhoodSearch> nSearchPointer,
                              std::shared_ptr<SPHInterpolationKernel> kernelPointer);
