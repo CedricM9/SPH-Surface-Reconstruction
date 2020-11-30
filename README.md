@@ -1,4 +1,3 @@
----
 # SPH-Surface-Reconstruction
 This software was co-developed by Cedric Maume, [Corinna Muller](https://github.com/cm314), and [Henrik Muller](https://github.com/HKMueller) as a part of our Computational Engineering Science B.S degree at the RWTH Aachen.
 
