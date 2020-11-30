@@ -118,5 +118,3 @@ We used several libraries in order to develop the software. These include:
 - [QT](https://github.com/qt/qt5)
 - [QT 3D](https://github.com/qt/qt3d)
 - [SplishSplash](https://github.com/InteractiveComputerGraphics/SPlisHSPlasH)
-- [CQtDeployer](https://github.com/InteractiveComputerGraphics/SPlisHSPlasH)
-- [Inno Setup](https://jrsoftware.org/isinfo.php)
