@@ -16,10 +16,10 @@ The software is not very runtime efficient given too many particles or with a ve
 ---
 ### Back End Compilation
 1. Install all required software following the owner's instructions:
-- CompactNSearch: https://github.com/InteractiveComputerGraphics/CompactNSearch
-- Partio: https://github.com/wdas/partio
-- happly: https://github.com/nmwsharp/happly
-- OpenMesh: https://graphics.rwth-aachen.de:9000/OpenMesh/OpenMesh
+- [CompactNSearch:](https://github.com/InteractiveComputerGraphics/CompactNSearch)
+- [Partio:](https://github.com/wdas/partio)
+- [happly:](https://github.com/nmwsharp/happly)
+- [OpenMesh:](https://graphics.rwth-aachen.de:9000/OpenMesh/OpenMesh)
 2. Clone the GitHub repository: 
 ```bash
 git clone https://github.com/CedricM9/SPH-Surface-Reconstruction.git
