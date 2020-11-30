@@ -1,5 +1,5 @@
 # SPH-Surface-Reconstruction
-This software was co-developed by [CedricM9](https://github.com/CedricM9), [cm314](https://github.com/cm314), and [HKMueller](https://github.com/HKMueller) as a part of our Computational Engineering Science B.S degree at the RWTH Aachen.
+This software was co-developed by [CedricM9](https://github.com/CedricM9), [cm314](https://github.com/cm314) and [HKMueller](https://github.com/HKMueller) as a part of our Computational Engineering Science B.Sc. degree at the RWTH Aachen.
 
 ---
 ### Overview 
