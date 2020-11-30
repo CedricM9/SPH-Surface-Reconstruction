@@ -25,8 +25,8 @@ export OMESH_DIR = <main directory of the OpenMesh installation>
 ```bash
 make
 ```
-If the linker returns the message "cannot find -lCompactNSearch" try adding the file CompactNSearch.cpp from the src folder of the CompactNSearch repository to the Makefile to be compiled along with main.cpp instead of linking to -l$(CNSEARCH_LIB).<br/>
-6. Take care that all dynamic library paths are set:
+  If the linker returns the message "cannot find -lCompactNSearch" try adding the file CompactNSearch.cpp from the src folder of the CompactNSearch repository to the Makefile to   be compiled along with main.cpp instead of linking to -l$(CNSEARCH_LIB).<br/>
+  6. Take care that all dynamic library paths are set:
 ```bash
 export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:<main directory of the partio installation>/lib/:
 export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:<main directory of the OpenMesh installation>/lib/:
