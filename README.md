@@ -1,5 +1,5 @@
 # SPH-Surface-Reconstruction
-This software was co-developed by Cedric Maume, [Corinna Müller](https://github.com/cm314), and [Henrik Müller](https://github.com/HKMueller) as a part of our Computational Engineering Science B.S degree at the RWTH Aachen. The project was assigned and supervies by the [RWTH Visual Computing Institute](https://github.com/VisualComputingInstitute).
+This software was co-developed by CedricM9, [cm314](https://github.com/cm314), and [HKMueller](https://github.com/HKMueller) as a part of our Computational Engineering Science B.S degree at the RWTH Aachen.
 
 ---
 ### Overview 
@@ -94,3 +94,15 @@ make
 ```bash
 sbatch < <batch script filename>
 ```
+
+---
+### Acknowledgements
+The project was assigned and supervies by the [RWTH Visual Computing Institute](https://github.com/VisualComputingInstitute). 
+These libraries are encorporated in the project:
+- [CompactNSearch:](https://github.com/InteractiveComputerGraphics/CompactNSearch)
+- [Partio:](https://github.com/wdas/partio)
+- [happly:](https://github.com/nmwsharp/happly)
+- [OpenMesh:](https://graphics.rwth-aachen.de:9000/OpenMesh/OpenMesh)
+- [QT:](https://github.com/qt/qt5)
+- [QT 3D:](https://github.com/qt/qt3d)
+- Vtkio
