@@ -53,7 +53,7 @@ make doc
 ```
 4. Open the documentation: 
 ```bash
-open html/index.html
+open html/files.html
 ```
 
 # Batch Job Submission
