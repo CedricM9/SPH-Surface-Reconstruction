@@ -2,7 +2,7 @@
 #include <cassert>
 #include <vector>
 
-#include "surfrec_io/extern/happly.h"
+#include "happly.h" 
 
 plyTriangleWriter::plyTriangleWriter() {}
 

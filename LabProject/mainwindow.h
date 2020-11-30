@@ -21,7 +21,6 @@
 #include <Qt3DExtras>
 #include <Qt3DAnimation>
 #include <omp.h>
-#include <OpenMesh/Core/IO/MeshIO.hh>
 #include "CompactNSearch/include/CompactNSearch.h"
 #include "surfrec_io/code/io.h"
 
@@ -84,6 +83,8 @@ private slots:
     void on_postSmoothingPushButton_clicked();
 
     void on_surfaceCheckBox_stateChanged(int arg1);
+
+    void on_testPushButton_clicked();
 
 private:
     Ui::MainWindow *ui;

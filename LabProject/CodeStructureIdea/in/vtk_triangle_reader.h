@@ -18,7 +18,7 @@ class vtkTriangleReader : public triangleReader {
      *  using the external library VTKStream.
      * \param filename name of the vtk file with the triangles to read in
      */
-    particleList read(std::string filename);
+    triangleList read(const std::string &filename);
 };
 
 #include "vtk_triangle_reader.cpp"

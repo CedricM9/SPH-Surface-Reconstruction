@@ -2,7 +2,7 @@
 #include <cassert>
 #include <vector>
 
-#include "surfrec_io/extern/vtkio/VTKStream.h"
+#include "VTKStream.h"
 
 vtkTriangleWriter::vtkTriangleWriter() {}
 

@@ -4,6 +4,7 @@
         <file>bunny.bgeo</file>
         <file>beethoven.ply</file>
         <file>cow.ply</file>
+        <file>Test_Surface.bgeo</file>
     </qresource>
     <qresource prefix="/"/>
 </RCC>

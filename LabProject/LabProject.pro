@@ -31,11 +31,47 @@ SOURCES += \
     CodeStructureIdea/data/particle_list.cpp \
     CodeStructureIdea/data/triangle_list.cpp \
     CodeStructureIdea/in/partio_particle_reader.cpp \
+    CodeStructureIdea/in/ply_triangle_reader.cpp \
     CodeStructureIdea/in/vtk_particle_reader.cpp \
     CodeStructureIdea/in/vtk_triangle_reader.cpp \
     CodeStructureIdea/out/ply_triangle_writer.cpp \
     CodeStructureIdea/out/vtk_triangle_writer.cpp \
     CompactNSearch/src/CompactNSearch.cpp \
+    OpenMesh/Core/IO/BinaryHelper.cc \
+    OpenMesh/Core/IO/IOManager.cc \
+    OpenMesh/Core/IO/OMFormat.cc \
+    OpenMesh/Core/IO/reader/BaseReader.cc \
+    OpenMesh/Core/IO/reader/OBJReader.cc \
+    OpenMesh/Core/IO/reader/OFFReader.cc \
+    OpenMesh/Core/IO/reader/OMReader.cc \
+    OpenMesh/Core/IO/reader/PLYReader.cc \
+    OpenMesh/Core/IO/reader/STLReader.cc \
+    OpenMesh/Core/IO/writer/BaseWriter.cc \
+    OpenMesh/Core/IO/writer/OBJWriter.cc \
+    OpenMesh/Core/IO/writer/OFFWriter.cc \
+    OpenMesh/Core/IO/writer/OMWriter.cc \
+    OpenMesh/Core/IO/writer/PLYWriter.cc \
+    OpenMesh/Core/IO/writer/STLWriter.cc \
+    OpenMesh/Core/IO/writer/VTKWriter.cc \
+    OpenMesh/Core/Mesh/ArrayKernel.cc \
+    OpenMesh/Core/Mesh/BaseKernel.cc \
+    OpenMesh/Core/Mesh/PolyConnectivity.cc \
+    OpenMesh/Core/Mesh/SmartHandles.cc \
+    OpenMesh/Core/Mesh/TriConnectivity.cc \
+    OpenMesh/Core/System/omstream.cc \
+    OpenMesh/Core/Utils/BaseProperty.cc \
+    OpenMesh/Core/Utils/Endian.cc \
+    OpenMesh/Core/Utils/RandomNumberGenerator.cc \
+    OpenMesh/Tools/Decimater/Observer.cc \
+    OpenMesh/Tools/Utils/Gnuplot.cc \
+    OpenMesh/Tools/Utils/Timer.cc \
+    OpenMesh/Tools/Utils/conio.cc \
+    OpenMesh/Tools/Utils/getopt.c \
+    OpenMesh/Tools/VDPM/VFront.cc \
+    OpenMesh/Tools/VDPM/VHierarchy.cc \
+    OpenMesh/Tools/VDPM/VHierarchyNodeIndex.cc \
+    OpenMesh/Tools/VDPM/VHierarchyWindow.cc \
+    OpenMesh/Tools/VDPM/ViewingParameters.cc \
     main.cpp \
     mainwindow.cpp \
     surfrec_io/code/io.cpp \
@@ -88,6 +124,7 @@ HEADERS += \
     CodeStructureIdea/data/triangle_list.h \
     CodeStructureIdea/in/particle_reader.h \
     CodeStructureIdea/in/partio_particle_reader.h \
+    CodeStructureIdea/in/ply_triangle_reader.h \
     CodeStructureIdea/in/reader.h \
     CodeStructureIdea/in/triangle_reader.h \
     CodeStructureIdea/in/vtk_particle_reader.h \
@@ -109,6 +146,194 @@ HEADERS += \
     CompactNSearch/include/Config.h \
     CompactNSearch/include/DataStructures.h \
     CompactNSearch/include/PointSet.h \
+    OpenMesh/Core/Geometry/Config.hh \
+    OpenMesh/Core/Geometry/EigenVectorT.hh \
+    OpenMesh/Core/Geometry/LoopSchemeMaskT.hh \
+    OpenMesh/Core/Geometry/MathDefs.hh \
+    OpenMesh/Core/Geometry/NormalConeT.hh \
+    OpenMesh/Core/Geometry/NormalConeT_impl.hh \
+    OpenMesh/Core/Geometry/Plane3d.hh \
+    OpenMesh/Core/Geometry/QuadricT.hh \
+    OpenMesh/Core/Geometry/Vector11T.hh \
+    OpenMesh/Core/Geometry/VectorT.hh \
+    OpenMesh/Core/Geometry/VectorT_inc.hh \
+    OpenMesh/Core/IO/BinaryHelper.hh \
+    OpenMesh/Core/IO/IOInstances.hh \
+    OpenMesh/Core/IO/IOManager.hh \
+    OpenMesh/Core/IO/MeshIO.hh \
+    OpenMesh/Core/IO/OFFFormat.hh \
+    OpenMesh/Core/IO/OMFormat.hh \
+    OpenMesh/Core/IO/OMFormatT_impl.hh \
+    OpenMesh/Core/IO/Options.hh \
+    OpenMesh/Core/IO/SR_binary.hh \
+    OpenMesh/Core/IO/SR_binary_spec.hh \
+    OpenMesh/Core/IO/SR_binary_vector_of_bool.inl \
+    OpenMesh/Core/IO/SR_binary_vector_of_fundamentals.inl \
+    OpenMesh/Core/IO/SR_binary_vector_of_string.inl \
+    OpenMesh/Core/IO/SR_rbo.hh \
+    OpenMesh/Core/IO/SR_store.hh \
+    OpenMesh/Core/IO/SR_types.hh \
+    OpenMesh/Core/IO/StoreRestore.hh \
+    OpenMesh/Core/IO/exporter/BaseExporter.hh \
+    OpenMesh/Core/IO/exporter/ExporterT.hh \
+    OpenMesh/Core/IO/importer/BaseImporter.hh \
+    OpenMesh/Core/IO/importer/ImporterT.hh \
+    OpenMesh/Core/IO/reader/BaseReader.hh \
+    OpenMesh/Core/IO/reader/OBJReader.hh \
+    OpenMesh/Core/IO/reader/OFFReader.hh \
+    OpenMesh/Core/IO/reader/OMReader.hh \
+    OpenMesh/Core/IO/reader/PLYReader.hh \
+    OpenMesh/Core/IO/reader/STLReader.hh \
+    OpenMesh/Core/IO/writer/BaseWriter.hh \
+    OpenMesh/Core/IO/writer/OBJWriter.hh \
+    OpenMesh/Core/IO/writer/OFFWriter.hh \
+    OpenMesh/Core/IO/writer/OMWriter.hh \
+    OpenMesh/Core/IO/writer/PLYWriter.hh \
+    OpenMesh/Core/IO/writer/STLWriter.hh \
+    OpenMesh/Core/IO/writer/VTKWriter.hh \
+    OpenMesh/Core/Mesh/ArrayItems.hh \
+    OpenMesh/Core/Mesh/ArrayKernel.hh \
+    OpenMesh/Core/Mesh/ArrayKernelT_impl.hh \
+    OpenMesh/Core/Mesh/AttribKernelT.hh \
+    OpenMesh/Core/Mesh/Attributes.hh \
+    OpenMesh/Core/Mesh/BaseKernel.hh \
+    OpenMesh/Core/Mesh/BaseMesh.hh \
+    OpenMesh/Core/Mesh/Casts.hh \
+    OpenMesh/Core/Mesh/CirculatorsT.hh \
+    OpenMesh/Core/Mesh/DefaultPolyMesh.hh \
+    OpenMesh/Core/Mesh/DefaultTriMesh.hh \
+    OpenMesh/Core/Mesh/FinalMeshItemsT.hh \
+    OpenMesh/Core/Mesh/Handles.hh \
+    OpenMesh/Core/Mesh/IteratorsT.hh \
+    OpenMesh/Core/Mesh/PolyConnectivity.hh \
+    OpenMesh/Core/Mesh/PolyConnectivity_inline_impl.hh \
+    OpenMesh/Core/Mesh/PolyMeshT.hh \
+    OpenMesh/Core/Mesh/PolyMeshT_impl.hh \
+    OpenMesh/Core/Mesh/PolyMesh_ArrayKernelT.hh \
+    OpenMesh/Core/Mesh/SmartHandles.hh \
+    OpenMesh/Core/Mesh/SmartRange.hh \
+    OpenMesh/Core/Mesh/Status.hh \
+    OpenMesh/Core/Mesh/Tags.hh \
+    OpenMesh/Core/Mesh/Traits.hh \
+    OpenMesh/Core/Mesh/TriConnectivity.hh \
+    OpenMesh/Core/Mesh/TriMeshT.hh \
+    OpenMesh/Core/Mesh/TriMeshT_impl.hh \
+    OpenMesh/Core/Mesh/TriMesh_ArrayKernelT.hh \
+    OpenMesh/Core/Mesh/gen/circulators_header.hh \
+    OpenMesh/Core/Mesh/gen/circulators_template.hh \
+    OpenMesh/Core/Mesh/gen/footer.hh \
+    OpenMesh/Core/Mesh/gen/iterators_header.hh \
+    OpenMesh/Core/Mesh/gen/iterators_template.hh \
+    OpenMesh/Core/System/OpenMeshDLLMacros.hh \
+    OpenMesh/Core/System/compiler.hh \
+    OpenMesh/Core/System/config.h \
+    OpenMesh/Core/System/config.hh \
+    OpenMesh/Core/System/mostream.hh \
+    OpenMesh/Core/System/omstream.hh \
+    OpenMesh/Core/Templates/bla.hh \
+    OpenMesh/Core/Templates/blaT_impl.hh \
+    OpenMesh/Core/Utils/AutoPropertyHandleT.hh \
+    OpenMesh/Core/Utils/BaseProperty.hh \
+    OpenMesh/Core/Utils/Endian.hh \
+    OpenMesh/Core/Utils/GenProg.hh \
+    OpenMesh/Core/Utils/HandleToPropHandle.hh \
+    OpenMesh/Core/Utils/Noncopyable.hh \
+    OpenMesh/Core/Utils/Property.hh \
+    OpenMesh/Core/Utils/PropertyContainer.hh \
+    OpenMesh/Core/Utils/PropertyManager.hh \
+    OpenMesh/Core/Utils/RandomNumberGenerator.hh \
+    OpenMesh/Core/Utils/SingletonT.hh \
+    OpenMesh/Core/Utils/SingletonT_impl.hh \
+    OpenMesh/Core/Utils/color_cast.hh \
+    OpenMesh/Core/Utils/typename.hh \
+    OpenMesh/Core/Utils/vector_cast.hh \
+    OpenMesh/Core/Utils/vector_traits.hh \
+    OpenMesh/Tools/Decimater/BaseDecimaterT.hh \
+    OpenMesh/Tools/Decimater/BaseDecimaterT_impl.hh \
+    OpenMesh/Tools/Decimater/CollapseInfoT.hh \
+    OpenMesh/Tools/Decimater/DecimaterT.hh \
+    OpenMesh/Tools/Decimater/DecimaterT_impl.hh \
+    OpenMesh/Tools/Decimater/McDecimaterT.hh \
+    OpenMesh/Tools/Decimater/McDecimaterT_impl.hh \
+    OpenMesh/Tools/Decimater/MixedDecimaterT.hh \
+    OpenMesh/Tools/Decimater/MixedDecimaterT_impl.hh \
+    OpenMesh/Tools/Decimater/ModAspectRatioT.hh \
+    OpenMesh/Tools/Decimater/ModAspectRatioT_impl.hh \
+    OpenMesh/Tools/Decimater/ModBaseT.hh \
+    OpenMesh/Tools/Decimater/ModEdgeLengthT.hh \
+    OpenMesh/Tools/Decimater/ModEdgeLengthT_impl.hh \
+    OpenMesh/Tools/Decimater/ModHausdorffT.hh \
+    OpenMesh/Tools/Decimater/ModHausdorffT_impl.hh \
+    OpenMesh/Tools/Decimater/ModIndependentSetsT.hh \
+    OpenMesh/Tools/Decimater/ModNormalDeviationT.hh \
+    OpenMesh/Tools/Decimater/ModNormalFlippingT.hh \
+    OpenMesh/Tools/Decimater/ModProgMeshT.hh \
+    OpenMesh/Tools/Decimater/ModProgMeshT_impl.hh \
+    OpenMesh/Tools/Decimater/ModQuadricT.hh \
+    OpenMesh/Tools/Decimater/ModQuadricT_impl.hh \
+    OpenMesh/Tools/Decimater/ModRoundnessT.hh \
+    OpenMesh/Tools/Decimater/Observer.hh \
+    OpenMesh/Tools/Dualizer/meshDualT.hh \
+    OpenMesh/Tools/Kernel_OSG/ArrayKernelT.hh \
+    OpenMesh/Tools/Kernel_OSG/AttribKernelT.hh \
+    OpenMesh/Tools/Kernel_OSG/PropertyKernel.hh \
+    OpenMesh/Tools/Kernel_OSG/PropertyT.hh \
+    OpenMesh/Tools/Kernel_OSG/Traits.hh \
+    OpenMesh/Tools/Kernel_OSG/TriMesh_OSGArrayKernelT.hh \
+    OpenMesh/Tools/Kernel_OSG/VectorAdapter.hh \
+    OpenMesh/Tools/Kernel_OSG/bindT.hh \
+    OpenMesh/Tools/Kernel_OSG/color_cast.hh \
+    OpenMesh/Tools/SmartTagger/SmartTaggerT.hh \
+    OpenMesh/Tools/SmartTagger/SmartTaggerT_impl.hh \
+    OpenMesh/Tools/Smoother/JacobiLaplaceSmootherT.hh \
+    OpenMesh/Tools/Smoother/JacobiLaplaceSmootherT_impl.hh \
+    OpenMesh/Tools/Smoother/LaplaceSmootherT.hh \
+    OpenMesh/Tools/Smoother/LaplaceSmootherT_impl.hh \
+    OpenMesh/Tools/Smoother/SmootherT.hh \
+    OpenMesh/Tools/Smoother/SmootherT_impl.hh \
+    OpenMesh/Tools/Smoother/smooth_mesh.hh \
+    OpenMesh/Tools/Subdivider/Adaptive/Composite/CompositeT.hh \
+    OpenMesh/Tools/Subdivider/Adaptive/Composite/CompositeT_impl.hh \
+    OpenMesh/Tools/Subdivider/Adaptive/Composite/CompositeTraits.hh \
+    OpenMesh/Tools/Subdivider/Adaptive/Composite/RuleInterfaceT.hh \
+    OpenMesh/Tools/Subdivider/Adaptive/Composite/RulesT.hh \
+    OpenMesh/Tools/Subdivider/Adaptive/Composite/RulesT_impl.hh \
+    OpenMesh/Tools/Subdivider/Adaptive/Composite/Traits.hh \
+    OpenMesh/Tools/Subdivider/Uniform/CatmullClarkT.hh \
+    OpenMesh/Tools/Subdivider/Uniform/CatmullClarkT_impl.hh \
+    OpenMesh/Tools/Subdivider/Uniform/Composite/CompositeT.hh \
+    OpenMesh/Tools/Subdivider/Uniform/Composite/CompositeT_impl.hh \
+    OpenMesh/Tools/Subdivider/Uniform/Composite/CompositeTraits.hh \
+    OpenMesh/Tools/Subdivider/Uniform/CompositeLoopT.hh \
+    OpenMesh/Tools/Subdivider/Uniform/CompositeSqrt3T.hh \
+    OpenMesh/Tools/Subdivider/Uniform/LongestEdgeT.hh \
+    OpenMesh/Tools/Subdivider/Uniform/LoopT.hh \
+    OpenMesh/Tools/Subdivider/Uniform/MidpointT.hh \
+    OpenMesh/Tools/Subdivider/Uniform/ModifiedButterFlyT.hh \
+    OpenMesh/Tools/Subdivider/Uniform/Sqrt3InterpolatingSubdividerLabsikGreinerT.hh \
+    OpenMesh/Tools/Subdivider/Uniform/Sqrt3T.hh \
+    OpenMesh/Tools/Subdivider/Uniform/SubdividerT.hh \
+    OpenMesh/Tools/Utils/Config.hh \
+    OpenMesh/Tools/Utils/GLConstAsString.hh \
+    OpenMesh/Tools/Utils/Gnuplot.hh \
+    OpenMesh/Tools/Utils/HeapT.hh \
+    OpenMesh/Tools/Utils/MeshCheckerT.hh \
+    OpenMesh/Tools/Utils/MeshCheckerT_impl.hh \
+    OpenMesh/Tools/Utils/NumLimitsT.hh \
+    OpenMesh/Tools/Utils/StripifierT.hh \
+    OpenMesh/Tools/Utils/StripifierT_impl.hh \
+    OpenMesh/Tools/Utils/TestingFramework.hh \
+    OpenMesh/Tools/Utils/Timer.hh \
+    OpenMesh/Tools/Utils/conio.hh \
+    OpenMesh/Tools/Utils/getopt.h \
+    OpenMesh/Tools/VDPM/MeshTraits.hh \
+    OpenMesh/Tools/VDPM/StreamingDef.hh \
+    OpenMesh/Tools/VDPM/VFront.hh \
+    OpenMesh/Tools/VDPM/VHierarchy.hh \
+    OpenMesh/Tools/VDPM/VHierarchyNode.hh \
+    OpenMesh/Tools/VDPM/VHierarchyNodeIndex.hh \
+    OpenMesh/Tools/VDPM/VHierarchyWindow.hh \
+    OpenMesh/Tools/VDPM/ViewingParameters.hh \
     mainwindow.h \
     surfrec_io/code/io.h \
     surfrec_io/extern/Eigen/Eigen/Cholesky \
@@ -498,6 +723,14 @@ DISTFILES += \
     CompactNSearch/demo/CMakeLists.txt \
     CompactNSearch/extern/libmorton/LICENSE \
     CompactNSearch/extern/libmorton/README.md \
+    OpenMesh/Core/CMakeLists.txt \
+    OpenMesh/Core/Mesh/gen/generate.sh \
+    OpenMesh/Lib/OpenMeshCore.lib \
+    OpenMesh/Lib/OpenMeshTools.lib \
+    OpenMesh/Tools/CMakeLists.txt \
+    OpenMesh/Tools/VDPM/xpm/fileopen.xpm \
+    OpenMesh/Tools/VDPM/xpm/fileprint.xpm \
+    OpenMesh/Tools/VDPM/xpm/filesave.xpm \
     surfrec_io/extern/Eigen/CMakeLists.txt \
     surfrec_io/extern/Eigen/signature_of_eigen3_matrix_library \
     surfrec_io/extern/partio/CMakeLists.txt \
@@ -513,3 +746,7 @@ INCLUDEPATH += $$PWD/CodeStructureIdea/alg/kernel
 INCLUDEPATH += $$PWD/CodeStructureIdea/alg/level
 INCLUDEPATH += $$PWD/CodeStructureIdea/alg/nsearch
 INCLUDEPATH += $$PWD/CodeStructureIdea/alg/post
+INCLUDEPATH += $$PWD/surfrec_io/extern/partio/src/lib
+INCLUDEPATH += $$PWD/surfrec_io/extern/vtkio
+INCLUDEPATH += $$PWD/CompactNSearch/include
+INCLUDEPATH += $$PWD/surfrec_io/extern/

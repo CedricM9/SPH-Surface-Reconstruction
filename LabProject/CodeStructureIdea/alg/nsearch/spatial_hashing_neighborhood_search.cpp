@@ -1,4 +1,4 @@
-#include "CompactNSearch/include/CompactNSearch"
+#include "CompactNSearch.h"
 
 using namespace CompactNSearch;
 

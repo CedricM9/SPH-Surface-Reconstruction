@@ -16,7 +16,7 @@ triangleList openMeshProcessor::smooth(const triangleList& list, int smoothingTi
 
     // Apply OpenMesh smoothing algorithm.
     Smoother meshSmoother(mesh);
-    meshSmoother.initialize(Smoother::Tangential, Smoother::C2);
+    meshSmoother.initialize(Smoother::Tangential, Smoother::C0);
     meshSmoother.smooth(smoothingTimes);
 
     // Convert mesh from the OpenMesh data structure back to triangleList.

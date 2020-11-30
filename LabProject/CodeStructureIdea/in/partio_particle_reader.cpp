@@ -1,17 +1,16 @@
 #include <string>
 
-#include "surfrec_io/extern/partio/src/lib/Partio.h"
+#include "Partio.h"
 
 partioParticleReader::partioParticleReader() {}
 
-particleList partioParticleReader::read(std::string filename) {
+particleList partioParticleReader::read(const std::string &filename) {
     Partio::ParticlesDataMutable* data = Partio::read(filename.c_str());
 
     Partio::ParticleAttribute posAttr;
     if (!data->attributeInfo("position", posAttr)
         || (posAttr.type != Partio::FLOAT && posAttr.type != Partio::VECTOR) || posAttr.count != 3) {
-        // TODO: use assertion or exception
-        std::cerr << "Failed to get proper position attribute" << std::endl;
+        throw std::runtime_error("Failed to get proper position attribute in file " + filename);
     }   
 
     particleList list;

@@ -18,7 +18,7 @@ class vtkParticleReader : public particleReader {
      *  using the external library VTKStream.
      * \param filename name of the vtk file with the particles to read in
      */
-    particleList read(std::string filename);
+    particleList read(const std::string &filename);
 };
 
 #include "vtk_particle_reader.cpp"

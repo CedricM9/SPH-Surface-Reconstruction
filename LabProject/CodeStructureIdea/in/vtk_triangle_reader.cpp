@@ -2,11 +2,11 @@
 #include <string>
 #include <vector>
 
-#include "surfrec_io/extern/vtkio/VTKStream.h"
+#include "VTKStream.h"
 
 vtkTriangleReader::vtkTriangleReader() {}
 
-particleList vtkTriangleReader::read(std::string filename) {
+triangleList vtkTriangleReader::read(const std::string &filename) {
     // Create a VTK stream to read in the file.
     vtkio::VTKStream vtk_stream;
     vtk_stream.read(filename);
@@ -21,12 +21,10 @@ particleList vtkTriangleReader::read(std::string filename) {
     // Create a data structure particleList from the read in information.
     triangleList list;
     for (const auto& particle : particles) {
-        // TODO: add overloaded function that takes a float array
         list.addParticle(particle[0], particle[1], particle[2]);
     }
     for (const auto& triangle : triangles) {
-        // TODO: add overloaded function that takes an int array
-        list.addTriangle(triangle[0], triangle[2], triangle[3]);
+        list.addTriangle(triangle[0], triangle[1], triangle[2]);
     }
     return list;
 }

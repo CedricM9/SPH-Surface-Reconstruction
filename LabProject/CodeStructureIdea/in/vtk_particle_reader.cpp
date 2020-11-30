@@ -2,11 +2,11 @@
 #include <string>
 #include <vector>
 
-#include "surfrec_io/extern/vtkio/VTKStream.h"
+#include "VTKStream.h"
 
 vtkParticleReader::vtkParticleReader() {}
 
-particleList vtkParticleReader::read(std::string filename) {
+particleList vtkParticleReader::read(const std::string &filename) {
     // Create a VTK stream to read in the file.
     vtkio::VTKStream vtk_stream;
     vtk_stream.read(filename);
@@ -19,7 +19,6 @@ particleList vtkParticleReader::read(std::string filename) {
     // Create a data structure particleList from the read in information.
     particleList list;
     for (const auto& particle : particles) {
-        // TODO: add overloaded function that takes a float array
         list.addParticle(particle[0], particle[1], particle[2]);
     }
     return list;

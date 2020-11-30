@@ -5,6 +5,8 @@
 #include "CodeStructureIdea/data/triangle_list.h"
 #include "CodeStructureIdea/in/partio_particle_reader.h"
 #include "CodeStructureIdea/in/vtk_particle_reader.h"
+#include "CodeStructureIdea/in/ply_triangle_reader.h"
+#include "CodeStructureIdea/in/vtk_triangle_reader.h"
 #include "CodeStructureIdea/out/ply_triangle_writer.h"
 #include "CodeStructureIdea/out/vtk_triangle_writer.h"
 #include "CodeStructureIdea/alg/nsearch/spatial_hashing_neighborhood_search.h"
@@ -12,7 +14,7 @@
 #include "CodeStructureIdea/alg/kernel/spiky_kernel.h"
 #include "CodeStructureIdea/alg/level/dimensionless_level_set_function.h"
 #include "CodeStructureIdea/alg/marching_cubes_reconstructor.h"
-//#include "CodeStructureIdea/alg/post/open_mesh_processor.h"
+#include "CodeStructureIdea/alg/post/open_mesh_processor.h"
 
 using Vector3f = Eigen::Matrix<float, 3, 1, Eigen::DontAlign>;
 
@@ -52,7 +54,7 @@ MainWindow::MainWindow(QWidget *parent)
 
     //Set up camera
     camera->lens()->setPerspectiveProjection(45.0f, 16.0f/9.0f, 0.1f, 1000.0f);
-    camera->setPosition(QVector3D(-3.5f, 3.5f, 0));
+    camera->setPosition(QVector3D(0, 3.5f, 3.5f));
     camera->setUpVector(QVector3D(0,1,0));
     camera->setViewCenter(QVector3D(0, 0, 0));
 
@@ -82,7 +84,7 @@ MainWindow::MainWindow(QWidget *parent)
     surfaceTransform = new Qt3DCore::QTransform();
     surfaceTransform->setScale3D(QVector3D(1, 1, 1));
     surfaceTransform->setTranslation(QVector3D(0, 0, 0));
-    surfaceTransform->setRotationY(180.0f);
+    surfaceTransform->setRotationY(270.0f);
 
     surfaceMaterial = new Qt3DExtras::QDiffuseSpecularMaterial();
     surfaceMaterial->setAlphaBlendingEnabled(false);
@@ -105,7 +107,7 @@ MainWindow::~MainWindow()
     delete ui;
 }
 
-//When the Button "Generate Batch Job..." is clicked, a QMessageBox asks for confirmation
+//When the Button "Generate Batch Job..." is clicked, Messageboxes will ask for specifcs
 void MainWindow::on_batchJobPushButton_clicked()
 {    
     int batchTime = QInputDialog::getInt(this, "Maximum Time", "State the maximum execution time of the batch script in minutes:", 60, 1);
@@ -147,7 +149,7 @@ void MainWindow::on_reconstructPushButton_clicked()
 
 void MainWindow::reconstructOneFrame(QString inputPath, QString outputPath)
 {
-    //Create correct reader
+    //Create correct particle reader
     std::shared_ptr<particleReader> particleIn;
     if (inputPath.back() == "k" && inputPath.at(inputPath.size()-2) == "t" && inputPath.at(inputPath.size()-3) == "v"
             && inputPath.at(inputPath.size()-4) == ".") {
@@ -185,28 +187,41 @@ void MainWindow::reconstructOneFrame(QString inputPath, QString outputPath)
     std::shared_ptr<surfaceReconstructor> reconstructionPointer;
     reconstructionPointer.reset(new marchingCubesReconstructor);
 
-    std::vector<std::string> inputFileNames;
-    inputFileNames.push_back(inputPath.toStdString());
-    std::string inputFile = inputFileNames[0];
+    std::string inputFile = inputPath.toStdString();
 
     // Read in particles.
     particleList particles = particleIn->read(inputFile);
 
+    std::cout << "jojo" << std::endl;
+
 
     // Reconstruct a surface using marching cubes algorithm.
-    graph reconstructionGraph(particles, 1);
+    graph reconstructionGraph(particles, ui->gridCellsSpinBox->value());
     triangleList result = reconstructionPointer->reconstruct(
-    reconstructionGraph, particles, ui->smoothingDoubleSpinBox->value(), ui->supportDoubleSpinBox->value(), levelSetPointer, nSearchPointer, kernelPointer);
+    reconstructionGraph, particles, ui->smoothingDoubleSpinBox->value(), ui->supportDoubleSpinBox->value(), ui->isoDoubleSpinBox->value(),levelSetPointer, nSearchPointer, kernelPointer);
 
     std::string outputFile = outputPath.toStdString();
+    std::string outputSmoothedFile = outputFile;
     int slash = inputFile.find_last_of("/");
     int dot = inputFile.find_last_of(".");
-    outputFile.append(inputFile.substr(slash, dot-slash).append(".ply"));
+    if (ui->exportFormatComboBox->currentIndex()==0) {
+        outputFile.append(inputFile.substr(slash, dot-slash).append(".ply"));
+        outputSmoothedFile.append(inputFile.substr(slash, dot-slash).append("_smoothed.ply"));
+    }
+    else if (ui->exportFormatComboBox->currentIndex()==1) {
+        outputFile.append(inputFile.substr(slash, dot-slash).append(".vtk"));
+        outputSmoothedFile.append(inputFile.substr(slash, dot-slash).append("_smoothed.vtk"));
+    }
+
 
 
     // Write the output file.
     triangleOut->write(outputFile, result);
 
+    //Smooth and rewrite
+    //openMeshProcessor postprocessor;
+    //triangleList result2 = postprocessor.smooth(result, 50);
+    //triangleOut->write(outputSmoothedFile, result2);
 
     //Display the output file
     //loadSurfaceData(QString::fromStdString(outputFile));
@@ -383,7 +398,7 @@ void MainWindow::loadSurfaceData(QString filePath)
 //PushButton resets the camera to default position and angle
 void MainWindow::on_resetCamPushButton_clicked()
 {
-    camera->setPosition(QVector3D(-3.5f, 3.5f, 0));
+    camera->setPosition(QVector3D(0, 3.5f, 3.5f));
     camera->setViewCenter(QVector3D(0, 0, 0));
     camera->setUpVector(QVector3D(0,1,0));
 }
@@ -423,12 +438,127 @@ void MainWindow::on_transparencyCheckBox_stateChanged(int arg1)
 
 void MainWindow::on_simplifyPushButton_clicked()
 {
+    if(outputFolder.isEmpty()==true) {
+        QErrorMessage errorMessage;
+        errorMessage.showMessage("Please select an export directory.");
+        errorMessage.exec();
+    }
+    else {
+        bool correctFormat = false;
 
+        inputPath = model->fileInfo(selectedIndex).absoluteFilePath();
+
+        //Create correct triangle reader and writer
+        std::shared_ptr<triangleReader> triangleIn;
+        std::shared_ptr<triangleWriter> triangleOut;
+        if (inputPath.back() == "k" && inputPath.at(inputPath.size()-2) == "t" && inputPath.at(inputPath.size()-3) == "v"
+            && inputPath.at(inputPath.size()-4) == ".") {
+            triangleIn.reset(new vtkTriangleReader);
+            triangleOut.reset(new vtkTriangleWriter);
+            correctFormat = true;
+        }
+        else if (inputPath.back() == "y" && inputPath.at(inputPath.size()-2) == "l" && inputPath.at(inputPath.size()-3) == "p"
+                && inputPath.at(inputPath.size()-4) == ".") {
+            triangleIn.reset(new plyTriangleReader);
+            triangleOut.reset(new plyTriangleWriter);
+            correctFormat = true;
+        }
+
+        if(correctFormat == false) {
+            QErrorMessage errorMessage;
+            errorMessage.showMessage("Please select a .vtk or .ply surface");
+            errorMessage.exec();
+        }
+        else {
+            std::string inputFile = inputPath.toStdString();
+
+            //Read the selected surface
+            triangleList rawSurface = triangleIn->read(inputFile);
+
+            //Create Post Processor and smooth the mesh
+            openMeshProcessor postprocessor;
+            triangleList result = postprocessor.simplify(rawSurface);
+
+            std::string outputFile = outputFolder.first().toStdString();
+            int slash = inputFile.find_last_of("/");
+            int dot = inputFile.find_last_of(".");
+            if (inputPath.back() == "k" && inputPath.at(inputPath.size()-2) == "t" && inputPath.at(inputPath.size()-3) == "v"
+                && inputPath.at(inputPath.size()-4) == ".") {
+                outputFile.append(inputFile.substr(slash, dot-slash).append("_simplified.vtk"));
+            }
+            else if (inputPath.back() == "y" && inputPath.at(inputPath.size()-2) == "l" && inputPath.at(inputPath.size()-3) == "p"
+                     && inputPath.at(inputPath.size()-4) == ".") {
+                outputFile.append(inputFile.substr(slash, dot-slash).append("_simplified.ply"));
+            }
+
+            //Write the result
+            triangleOut->write(outputFile, result);
+        }
+    }
 }
 
 void MainWindow::on_postSmoothingPushButton_clicked()
 {
-    std::cout << ui->exportFormatComboBox->currentIndex() << std::endl;
+    if(outputFolder.isEmpty()==true) {
+        QErrorMessage errorMessage;
+        errorMessage.showMessage("Please select an export directory.");
+        errorMessage.exec();
+    }
+    else {
+        bool correctFormat = false;
+        inputPath = model->fileInfo(selectedIndex).absoluteFilePath();
+
+        //Create correct triangle reader and writer
+        std::shared_ptr<triangleReader> triangleIn;
+        std::shared_ptr<triangleWriter> triangleOut;
+        if (inputPath.back() == "k" && inputPath.at(inputPath.size()-2) == "t" && inputPath.at(inputPath.size()-3) == "v"
+                && inputPath.at(inputPath.size()-4) == ".") {
+            triangleIn.reset(new vtkTriangleReader);
+            triangleOut.reset(new vtkTriangleWriter);
+            correctFormat = true;
+        }
+        else if (inputPath.back() == "y" && inputPath.at(inputPath.size()-2) == "l" && inputPath.at(inputPath.size()-3) == "p"
+                    && inputPath.at(inputPath.size()-4) == ".") {
+            triangleIn.reset(new plyTriangleReader);
+            triangleOut.reset(new plyTriangleWriter);
+            correctFormat = true;
+        }
+
+        if(correctFormat == false) {
+            QErrorMessage errorMessage;
+            errorMessage.showMessage("Please select a .vtk or .ply surface");
+            errorMessage.exec();
+        }
+        else {
+
+            std::string inputFile = inputPath.toStdString();
+
+
+            //Read the selected surface
+            triangleList rawSurface = triangleIn->read(inputFile);
+
+            std::cout << inputFile << std::endl;
+
+            //Create Post Processor and smooth the mesh
+            openMeshProcessor postprocessor;
+            triangleList result = postprocessor.smooth(rawSurface, ui->postSmoothingSpinBox->value());
+
+            std::string outputFile = outputFolder.first().toStdString();
+            int slash = inputFile.find_last_of("/");
+            int dot = inputFile.find_last_of(".");
+            if (inputPath.back() == "k" && inputPath.at(inputPath.size()-2) == "t" && inputPath.at(inputPath.size()-3) == "v"
+                    && inputPath.at(inputPath.size()-4) == ".") {
+                outputFile.append(inputFile.substr(slash, dot-slash).append("_smoothed.vtk"));
+            }
+            else if (inputPath.back() == "y" && inputPath.at(inputPath.size()-2) == "l" && inputPath.at(inputPath.size()-3) == "p"
+                        && inputPath.at(inputPath.size()-4) == ".") {
+                outputFile.append(inputFile.substr(slash, dot-slash).append("_smoothed.ply"));
+            }
+
+            //Write the result
+            triangleOut->write(outputFile, result);
+        }
+    }
 }
 
 void MainWindow::on_surfaceCheckBox_stateChanged(int arg1)
@@ -438,5 +568,40 @@ void MainWindow::on_surfaceCheckBox_stateChanged(int arg1)
     }
     if(arg1 == 2) {
         surfaceMaterial->setEnabled(true);
+    }
+}
+
+void MainWindow::on_testPushButton_clicked()
+{
+    if(outputFolder.isEmpty()==true) {
+        QErrorMessage errorMessage;
+        errorMessage.showMessage("Please select an export directory.");
+        errorMessage.exec();
+    }
+    else {
+        QMessageBox msgBox;
+        msgBox.setText("Do you really want to start the test reconstruction? This will reset the reconstruction parameters.");
+        QPushButton *yesButton = msgBox.addButton(tr("Yes"), QMessageBox::YesRole);
+        QPushButton *noButton = msgBox.addButton(tr("No"), QMessageBox::NoRole);
+        msgBox.setDefaultButton(noButton);
+        msgBox.setEscapeButton(noButton);
+        msgBox.exec();
+        ui->smoothingDoubleSpinBox->setValue(0.028);
+        ui->isoDoubleSpinBox->setValue(0.355);
+        ui->supportDoubleSpinBox->setValue(0.056);
+        ui->gridCellsSpinBox->setValue(21);
+        ui->exportFormatComboBox->setCurrentIndex(0);
+        ui->sphComboBox->setCurrentIndex(0);
+
+        if(msgBox.clickedButton() == yesButton) {
+
+            QTemporaryDir tempDir(outputFolder.first());
+            if (tempDir.isValid()) {
+                QString tempFile = tempDir.path() + "/Test_Surface.bgeo";
+                if (QFile::copy(":/resources/Test_Surface.bgeo", tempFile)) {
+                    reconstructOneFrame(tempFile, outputFolder.first());
+                }
+            }
+        }
     }
 }

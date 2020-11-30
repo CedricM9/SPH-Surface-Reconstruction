@@ -16,7 +16,7 @@ class partioParticleReader : public particleReader {
     /** \brief Function where the actual reading particles algorithm from partio files is implemented
      * \param filename name of the partio file with the particles to read in
      */
-    particleList read(std::string filename);
+    particleList read(const std::string &filename);
 };
 
 #include "partio_particle_reader.cpp"

@@ -83,7 +83,13 @@
       <item row="0" column="1">
        <widget class="QDoubleSpinBox" name="smoothingDoubleSpinBox">
         <property name="decimals">
-         <number>3</number>
+         <number>4</number>
+        </property>
+        <property name="maximum">
+         <double>1.000000000000000</double>
+        </property>
+        <property name="singleStep">
+         <double>0.100000000000000</double>
         </property>
         <property name="value">
          <double>0.028000000000000</double>
@@ -93,20 +99,29 @@
       <item row="1" column="1">
        <widget class="QDoubleSpinBox" name="isoDoubleSpinBox">
         <property name="decimals">
-         <number>3</number>
+         <number>4</number>
+        </property>
+        <property name="maximum">
+         <double>1.000000000000000</double>
         </property>
         <property name="singleStep">
          <double>0.100000000000000</double>
         </property>
         <property name="value">
-         <double>0.400000000000000</double>
+         <double>0.355000000000000</double>
         </property>
        </widget>
       </item>
       <item row="2" column="1">
        <widget class="QDoubleSpinBox" name="supportDoubleSpinBox">
         <property name="decimals">
-         <number>3</number>
+         <number>4</number>
+        </property>
+        <property name="maximum">
+         <double>1.000000000000000</double>
+        </property>
+        <property name="singleStep">
+         <double>0.100000000000000</double>
         </property>
         <property name="value">
          <double>0.056000000000000</double>
@@ -122,7 +137,7 @@
          <number>100000</number>
         </property>
         <property name="value">
-         <number>65</number>
+         <number>21</number>
         </property>
        </widget>
       </item>
@@ -164,7 +179,10 @@
          <number>1</number>
         </property>
         <property name="maximum">
-         <number>20</number>
+         <number>1000</number>
+        </property>
+        <property name="value">
+         <number>50</number>
         </property>
        </widget>
       </item>
@@ -496,7 +514,7 @@
      </rect>
     </property>
     <property name="text">
-     <string>Load selected Data</string>
+     <string>Display selected file</string>
     </property>
    </widget>
    <widget class="QPushButton" name="resetCamPushButton">
@@ -536,6 +554,19 @@
     </property>
     <property name="text">
      <string>Previous Frame</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="testPushButton">
+    <property name="geometry">
+     <rect>
+      <x>170</x>
+      <y>10</y>
+      <width>171</width>
+      <height>24</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Start Test Reconstruction...</string>
     </property>
    </widget>
   </widget>
