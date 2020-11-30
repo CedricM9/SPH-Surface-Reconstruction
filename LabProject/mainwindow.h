@@ -21,8 +21,8 @@
 #include <Qt3DExtras>
 #include <Qt3DAnimation>
 #include <omp.h>
-#include "CompactNSearch/include/CompactNSearch.h"
-#include "surfrec_io/code/io.h"
+#include "External/CompactNSearch/include/CompactNSearch.h"
+#include "External/surfrec_io/code/io.h"
 
 
 
