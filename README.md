@@ -9,7 +9,7 @@ The software includes a fully functioning GUI that was created using Qt. It enab
 The software is not very runtime efficient given too many particles or with a very high gridcell resolution. The memory usage is incredibly low and should therefore run on any computer. There is a lot of headroom for optimization in order to generate more detailed meshes.
 
 ##### Supported File Formats
-- VTK (From Visual Computing Institute)
+- VTK
 - PLY
 - BGEO
 
@@ -101,12 +101,19 @@ sbatch < <batch script filename>
 
 ---
 ### Acknowledgements
-The project was assigned and supervies by the [RWTH Visual Computing Institute](https://github.com/VisualComputingInstitute). 
-These libraries are encorporated in the project:
+The project was assigned and supervied by the [RWTH Visual Computing Institute](https://github.com/VisualComputingInstitute). 
+
+We incorporated code directly into our program from these libraries:
 - [CompactNSearch](https://github.com/InteractiveComputerGraphics/CompactNSearch)
 - [Partio](https://github.com/wdas/partio)
 - [happly](https://github.com/nmwsharp/happly)
 - [OpenMesh](https://graphics.rwth-aachen.de:9000/OpenMesh/OpenMesh)
+- Vtkio
+These can be found within the folder labProject/External
+
+We used several libraries in order to develop the software. These include:
 - [QT](https://github.com/qt/qt5)
 - [QT 3D](https://github.com/qt/qt3d)
-- Vtkio
+- [SplishSplash](https://github.com/InteractiveComputerGraphics/SPlisHSPlasH)
+- [CQtDeployer](https://github.com/InteractiveComputerGraphics/SPlisHSPlasH)
+- [Inno Setup](https://jrsoftware.org/isinfo.php)
