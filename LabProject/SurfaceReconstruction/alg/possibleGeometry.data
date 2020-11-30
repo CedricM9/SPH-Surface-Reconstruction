@@ -1,3 +1,6 @@
+//Lookup table to determine on which edges the triangles need to be drawn
+//The first field value is the geometry identifier and determines which unique case is to be returned
+//The values in the second field represent the edge number on which a point of the triangle lies
 int geometryTable[256][16] = {
 {-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1},
 {0, 8, 3, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1},
