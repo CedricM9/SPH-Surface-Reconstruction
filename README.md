@@ -1,8 +1,8 @@
 # SPH-Surface-Reconstruction
-This software was co-developed by Cedric Maume, [Corinna Muller](https://github.com/cm314), and [Henrik Muller](https://github.com/HKMueller) as a part of our Computational Engineering Science B.S degree at the RWTH Aachen.
+This software was co-developed by Cedric Maume, [Corinna Müller](https://github.com/cm314), and [Henrik Müller](https://github.com/HKMueller) as a part of our Computational Engineering Science B.S degree at the RWTH Aachen.
 
 ---
-### Features 
+### Overview 
 The purpose of the software is to construct a mesh over an SPH fluid simulation by way of the Marching Cubes Algorithm. The process can be executed either through the implemented GUI or by utilizing a batch job. 
 The software includes a fully functioning GUI that was created using Qt. It enables not only the reconstruction through the interface, but also includes a viewport with which one can view the simulation data or the resultant mesh. The ability to generate a batch job for the RWTH Compute Cluster is also present, and the parameters for it can be set in the interface itself
 
