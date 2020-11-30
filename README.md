@@ -1,6 +1,21 @@
 # SPH-Surface-Reconstruction
+---
+This software was co-developed by Cedric Maume, [Corinna Muller](https://github.com/cm314), and [Henrik Muller](https://github.com/HKMueller) as a part of our Computational Engineering Science B.S degree at the RWTH Aachen.
 
-# Back End Compilation
+### Features 
+---
+The purpose of the software is to construct a mesh over an SPH fluid simulation by way of the Marching Cubes Algorithm. The process can be executed either through the implemented GUI or by utilizing a batch job. 
+The software includes a fully functioning GUI that was created using Qt. It enables not only the reconstruction through the interface, but also includes a viewport with which one can view the simulation data or the resultant mesh. The ability to generate a batch job for the RWTH Compute Cluster is also present, and the parameters for it can be set in the interface itself
+
+The software is not very runtime efficient given too many particles or with a very high gridcell resolution. The memory usage is incredibly low and should therefore run on any computer. There is a lot of headroom for optimization in order to generate more detailed meshes.
+
+##### Supported File Formats
+- VTK
+- PLY
+- BGEO
+
+### Back End Compilation
+---
 1. Install all required software following the owner's instructions:
 - CompactNSearch: https://github.com/InteractiveComputerGraphics/CompactNSearch
 - Partio: https://github.com/wdas/partio
@@ -38,7 +53,8 @@ export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:<main directory of the OpenMesh installa
 <br>
 *If the linker returns the message "cannot find -lCompactNSearch" try adding the file CompactNSearch.cpp from the src folder of the CompactNSearch repository to the Makefile to   be compiled along with main.cpp instead of linking to -l$(CNSEARCH_LIB).
 
-# Documentation using doxygen
+### Documentation using doxygen
+---
 1. Clone the GitHub repository: 
 ```bash
 git clone https://github.com/CedricM9/SPH-Surface-Reconstruction.git
@@ -56,7 +72,8 @@ make doc
 open html/files.html
 ```
 
-# Batch Job Submission
+### Batch Job Submission
+---
 1. Set all parameters in the GUI that should be used for the batch job.
 2. Click on Generate batch script in the GUI.
 3. Enter the run-time in minutes and the requested memory in MB according to the prompts.
