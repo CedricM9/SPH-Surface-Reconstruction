@@ -75,7 +75,7 @@ MainWindow::MainWindow(QWidget *parent)
     camController->setLookSpeed(75.0f);
 
     //Loading .ply data
-    QUrl data = QUrl("qrc:/resources/cow.ply");
+    QUrl data = QUrl("qrc:/resources/TestData/cow.ply");
     qDebug() << data << data.isValid();
     surfaceMesh = new Qt3DRender::QMesh();
     surfaceMesh->setMeshName("surfaceMesh");
@@ -598,7 +598,7 @@ void MainWindow::on_testPushButton_clicked()
             QTemporaryDir tempDir(outputFolder.first());
             if (tempDir.isValid()) {
                 QString tempFile = tempDir.path() + "/Test_Surface.bgeo";
-                if (QFile::copy(":/resources/Test_Surface.bgeo", tempFile)) {
+                if (QFile::copy(":/resources/TestData/Test_Surface.bgeo", tempFile)) {
                     reconstructOneFrame(tempFile, outputFolder.first());
                 }
             }
