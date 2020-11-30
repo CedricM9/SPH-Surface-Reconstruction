@@ -16,10 +16,10 @@ The software is not very runtime efficient given too many particles or with a ve
 ---
 ### Back End Compilation
 1. Install all required software following the owner's instructions:
-- [CompactNSearch:](https://github.com/InteractiveComputerGraphics/CompactNSearch)
-- [Partio:](https://github.com/wdas/partio)
-- [happly:](https://github.com/nmwsharp/happly)
-- [OpenMesh:](https://graphics.rwth-aachen.de:9000/OpenMesh/OpenMesh)
+- [CompactNSearch](https://github.com/InteractiveComputerGraphics/CompactNSearch)
+- [Partio](https://github.com/wdas/partio)
+- [happly](https://github.com/nmwsharp/happly)
+- [OpenMesh](https://graphics.rwth-aachen.de:9000/OpenMesh/OpenMesh)
 2. Clone the GitHub repository: 
 ```bash
 git clone https://github.com/CedricM9/SPH-Surface-Reconstruction.git
@@ -74,7 +74,7 @@ open html/files.html
 ---
 ### Batch Job Submission
 1. Set all parameters in the GUI that should be used for the batch job.
-2. Click on Generate batch script in the GUI.
+2. Click on "Generate batch job..." in the GUI.
 3. Enter the run-time in minutes and the requested memory in MB according to the prompts.
 4. Clone the Github repository on the RWTH Compute Cluster: 
 ```bash
@@ -103,10 +103,10 @@ sbatch < <batch script filename>
 ### Acknowledgements
 The project was assigned and supervies by the [RWTH Visual Computing Institute](https://github.com/VisualComputingInstitute). 
 These libraries are encorporated in the project:
-- [CompactNSearch:](https://github.com/InteractiveComputerGraphics/CompactNSearch)
-- [Partio:](https://github.com/wdas/partio)
-- [happly:](https://github.com/nmwsharp/happly)
-- [OpenMesh:](https://graphics.rwth-aachen.de:9000/OpenMesh/OpenMesh)
-- [QT:](https://github.com/qt/qt5)
-- [QT 3D:](https://github.com/qt/qt3d)
+- [CompactNSearch](https://github.com/InteractiveComputerGraphics/CompactNSearch)
+- [Partio](https://github.com/wdas/partio)
+- [happly](https://github.com/nmwsharp/happly)
+- [OpenMesh](https://graphics.rwth-aachen.de:9000/OpenMesh/OpenMesh)
+- [QT](https://github.com/qt/qt5)
+- [QT 3D](https://github.com/qt/qt3d)
 - Vtkio
