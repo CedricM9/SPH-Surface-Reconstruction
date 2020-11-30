@@ -1,3 +1,6 @@
+//Lookup table to determine which two verticies are connected to each edge
+//First field is the edge number
+//Second field's values are the vertex numbers
 int edgeTable[12][2] = {
 {0,1},
 {1,2},
