@@ -9,19 +9,26 @@
 #include "graph.h"
 #include "level_set_function.h"
 
-//#include "level_set_function.h"
-//#include "compact_neighborhood_search.h"
-//#include "SPH_interpolation_kernel.h"
-
+/** \class surfaceReconstructor
+ * \brief Virtual class off of which the surface reconstructor is derived
+ * \details This is the virtual class which is used for the reconstruction process
+ */
 class surfaceReconstructor {
   public:
     surfaceReconstructor() {}
     virtual ~surfaceReconstructor() = default;
 
-    /*virtual triangleList reconstruct(const particleList& particles,
-                                     std::shared_ptr<levelSetFunction> levelSetPointer,
-                                     std::shared_ptr<compactNeighborhoodSearch> nSearchPointer,
-                                     std::shared_ptr<SPHInterpolationKernel>) = 0; */
+    /** \brief Generates entire surface mesh
+     * \details This function takes care of the entire reconstruction process for a single frame
+     * \param g Graph which has been created for the simulation data
+     * \param particles List of all particles
+     * \param smoothingLength Also referred to as h. Required by the SPH Interpolation
+     * \param compactSupport The radius for the neighborhood search. Should be 2*h
+     * \param iso Value to exclude outlying particles
+     * \param levelSetPointer Pointer to the level set function
+     * \param nSearchPointer Pointer to the compact support neighborhood search
+     * \param kernelPointer Pointer to the specified SPH Interpolation Kernel
+     */
     virtual triangleList reconstruct(graph& g,
                              particleList& particles,
                              const float smoothingLength,
