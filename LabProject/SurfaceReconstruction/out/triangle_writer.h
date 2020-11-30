@@ -3,14 +3,12 @@
 
 #include <string>
 
-#include "writer.h"
-
 /** \class triangleWriter
  * \brief Class handling the writing of triangle lists to different file formats
  * \details This abstract class incorporates the structure common to all classes writing triangle lists to files:
  *         plyTriangleWriter and vtkTriangleWriter implement the file formats ply and vtk.
  */
-class triangleWriter : public writer {
+class triangleWriter {
   public:
     triangleWriter() {}
     virtual ~triangleWriter() = default;
