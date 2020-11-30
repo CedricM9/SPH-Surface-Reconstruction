@@ -55,7 +55,7 @@ int main(int argc, char* argv[]) {
 
     // Create correct writer.
     std::shared_ptr<triangleWriter> triangleOut;
-    if (outputFileFormat == "bgeo") {
+    if (outputFileFormat == "ply") {
         triangleOut.reset(new plyTriangleWriter);
     } else if (outputFileFormat == "vtk") {
         triangleOut.reset(new vtkTriangleWriter);
@@ -113,8 +113,8 @@ int main(int argc, char* argv[]) {
             // Get file names.
             int fileNameBeginning = inputFile.find_last_of("/");
             int fileNameEnding = inputFile.find_last_of(".");
-            std::string outputFile = outputFolder + inputFile.substr(fileNameBeginning, fileNameEnding);
             std::string fileEnding = (outputFileFormat == "vtk") ? ".vtk" : ".ply";
+            std::string outputFile = outputFolder + inputFile.substr(fileNameBeginning, fileNameEnding) + fileEnding;
             if (std::experimental::filesystem::exists(outputFile)) {
                 throw std::runtime_error("Thread " + threadNum + " of " + numThreads + ": File " + outputFile + " already exists.");
             }
