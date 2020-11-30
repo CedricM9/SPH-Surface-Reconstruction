@@ -21,12 +21,11 @@ export PARTIO_DIR = <main directory of the partio installation>
 export HAPPLY_DIR = <directory containing happly.h>
 export OMESH_DIR = <main directory of the OpenMesh installation>
 ```
-5. Build the example main file using make:
+5. Build* the example main file using make:
 ```bash
 make
 ```
-  If the linker returns the message "cannot find -lCompactNSearch" try adding the file CompactNSearch.cpp from the src folder of the CompactNSearch repository to the Makefile to   be compiled along with main.cpp instead of linking to -l$(CNSEARCH_LIB).<br/>
-  6. Take care that all dynamic library paths are set:
+6. Take care that all dynamic library paths are set:
 ```bash
 export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:<main directory of the partio installation>/lib/:
 export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:<main directory of the OpenMesh installation>/lib/:
@@ -35,8 +34,10 @@ export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:<main directory of the OpenMesh installa
 ```bash
 ./main.exe
 ```
-8. Make changes in the main.cpp for your concerns.
-  
+8. Make changes in the main.cpp for your concerns. <br>
+<br>
+*If the linker returns the message "cannot find -lCompactNSearch" try adding the file CompactNSearch.cpp from the src folder of the CompactNSearch repository to the Makefile to   be compiled along with main.cpp instead of linking to -l$(CNSEARCH_LIB).
+
 # Documentation using doxygen
 1. Clone the GitHub repository: 
 ```bash
