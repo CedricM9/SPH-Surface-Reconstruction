@@ -20,6 +20,7 @@ LIBS += -fopenmp
 
 
 SOURCES += \
+    SurfaceReconstruction/create_batch_job_script.cpp \
     SurfaceReconstruction/alg/kernel/cubic_spline_kernel.cpp \
     SurfaceReconstruction/alg/kernel/spiky_kernel.cpp \
     SurfaceReconstruction/alg/level/dimensionless_level_set_function.cpp \
@@ -118,6 +119,7 @@ HEADERS += \
     SurfaceReconstruction/alg/post/open_mesh_processor.h \
     SurfaceReconstruction/alg/post/post_processor.h \
     SurfaceReconstruction/alg/surface_reconstructor.h \
+    SurfaceReconstruction/create_batch_job_script.h \
     SurfaceReconstruction/data/graph.h \
     SurfaceReconstruction/data/particle.h \
     SurfaceReconstruction/data/particle_list.h \

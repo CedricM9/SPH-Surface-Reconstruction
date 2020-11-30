@@ -377,16 +377,6 @@
          <string>Cubic Spline</string>
         </property>
        </item>
-       <item>
-        <property name="text">
-         <string>Spiky</string>
-        </property>
-       </item>
-       <item>
-        <property name="text">
-         <string>Option 3</string>
-        </property>
-       </item>
       </widget>
      </item>
      <item>

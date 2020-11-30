@@ -15,6 +15,7 @@
 #include "SurfaceReconstruction/alg/level/dimensionless_level_set_function.h"
 #include "SurfaceReconstruction/alg/marching_cubes_reconstructor.h"
 #include "SurfaceReconstruction/alg/post/open_mesh_processor.h"
+#include "SurfaceReconstruction/create_batch_job_script.h"
 
 using Vector3f = Eigen::Matrix<float, 3, 1, Eigen::DontAlign>;
 
@@ -107,11 +108,75 @@ MainWindow::~MainWindow()
     delete ui;
 }
 
-//When the Button "Generate Batch Job..." is clicked, Messageboxes will ask for specifcs
+//When the Button "Generate Batch Job..." is clicked, Messageboxes will ask for specifcs and the batch job is generated to the export directory
 void MainWindow::on_batchJobPushButton_clicked()
-{    
-    int batchTime = QInputDialog::getInt(this, "Maximum Time", "State the maximum execution time of the batch script in minutes:", 60, 1);
-    int batchMemory = QInputDialog::getInt(this, "Requested Memory", "State the memory the batch script requests for execution in MB", 512, 512, 2147483647, 16);
+{
+    if(outputFolder.isEmpty()==true) {
+        QErrorMessage errorMessage;
+        errorMessage.showMessage("Please select an export directory.");
+        errorMessage.exec();
+    }
+    else {
+        bool correctFormat = false;
+        inputPath = model->fileInfo(selectedIndex).absoluteFilePath();
+
+        //Set correct input format
+        std::string inputFormat;
+        if (inputPath.back() == "k" && inputPath.at(inputPath.size()-2) == "t" && inputPath.at(inputPath.size()-3) == "v"
+                && inputPath.at(inputPath.size()-4) == ".") {
+            inputFormat = "vtk";
+            correctFormat = true;
+        }
+        else if (inputPath.back() == "o" && inputPath.at(inputPath.size()-2) == "e" && inputPath.at(inputPath.size()-3) == "g"
+                    && inputPath.at(inputPath.size()-4) == "b" && inputPath.at(inputPath.size()-5) == ".") {
+            inputFormat = "bgeo";
+            correctFormat = true;
+        }
+
+        if(correctFormat == false) {
+            QErrorMessage errorMessage;
+            errorMessage.showMessage("Please select a .vtk or .bgeo file");
+            errorMessage.exec();
+        } else{
+            int batchTime = QInputDialog::getInt(this, "Maximum Time", "State the maximum execution time of the batch script in minutes:", 60, 1);
+            int batchMemory = QInputDialog::getInt(this, "Requested Memory", "State the memory the batch script requests for execution in MB", 512, 512, 2147483647, 16);
+
+            std::string inputFolder = model->fileInfo(selectedIndex).absoluteFilePath().toStdString();
+            int slash = inputFolder.find_last_of("/");
+            inputFolder = inputFolder.substr(0, slash);
+
+            //Set correct output format
+            std::string outputFormat;
+            if (ui->exportFormatComboBox->currentIndex()==0) {
+                outputFormat = "ply";
+            } else if (ui->exportFormatComboBox->currentIndex()==1) {
+                outputFormat = "vtk";
+            }
+
+            // Set correct SPH interpolation kernel.
+            std::string kernel;
+            if (ui->sphComboBox->currentIndex() == 0) {
+                kernel= "cubicSpline";
+            }
+
+            //Set correct reconstructor, level-set function and neighborhoodsearch, filename
+            std::string reconstructor = "marchingCubes";
+            std::string levelFunction = "dimensionless";
+            std::string neighborhoodSearch = "spatialHashing";
+            std::string filename = outputFolder.first().toStdString();
+            filename.append("/Surface_Reconstruction.sh");
+
+            create_script(filename, inputFormat, outputFormat, neighborhoodSearch, kernel,
+                          levelFunction, reconstructor, inputFolder,
+                          outputFolder.first().toStdString(),
+                          ui->smoothingDoubleSpinBox->value(),
+                          ui->supportDoubleSpinBox->value(),
+                          ui->isoDoubleSpinBox->value(),
+                          ui->gridCellsSpinBox->value(),
+                          ui->ompNumThreadsSpinBox->value(),
+                          batchTime, batchMemory);
+        }
+    }
 }
 
 //When the Button "Reconstruct..." is clicked, a QMessageBox asks for confirmation
@@ -134,12 +199,14 @@ void MainWindow::on_reconstructPushButton_clicked()
         msgBox.exec();
 
         if(msgBox.clickedButton() == yesOneButton) {
+            ui->progressBar->setValue(1);
             /*time = 0;
             QTimer *timer = new QTimer(this);
             connect(timer, &QTimer::timeout, this, &MainWindow::updateTimeElapsed);
             timer->start(1000);
             ui->progressBar->setValue(42);*/
             reconstructOneFrame(model->fileInfo(selectedIndex).absoluteFilePath(), outputFolder.first());
+            ui->progressBar->setValue(100);
         }
         if(msgBox.clickedButton() == yesWholeButton) {
             reconstructWholeSimulation(model->fileInfo(selectedIndex).absoluteFilePath(), outputFolder.first());
@@ -175,8 +242,6 @@ void MainWindow::reconstructOneFrame(QString inputPath, QString outputPath)
     std::shared_ptr<cubicSplineKernel> kernelPointer;
     if (ui->sphComboBox->currentIndex() == 0) {
         kernelPointer.reset(new cubicSplineKernel);
-    } else if (ui->sphComboBox->currentIndex() == 1) {
-    //kernelPointer.reset(new spikyKernel);
     }
 
     // Create pointer to the correct level set function.
@@ -605,3 +670,4 @@ void MainWindow::on_testPushButton_clicked()
         }
     }
 }
+
