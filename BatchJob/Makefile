@@ -1,28 +1,28 @@
 CPPC = g++
 CPP_FLAGS = -std=c++17 -lstdc++fs -lz -fopenmp
 
-MAIN_DIR = ../CodeStructureIdea
-QT_DIR=../LabProject
+QT_DIR = ../LabProject
+MAIN_DIR = $(QT_DIR)/SurfaceReconstruction
 
-DATA_INC_DIR = $(MAIN_DIR)/data
-KERNEL_INC_DIR = $(MAIN_DIR)/alg/kernel
-LEVEL_INC_DIR = $(MAIN_DIR)/alg/level
+DATA_INC_DIR    = $(MAIN_DIR)/data
+KERNEL_INC_DIR  = $(MAIN_DIR)/alg/kernel
+LEVEL_INC_DIR   = $(MAIN_DIR)/alg/level
 NSEARCH_INC_DIR = $(MAIN_DIR)/alg/nsearch
-POST_INC_DIR = $(MAIN_DIR)/alg/post
-ALG_INC_DIR = $(MAIN_DIR)/alg
-IN_INC_DIR = $(MAIN_DIR)/in
-OUT_INC_DIR = $(MAIN_DIR)/out
+POST_INC_DIR    = $(MAIN_DIR)/alg/post
+ALG_INC_DIR     = $(MAIN_DIR)/alg
+IN_INC_DIR      = $(MAIN_DIR)/in
+OUT_INC_DIR     = $(MAIN_DIR)/out
 
-CNSEARCH_DIR=$(QT_DIR)/CompactNSearch
+CNSEARCH_DIR=$(QT_DIR)/External/CompactNSearch
 CNSEARCH_INC_DIR=$(CNSEARCH_DIR)/include
 
-EXTERN_DIR=$(QT_DIR)/surfrec_io/extern
+EXTERN_DIR=$(QT_DIR)/External/surfrec_io/extern
 PARTIO_INC_DIR=$(EXTERN_DIR)/partio/src/lib
 VTKIO_INC_DIR=$(EXTERN_DIR)/vtkio
 HAPPLY_INC_DIR=$(EXTERN_DIR)
 
-OMESH_DIR=$(QT_DIR)/OpenMesh
-OMESH_INC_DIR=$(QT_DIR)
+OMESH_DIR=$(QT_DIR)/External/OpenMesh
+OMESH_INC_DIR=$(QT_DIR)/External
 
 CNSEARCH_SRC=$(CNSEARCH_DIR)/src/CompactNSearch.cpp
 
@@ -41,8 +41,8 @@ OMESH_SRC=$(OM_IO) $(OM_READER) $(OM_WRITER) $(OM_MESH) $(OM_SYSTEM) $(OM_UTILS)
 
 all : surfaceReconstruction.exe
 
-surfaceReconstruction.exe : surfaceReconstruction.cpp
-	$(CPPC) -I$(DATA_INC_DIR) -I$(KERNEL_INC_DIR) -I$(LEVEL_INC_DIR) -I$(NSEARCH_INC_DIR) -I$(POST_INC_DIR) -I$(ALG_INC_DIR) -I$(IN_INC_DIR) -I$(OUT_INC_DIR) -I$(CNSEARCH_INC_DIR) -I$(PARTIO_INC_DIR) -I$(VTKIO_INC_DIR) -I$(HAPPLY_INC_DIR) -I$(OMESH_INC_DIR) surfaceReconstruction.cpp $(CNSEARCH_SRC) $(PARTIO_SRC) $(OMESH_SRC) $(CPP_FLAGS) -o surfaceReconstruction.exe
+surfaceReconstruction.exe : main.cpp
+	$(CPPC) -I$(DATA_INC_DIR) -I$(KERNEL_INC_DIR) -I$(LEVEL_INC_DIR) -I$(NSEARCH_INC_DIR) -I$(POST_INC_DIR) -I$(ALG_INC_DIR) -I$(IN_INC_DIR) -I$(OUT_INC_DIR) -I$(CNSEARCH_INC_DIR) -I$(PARTIO_INC_DIR) -I$(VTKIO_INC_DIR) -I$(HAPPLY_INC_DIR) -I$(OMESH_INC_DIR) main.cpp $(CNSEARCH_SRC) $(PARTIO_SRC) $(OMESH_SRC) $(CPP_FLAGS) -o surfaceReconstruction.exe
     
 doc:
 	cd doc && $(MAKE)

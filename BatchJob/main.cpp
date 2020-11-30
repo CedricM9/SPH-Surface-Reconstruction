@@ -5,8 +5,6 @@
 
 #include <omp.h>
 
-#include "create_batch_job_script.cpp"
-
 #include "particle_list.h"
 #include "triangle_list.h"
 
@@ -27,7 +25,7 @@
 
 int main(int argc, char* argv[]) {
     // Read in command line arguments.
-    assert(argc == 11);
+    assert(argc == 13);
     std::string inputFileFormat         = argv[1];  // "bgeo" or "vtk"
     std::string outputFileFormat        = argv[2];  // "ply" or "vtk"
 
@@ -41,11 +39,9 @@ int main(int argc, char* argv[]) {
 
     float smoothingLength               = std::stof(argv[9]);
     float compactSupport                = std::stof(argv[10]);
+    float isoValue                      = std::stof(argv[11]);
 
-    int openMPThreads = 4;
-    int requestedMinutes = 60;
-    int requestedMB = 512;
-    //create_script("generated_batch_job_script.sh", inputFileFormat, outputFileFormat, neighborhoodSearch, kernelFunction, levelFunction, reconstructionMethod, inputFolder, outputFolder, smoothingLength, compactSupport, openMPThreads, requestedMinutes, requestedMB);
+    int numCellsInLargestAxis           = std::stoi(argv[12]);
 
     // Create correct reader.
     std::shared_ptr<particleReader> particleIn;
@@ -128,9 +124,9 @@ int main(int argc, char* argv[]) {
             particleList particles = particleIn->read(inputFile);
 
             // Reconstruct a surface using marching cubes algorithm.
-            graph reconstructionGraph(particles, 1);
+            graph reconstructionGraph(particles, numCellsInLargestAxis);
             triangleList result = reconstructionPointer->reconstruct(
-                reconstructionGraph, particles, smoothingLength, compactSupport, levelSetPointer, nSearchPointer, kernelPointer);
+                reconstructionGraph, particles, smoothingLength, compactSupport, isoValue, levelSetPointer, nSearchPointer, kernelPointer);
 
             // Write the output file.
             std::cout << "Thread " + threadNum + " of " + numThreads + ": writing to " << outputFile << std::endl;
@@ -139,13 +135,6 @@ int main(int argc, char* argv[]) {
             std::cerr << "Thread " + threadNum + " of " + numThreads + ": File " << inputFile << " is of wrong format." << std::endl;
         }
     }
-
-    // Postprocessing.
-    //openMeshProcessor postprocessor;
-    //result = postprocessor.smooth(result);
-    //result = postprocessor.simplify(result);
-    //vtkTriangleOut.write("test_result5.vtk", result);
-    //result = postprocessor.simplify(result);
 
     particleIn.reset();
     triangleOut.reset();
