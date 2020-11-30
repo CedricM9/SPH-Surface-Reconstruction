@@ -1,5 +1,5 @@
 # SPH-Surface-Reconstruction
-This software was co-developed by Cedric Maume, [Corinna Müller](https://github.com/cm314), and [Henrik Müller](https://github.com/HKMueller) as a part of our Computational Engineering Science B.S degree at the RWTH Aachen.
+This software was co-developed by Cedric Maume, [Corinna Müller](https://github.com/cm314), and [Henrik Müller](https://github.com/HKMueller) as a part of our Computational Engineering Science B.S degree at the RWTH Aachen. The project was assigned and supervies by the [RWTH Visual Computing Institute](https://github.com/VisualComputingInstitute).
 
 ---
 ### Overview 
@@ -9,7 +9,7 @@ The software includes a fully functioning GUI that was created using Qt. It enab
 The software is not very runtime efficient given too many particles or with a very high gridcell resolution. The memory usage is incredibly low and should therefore run on any computer. There is a lot of headroom for optimization in order to generate more detailed meshes.
 
 ##### Supported File Formats
-- VTK
+- VTK (From Visual Computing Institute)
 - PLY
 - BGEO
 
